@@ -1,0 +1,49 @@
+How to set up our project!
+1. Ensure that you have python, node, npm, and a text editor(VScode) installed
+
+   Check versions to ensure everything is insalled (name --version)
+
+2. Start up backend (be in backend directory)
+
+   a. Install python packages using pip (django, django-rest-framework, django-cors-headers, virtualenv)
+   b. Start up the virtual env (source env/bin/activate) !remember to deactivate!
+   c. IF changes to the database are made, you must run migrations (python(3) manage.py makemigrations, then migrate)
+   d. To run server (python(3) manage.py runserver)
+
+3. Start up front end (be in front end directory)
+   a. To run (npm start)
+
+
+Learning sources:
+https://youtu.be/b9eMGE7QtTk great for just plain react
+https://docs.djangoproject.com/en/4.1/intro/tutorial01/ great for plan django
+https://www.geeksforgeeks.org/how-to-connect-django-with-reactjs/ great for seeing how django and react interact
+https://reactrouter.com/en/main/start/tutorial this is how we will handle routing in react
+
+
+
+For the git ignore later:
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
