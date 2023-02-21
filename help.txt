@@ -6,8 +6,10 @@ How to set up our project!
 2. Start up backend (be in backend directory)
 
    a. Install python packages using pip (django, django-rest-framework, django-cors-headers, virtualenv)
+      You onlu need to install them once
    b. Start up the virtual env (source env/bin/activate) !remember to deactivate!
    c. IF changes to the database are made, you must run migrations (python(3) manage.py makemigrations, then migrate)
+      This step (setp c) is not important right now but will be when we start to work with data
    d. To run server (python(3) manage.py runserver)
 
 3. Start up front end (be in front end directory)
