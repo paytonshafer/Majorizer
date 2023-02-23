@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+#This file is the settings for our django app, this is where we will add apps
+#and other specific settings for those apps
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
