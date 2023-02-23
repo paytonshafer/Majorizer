@@ -1,3 +1,4 @@
+//This is the main app of our application, all of the final renderings go here
 import './App.css';
 import LoginPage from './pages/LoginPage';
 
