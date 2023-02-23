@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 #This file is the settings for our django app, this is where we will add apps
 #and other specific settings for those apps
 
+#super user info: U:admin, P:majorizer
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -73,13 +75,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
+# Database, we will be using postgreSQL for this project: U:majorizer, P:majorizer
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'OPTIONS': {
+                'options': '-c search_path=majorizer'
+            },
+        'NAME': 'majorizer',
+        'USER': 'majorizer',
+        'PASSWORD': 'majorizer',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
