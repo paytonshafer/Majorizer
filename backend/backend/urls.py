@@ -16,8 +16,9 @@ Including another URLconf
 #This file will consist of the main urls for our application, this is the first place everything is sent
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('base.api.urls'))
 ]
