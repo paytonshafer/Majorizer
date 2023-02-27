@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
 .fields {
     font-family: 'Karla', sans-serif;
-    width: 35%;
+    width: 50%;
     padding: 10px 15px;
     margin: 8px 0;
     border-color: #3e7643;
@@ -15,12 +15,17 @@ input[type=text] {
    padding: 6px 20px;
    border-radius: 5px;
    margin: 5px 0;
+   border: none;
+   border-bottom: 2px solid black;
+
 }
 input[type=password] {
     width: 98%;
     padding: 6px 20px;
     border-radius: 5px;
     margin: 5px 0;
+    border: none;
+    border-bottom: 2px solid black;
  }
 input[type=submit] {
     width: 88%;
@@ -34,4 +39,7 @@ input[type=submit]:hover {
     border-radius: 5px;
     margin: 5px 0; 
     background-color: darkgray;  
+}
+label{
+    margin: 5px 0;
 }
