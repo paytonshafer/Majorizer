@@ -136,14 +136,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'OPTIONS': {
-                'options': '-c search_path=majorizer'
-            },
+        #'OPTIONS': {
+        #        'options': '-c search_path=majorizer'
+        #   },
         'NAME': 'majorizer',
         'USER': 'majorizer',
         'PASSWORD': 'majorizer',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': 'majorizer.cxydwsvpvf8d.us-east-2.rds.amazonaws.com',
+        'PORT': '5431',
     }
 }
 
