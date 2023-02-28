@@ -130,7 +130,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database, we will be using postgreSQL for this project: U:majorizer, P:majorizer
+# Database, we will be using postgreSQL hosted on aws for this project: U:majorizer, P:majorizer
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
@@ -142,8 +142,8 @@ DATABASES = {
         'NAME': 'majorizer',
         'USER': 'majorizer',
         'PASSWORD': 'majorizer',
-        'HOST': 'majorizer.cxydwsvpvf8d.us-east-2.rds.amazonaws.com',
-        'PORT': '5431',
+        'HOST': 'majorizer.cxydwsvpvf8d.us-east-2.rds.amazonaws.com', #this is the host name
+        'PORT': '5431', #this is the port number
     }
 }
 
