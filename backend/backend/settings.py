@@ -45,17 +45,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'base.apps.BaseConfig',
-    'rest_framework',
-    'corsheaders',
+    'base.apps.BaseConfig', #This allows us to use the base app (with the api)
+    'rest_framework', #THis is the rest framework app (allows for the api)
+    'corsheaders', #This is for the api and allowing connections
 ]
 
+#This is a setting for rest where we set the auth class to be jwt
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
+#settings for jwt tokens
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=100),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
@@ -104,7 +106,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware", #Added this so we can get connections from anywhere
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -187,4 +189,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True #this allows for all connections to the backend

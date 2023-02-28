@@ -19,6 +19,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('base.api.urls'))
+    path('admin/', admin.site.urls), #This is the admin page
+    path('api/', include('base.api.urls')) #this allows for the api urls to be included
 ]

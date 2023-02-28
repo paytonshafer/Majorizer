@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 #the two classes below add for you to add custom parts to the token so the front end can get them
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    #This is a custom class that willl allow for us to send group and user name in the token
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -19,8 +20,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 class MyTokenObtainPairView(TokenObtainPairView):
-        serializer_class = MyTokenObtainPairSerializer
+        serializer_class = MyTokenObtainPairSerializer #we use the class above to seialize the token
 
+#THis veiw get's all the routes in the api
 @api_view(['GET'])
 def getRoutes(request):
     routes = [

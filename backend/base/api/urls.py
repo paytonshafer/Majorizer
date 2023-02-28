@@ -9,8 +9,8 @@ from  rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    path('', views.getRoutes),
+    path('', views.getRoutes), #this will give you all roots in api
 
-    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'), #view to get a token
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), #view to refresh token
 ]
