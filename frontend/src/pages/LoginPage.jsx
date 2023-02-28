@@ -1,9 +1,11 @@
 //This is the login page for our application
 import React, {useContext} from 'react'
 import AuthContext from '../context/AuthContext'
+import StaticData from '../context/StaticData'
 
 const LoginPage = () => {
   let { loginUser } = useContext(AuthContext)
+  let { advisors } = useContext(StaticData)
 
   return (
     <div>
@@ -12,6 +14,7 @@ const LoginPage = () => {
             <input type='password' name='password' placeholder='Enter Password'></input>
             <input type='submit' />
         </form>
+        <p>advisors: {advisors}</p>
     </div>
   )
 }
