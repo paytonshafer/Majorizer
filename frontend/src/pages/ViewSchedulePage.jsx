@@ -1,10 +1,12 @@
 import AuthContext from '../context/AuthContext';
 import React, { useContext } from 'react';
 
+//student view schedule page
 const StudView = () => {
     return (<p>This is the student schedule viewer</p>)
 }
 
+//advisor view schedule page
 const AdvView = () => {
     return (<p>This is the advisor schedule viewer</p>)
 }

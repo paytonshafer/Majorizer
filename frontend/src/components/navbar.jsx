@@ -4,8 +4,9 @@ import {FaBars, FaTimes} from "react-icons/fa";
 import AuthContext from '../context/AuthContext.js';
 import "./styles/navbar.css"
 
+//The below functions renders the elements in the nav bar for a student
 const StudNavBar = () => {
-    let {logoutUser} = useContext(AuthContext)
+    let {logoutUser} = useContext(AuthContext) //get logout user function from AuthContext
     return (<div>
                 <a href="/home">Home</a>
                 <a href="/build">Build Schedule</a>
@@ -17,8 +18,9 @@ const StudNavBar = () => {
 
 }
 
+//The below function renders the elemenst of the nav bar for an advisor
 const AdvNavBar = () => {
-    let {logoutUser} = useContext(AuthContext)
+    let {logoutUser} = useContext(AuthContext) //get logout user function from AuthContext
     return (<div>
                 <a href="/home">Home</a>
                 <a href="/build">Build Schedule</a>
@@ -29,8 +31,9 @@ const AdvNavBar = () => {
             </div>)
 }
 
+//The below function renders the elements of the nav bar for the admin
 const AdmNavBar = () => {
-    let {logoutUser} = useContext(AuthContext)
+    let {logoutUser} = useContext(AuthContext) //get logout user function from AuthContext
     return (<div>
                 <a href="/home">Home</a>
                 <a href="/connection">Manage Connections</a>
@@ -39,9 +42,10 @@ const AdmNavBar = () => {
             </div>)
 }
 
+//The below function renders teh nav bar
 const Navbar = () => {
-    const navRef = useRef();
-    let {user} = useContext(AuthContext)
+    const navRef = useRef(); //idk
+    let {user} = useContext(AuthContext) //get user from AuthContext
 
     const showNavBar = () =>  {
         navRef.current.classList.toggle("responsive_nav");
@@ -51,7 +55,8 @@ const Navbar = () => {
         <header>
             <h3>Majorizer</h3>
             <nav ref={navRef}>
-                {user === null ? (<h3>WELCOME!</h3>) :
+                {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
+                user === null ? (<h3>WELCOME!</h3>) :
                 user.group === 'student' ? (<StudNavBar />) :
                 user.group === 'advisor' ? (<AdvNavBar />) :
                 user.group === 'admin' ? (<AdmNavBar />) : 

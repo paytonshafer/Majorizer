@@ -17,11 +17,12 @@ export const DataProvider = ({children}) => {
     //Students have schedules, major/minor, name, requests(for their advisor)
     let students
 
-
+    //This is the data that will be served in the context
     let contextData = {
         
     }
 
+    //we return the dataprovider such that the children of it have acess to the content
     return(
         <StaticData.Provider value={contextData}>
             {children}
