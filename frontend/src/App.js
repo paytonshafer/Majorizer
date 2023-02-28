@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import HelpPage from './pages/HelpPage';
 import { AuthProvider } from './context/AuthContext';
+import { DataProvider } from './context/StaticData';
 import Navbar from './components/navbar';
 import ConnectionPage from './pages/ConnectionPage';
 import SendRequestPage from './pages/SendRequestPage';
@@ -16,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <DataProvider>
         <AuthProvider>
           <Navbar/>
           <Routes>
@@ -29,8 +31,8 @@ function App() {
             <Route element={<ViewSchedulePage />} path="view" />
           </Routes>
         </AuthProvider>
+        </DataProvider>
       </Router>
-      
     </div>
   );
 }
