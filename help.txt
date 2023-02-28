@@ -2,7 +2,7 @@ How to set up our project!
 1. Ensure that you have python, node, npm, and a text editor(VScode) installed
 
    Check versions to ensure everything is insalled (name --version)
-
+   (virtualenv, django, djangorestframework, django-cors-headers, djangorestframework-simplejwt, PyJWT)
 2. Start up backend (be in backend directory)
 
    a. Install python packages using pip (django, django-rest-framework, django-cors-headers, virtualenv)
