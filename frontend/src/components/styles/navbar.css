@@ -49,6 +49,7 @@ nav{
     display: flex;
     align-items: center;
 }
+/*
 @media only screen and (max-width: 1024px){
     header .nav-btn {
         visibility: visible;
@@ -83,4 +84,4 @@ right: 2rem;
 nav a{
     font-size: 1.5rem;
 }
-}
+}*/
