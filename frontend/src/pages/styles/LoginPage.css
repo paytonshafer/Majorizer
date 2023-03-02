@@ -17,17 +17,16 @@
     border-radius: 3%;
     
 }
-
 input[type=text] {
-   width: 98%;
-   padding: 10px 20px;
-   border-radius: 5px;
-   margin: 8px 0;
-   border: none;
-   border-bottom: 2px solid black;
-   font-size: larger;
-
-}
+    width: 98%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 2px solid black;
+    font-size: larger;
+ 
+ }
 
 input[type=password] {
     width: 98%;
