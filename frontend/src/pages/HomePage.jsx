@@ -2,6 +2,7 @@
 import React, {useContext} from 'react'
 import AuthContext from '../context/AuthContext.js'
 
+//Adding a comment to build
 const StudHome = () =>{
     return(<div>Hello student!</div>)
 }
