@@ -1,6 +1,7 @@
 //This is the code for our home page
 import React, {useContext} from 'react'
 import AuthContext from '../context/AuthContext.js'
+import './styles/HomePage.css'
 
 //Adding a comment to build
 const StudHome = () =>{
