@@ -11,7 +11,7 @@ const ViewRequestPage = () => {
                 <img className='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
             </div>
             <p className='fields'>
-                Student1
+                <p className='header'>Student1</p>
                 <table className='courses'>
                     <tr>
                         <th>Current Courses:</th>
@@ -30,6 +30,13 @@ const ViewRequestPage = () => {
                         <td>PY 151</td>
                     </tr>
                 </table>
+                <p className='header'>Request:</p>
+                <p>I would like to drop PY 255.
+                    I want to wait to take it until I've finished PY 253, 
+                    since doubling up is an enormous workload for me.
+                </p>
+                <button className='approvedeny' onClick={ () => window.confirm('Are you sure you want to approve this request?')}>Approve</button>
+                <button className='approvedeny' onClick={ () => window.confirm('Are you sure you want to deny this request?')}>Deny</button>
             </p>
         </div>
     )
