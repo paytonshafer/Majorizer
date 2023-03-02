@@ -1,19 +1,29 @@
 //This is the code for our home page
 import React, {useContext} from 'react'
+import {useResolvedPath} from 'react-router-dom'
 import AuthContext from '../context/AuthContext.js'
 import './styles/HomePage.css'
 
-//Adding a comment to build
+
 const StudHome = () =>{
-    return(<div>Hello student!</div>)
+    return(
+    <div>
+        hello there
+    </div>)
 }
 
 const AdvHome = () =>{
-    return(<div>Hello advisor!</div>)
+    return(
+    <div>
+       hello there
+    </div>)
 }
 
 const AdmHome = () =>{
-    return(<div>Hello admin!</div>)
+    return(
+    <div>
+        hello there
+    </div>)
 }
 
 const HomePage = () => {
