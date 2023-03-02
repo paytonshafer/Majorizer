@@ -5,8 +5,23 @@
     height: 30px;
     width: 30px;
 }
-.positionbox{
-    position: static;
+.positonbox{
+    position: relative;
+}
+.badge{
+    
+    position: absolute;
+    top:15%;
+    left: 50.5%;
+    width: 1em;
+    height:1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    
 }
 .courses {
     border: 1px solid black;

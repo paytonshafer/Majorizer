@@ -8,7 +8,8 @@ const ViewRequestPage = () => {
         <div>
             <h1>Current Requests</h1>
             <div className='positionbox'>
-                <img className='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
+            <img className='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
+            <span className='badge'>1</span>
             </div>
             <p className='fields'>
                 <p className='header'>Student1</p>
