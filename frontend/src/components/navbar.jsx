@@ -10,7 +10,7 @@ const StudNavBar = () => {
     return (<div>
                 <a href="/home">Home</a>
                 <a href="/build">Build Schedule</a>
-                <a href="/view">Veiw Schedule</a>
+                <a href="/view">View Schedule</a>
                 <a href="/sendreq">Send Request</a>
                 <a href="/help">Help</a>
                 <a href="/" onClick={logoutUser} >Logout</a>
@@ -24,8 +24,8 @@ const AdvNavBar = () => {
     return (<div>
                 <a href="/home">Home</a>
                 <a href="/build">Build Schedule</a>
-                <a href="/view">Veiw Schedule</a>
-                <a href="/viewreq">Veiw Request</a>
+                <a href="/view">View Schedule</a>
+                <a href="/viewreq">View Request</a>
                 <a href="/help">Help</a>
                 <a href="/" onClick={logoutUser} >Logout</a>
             </div>)
