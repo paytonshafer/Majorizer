@@ -2,6 +2,18 @@
 import React, {useContext} from 'react'
 import AuthContext from '../context/AuthContext.js'
 import './styles/ViewRequestPage.css'
+
+function removeRequest(){
+    document.getElementById("requestform").style.display = "none";
+    document.getElementById("badge1").style.display = "none";
+}
+
+function handleSubmit(){
+    if(window.confirm("Are you sure?")){
+        removeRequest();
+       
+    }
+}
 const ViewRequestPage = () => {
     //Currently schedule table data is hardcoded, later we should use data linked to user to fill this in
     return (
@@ -9,9 +21,9 @@ const ViewRequestPage = () => {
             <h1>Current Requests</h1>
             <div className='positionbox'>
             <img className='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
-            <span className='badge'>1</span>
+            <span className='badge' id='badge1'></span>
             </div>
-            <p className='fields'>
+            <p className='fields' id='requestform'>
                 <p className='header'>Student1</p>
                 <table className='courses'>
                     <tr>
@@ -36,8 +48,8 @@ const ViewRequestPage = () => {
                     I want to wait to take it until I've finished PY 253, 
                     since doubling up is an enormous workload for me.
                 </p>
-                <button className='approvedeny' onClick={ () => window.confirm('Are you sure you want to approve this request?')}>Approve</button>
-                <button className='approvedeny' onClick={ () => window.confirm('Are you sure you want to deny this request?')}>Deny</button>
+                <button className='approvedeny' onClick={handleSubmit}>Approve</button>
+                <button className='approvedeny' onClick={handleSubmit}>Deny</button>
             </p>
         </div>
     )
