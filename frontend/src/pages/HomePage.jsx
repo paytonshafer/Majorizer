@@ -5,9 +5,9 @@ import AuthContext from '../context/AuthContext.js'
 import './styles/HomePage.css'
 
 
-const adv1Display = () =>{
+const Adv1Display = () =>{
     return (
-        <div>
+        <div className='courseBlock'>
             <p className='courseListHeader'>Your current courses:</p>
         <p className='course1'>CS350: Software Design & Development</p>
             <p className='course1Time'>TTh 1:30-2:45</p>
@@ -19,7 +19,7 @@ const adv1Display = () =>{
     )
 }
 
-const adv2Display = () =>{
+const Adv2Display = () =>{
     return (
         <div>
             <p className='courseListHeader'>Your current courses:</p>
@@ -46,13 +46,13 @@ const AdvHome = () =>{
     
     return(
     <div>
-        <p className='checkingStuff'>WE made it here</p>
        {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
             user === null ? (<h3>You are not an advisor and something has gone wrong</h3>) :
-            user.username === 'advisor1' ? (<adv1Display />) :
-            user.username === 'advisor2' ? (<adv2Display />) :
+            user.username === 'advisor1' ? (<Adv1Display />) :
+            user.username === 'advisor2' ? (<Adv2Display />) :
             null}
-    </div>)
+    </div>
+    )
 }
 
 const AdmHome = () =>{
