@@ -33,6 +33,20 @@
     border-radius: 3%;
 }
 
+.courseBlock {
+    border: 1px solid #fac922;
+    background-color: #fad763;
+}
+
 .courseListHeader {
     font-family: 'Karla', sans-serif;
+    font-size: 24px;
+}
+
+.course1 {
+    font-size: 18px;
+}
+
+.course2 {
+    font-size: 18px;
 }
