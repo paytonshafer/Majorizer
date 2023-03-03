@@ -5,6 +5,35 @@ import AuthContext from '../context/AuthContext.js'
 import './styles/HomePage.css'
 
 
+const adv1Display = () =>{
+    return (
+        <div>
+            <p className='courseListHeader'>Your current courses:</p>
+        <p className='course1'>CS350: Software Design & Development</p>
+            <p className='course1Time'>TTh 1:30-2:45</p>
+            <p className='course1Location'>Snell 213</p>
+        <p className='course2'>CS459: Human-Computer Interaction</p>
+            <p className='course2Time'>TTh 4:30-5:45</p>
+            <p className='course2Location'>Science Center 348</p>
+        </div>
+    )
+}
+
+const adv2Display = () =>{
+    return (
+        <div>
+            <p className='courseListHeader'>Your current courses:</p>
+        <p className='course1'>PY151: Introduction to Psychology</p>
+            <p className='course1Time'>MWF 9:00-9:50</p>
+            <p className='course1Location'>Science Center 362</p>
+        <p className='course2'>PY253 Social Psychology</p>
+            <p className='course2Time'>MWF 1:00-1:50</p>
+            <p className='course2Location'>Snell 212</p>
+        </div>
+    )
+}
+
+
 const StudHome = () =>{
     return(
     <div>
@@ -13,15 +42,16 @@ const StudHome = () =>{
 }
 
 const AdvHome = () =>{
+    let {user} = useContext(AuthContext)
+    
     return(
     <div>
-       <p className='courseListHeader'>Your current courses:</p>
-        <p className='course1'>CS350: Software Design & Development</p>
-            <p className='course1Time'>TTh 1:30-2:45</p>
-            <p className='course1Location'>Snell 213</p>
-        <p className='course2'>CS459: Human-Computer Interaction</p>
-            <p className='course2Time'>TTh 4:30-5:45</p>
-            <p className='course2Location'>Science Center 348</p>
+        <p className='checkingStuff'>WE made it here</p>
+       {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
+            user === null ? (<h3>You are not an advisor and something has gone wrong</h3>) :
+            user.username === 'advisor1' ? (<adv1Display />) :
+            user.username === 'advisor2' ? (<adv2Display />) :
+            null}
     </div>)
 }
 
@@ -32,6 +62,7 @@ const AdmHome = () =>{
     </div>)
 }
 //this will be edited to link with backend stuff later on, hardcoding in 2 for rn
+
 
 const HomePage = () => {
     let {user} = useContext(AuthContext)
