@@ -21,3 +21,22 @@ select{
     font-family: 'Karla', sans-serif;
     font-size: large;
 }
+table, td, th{
+    border: 1px solid;
+    font-size: x-large;
+}
+table{
+    width: 100%;
+    
+}
+tr:nth-child(even){
+    color:white;
+    background-color: #a2a569;
+}
+tr:nth-child(odd){
+    color: white;
+    background-color: #c6893f;
+}
+th{
+    background-color: #004e42;
+}
