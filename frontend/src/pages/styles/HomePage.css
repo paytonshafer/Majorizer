@@ -33,20 +33,54 @@
     border-radius: 3%;
 }
 
-.courseBlock {
+.studentList {
     border: 1px solid #fac922;
     background-color: #fad763;
 }
 
-.courseListHeader {
+.studentListHeader {
     font-family: 'Karla', sans-serif;
     font-size: 24px;
 }
 
-.course1 {
+.studentName {
     font-size: 18px;
 }
 
-.course2 {
-    font-size: 18px;
+.scheduleSemester {
+    font-family: 'Karla', sans-serif;
+    font-size: 24px;
+}
+
+
+.borderbox {
+    width: 50%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-color: #3e7643;
+    border: 1px solid #fac922;
+    background-color: #fad763;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 3%;
+}
+
+table, td, th{
+    border: 1px solid;
+    font-size: x-large;
+}
+table{
+    width: 100%;
+    
+}
+tr:nth-child(even){
+    color:white;
+    background-color: #a2a569;
+}
+tr:nth-child(odd){
+    color: white;
+    background-color: #c6893f;
+}
+th{
+    background-color: #004e42;
 }

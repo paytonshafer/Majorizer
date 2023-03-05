@@ -3,41 +3,83 @@ import React, {useContext} from 'react'
 import {useNavigate} from 'react-router-dom'
 import AuthContext from '../context/AuthContext.js'
 import './styles/HomePage.css'
+window.$mwf1='CS141';
+window.$mwf2='MA131';
+window.$mwf3='';
+window.$tt1= 'PY151';
+window.$tt2= '';
+window.$tt3 = "PY153";
 
 
 const Adv1Display = () =>{
     return (
-        <div className='courseBlock'>
-            <p className='courseListHeader'>Your current courses:</p>
-        <p className='course1'>CS350: Software Design & Development</p>
-            <p className='course1Time'>TTh 1:30-2:45</p>
-            <p className='course1Location'>Snell 213</p>
-        <p className='course2'>CS459: Human-Computer Interaction</p>
-            <p className='course2Time'>TTh 4:30-5:45</p>
-            <p className='course2Location'>Science Center 348</p>
+        <div className='studentList'>
+            <h1 className='studentListHeader'>Students you are Advising:</h1>
+        <p className='studentName'>John Doe</p>
+            <p className='studMajorAndYear'>Computer Science Major, 2023</p>
+        <p className='studentName'>Jane Doe</p>
+            <p className='studMajorAndYear'>Computer Science Major, Math Minor, 2024</p>
         </div>
     )
 }
 
 const Adv2Display = () =>{
     return (
-        <div>
-            <p className='courseListHeader'>Your current courses:</p>
-        <p className='course1'>PY151: Introduction to Psychology</p>
-            <p className='course1Time'>MWF 9:00-9:50</p>
-            <p className='course1Location'>Science Center 362</p>
-        <p className='course2'>PY253 Social Psychology</p>
-            <p className='course2Time'>MWF 1:00-1:50</p>
-            <p className='course2Location'>Snell 212</p>
+        <div className='studentList'>
+            <h1 className='studentListHeader'>Students you are Advising:</h1>
+        <p className='studentName'>Josh Doe</p>
+            <p className='studMajorAndYear'>Psychology Major, 2024</p>
+        <p className='studentName'>James Doe</p>
+            <p className='studMajorAndYear'>Psychology Major, Math Minor, 2025</p>
         </div>
     )
 }
 
+//This is the hardcoded schedule for the students
+window.$mwf1='CS141';
+            window.$mwf2='MA131';
+            window.$mwf3='';
+            window.$tt1= 'PY151';
+            window.$tt2= '';
+            window.$tt3 = "PY153";
 
 const StudHome = () =>{
     return(
     <div>
-        hello there
+        <h1>Your Most Recent Schedule: </h1>
+        <p className='scheduleSemester'>Fall 2023:</p>
+        <table className='schedule'>
+                <tbody>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tues</th>
+                    <th>Wed</th>
+                    <th>Thurs</th>
+                    <th>Fri</th>
+                </tr>
+                <tr>
+                    <td>{window.$mwf1}</td>
+                    <td>{window.$tt1}</td>
+                    <td>{window.$mwf1}</td>
+                    <td>{window.$tt1}</td>
+                    <td>{window.$mwf1}</td>
+                </tr>
+                <tr>
+                    <td>{window.$mwf2}</td>
+                    <td>{window.$tt2}</td>
+                    <td>{window.$mwf2}</td>
+                    <td>{window.$tt2}</td>
+                    <td>{window.$mwf2}</td>
+                </tr>
+                <tr>
+                    <td>{window.$mwf3}</td>
+                    <td>{window.$tt3}</td>
+                    <td>{window.$mwf3}</td>
+                    <td>{window.$tt3}</td>
+                    <td>{window.$mwf3}</td>
+                </tr>
+                </tbody>
+            </table>
     </div>)
 }
 
@@ -69,7 +111,7 @@ const HomePage = () => {
 
     return (
         <div>
-            <p className='welcomeField'>Hello {user.username}: {user.group} account</p>
+            <h1 className='welcomeField'>Welcome {user.username}: {user.group} account</h1>
             {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
             user === null ? (<h3>WELCOME!</h3>) :
             user.group === 'student' ? (<StudHome />) :
