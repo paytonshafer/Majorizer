@@ -40,3 +40,8 @@ tr:nth-child(odd){
 th{
     background-color: #004e42;
 }
+
+.sem-select{
+    display: flex;
+    justify-content: space-around;
+}

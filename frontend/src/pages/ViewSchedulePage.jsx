@@ -1,6 +1,15 @@
 import AuthContext from '../context/AuthContext';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './styles/ViewSchedulePage.css'
+import StaticData from '../context/StaticData';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+/*
 //student view schedule page
 window.$mwf1='CS141';
 window.$mwf2='MA131';
@@ -40,6 +49,7 @@ class ScheduleForm extends React.Component
             
             event.preventDefault();
         }
+
         render(){return(
                 <div>
                 <form onSubmit={this.handleSubmit}>
@@ -68,7 +78,7 @@ class ScheduleForm extends React.Component
                         <th>Fri</th>
                     </tr>
                     <tr>
-                        <td>{window.$mwf1}</td>
+                        <td>{window.$mwf1}</td>b
                         <td>{window.$tt1}</td>
                         <td>{window.$mwf1}</td>
                         <td>{window.$tt1}</td>
@@ -95,12 +105,86 @@ class ScheduleForm extends React.Component
             );
         }
     }
+*/
 
-const StudView = () => {
+const MySchedule = ({ student }) => {
+    let { user } = useContext(AuthContext)
+    let { advisor_connections, students } = useContext(StaticData)
+
+    const stud = students.find((stud) => stud.name === student.username)
+    let schedule = stud.schedule[0]
+    let semNum = 0
+    let curSem = schedule[semNum]
+
+    const RenderSchedule = () => {
+        return (
+
+            <div>
+            <TableContainer component={Paper}>
+                {/*<Table sx={{ minWidth: 650 }} aria-label="simple table">*/}
+                <Table>
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>Course ID</TableCell>
+                        <TableCell align="right">Course Name</TableCell>
+                        <TableCell align="right">Course Desc</TableCell>
+                        <TableCell align="right">Professor</TableCell>
+                        <TableCell align="right">Days of Week</TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {curSem.courses.map((row) => (
+                        <TableRow
+                        key={row.id}
+                        >
+                        <TableCell component="th" scope="row">
+                            {row.id}
+                        </TableCell>
+                        <TableCell align="right">{row.name}</TableCell>
+                        <TableCell align="right">{row.desc}</TableCell>
+                        <TableCell align="right">{row.professor}</TableCell>
+                        <TableCell align="right">{row.day}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
+        )
+    }
+
+    const lastSem = () => {
+        if(semNum > 0){
+            semNum--
+            curSem = schedule[semNum]           
+        }
+    }
+
+    const nextSem = () => {
+        if(semNum < schedule.length){
+            semNum++
+            curSem = schedule[semNum]
+        }
+    }
+
+    return (
+        <div>
+            <div className='sem-select'>
+                <button onClick={lastSem}>Left</button>
+                <h4>Semester {semNum}</h4>
+                <button onClick={nextSem}>Right</button>
+            </div>
+            <RenderSchedule></RenderSchedule>
+        </div>
+    )
+}
+
+const StudView = ({user}) => {
     return (
     <div className='borderbox'>
     <h1>Welcome to the Student Schedule Viewer</h1>
-    <ScheduleForm id = 'stuschedule'></ScheduleForm>
+    <MySchedule student={user}></MySchedule>
+    {/*<ScheduleForm id = 'stuschedule'></ScheduleForm>*/}
     </div>
     )
 }
@@ -111,7 +195,7 @@ const AdvView = () => {
     <div className='borderbox'>
     <h1>Welcome to the Advisor Schedule Viewer</h1>
     <h2> Please see students Schedules Below</h2>
-    <ScheduleForm id = 'advschedule'></ScheduleForm>
+    {/*<ScheduleForm id = 'advschedule'></ScheduleForm>*/}
     </div>
     )
 }
@@ -121,7 +205,7 @@ const ViewSchedulePage = () => {
 
     return (
         <div>
-            {user.group === 'student' ? <StudView /> :
+            {user.group === 'student' ? <StudView user={user} /> :
              user.group === 'advisor' ? <AdvView /> :
              <p>I am not sure who you are!</p>}
         </div>

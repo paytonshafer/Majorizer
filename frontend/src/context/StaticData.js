@@ -9,13 +9,13 @@ export const DataProvider = ({children}) => {
     const advisor_connections = [{'adv': 'advisor1', 'stud': 'student1'},{'adv': 'advisor2', 'stud': 'student2'}]
 
     //course will have course id, name, credits, professor, location, days(MWF or TT)
-    const course = [{'id': 'CS141', 'name': 'Intro to CS I', 'desc': 'too much lol', 'professor': 'Maciel'},
-                    {'id': 'CS142', 'name': 'Intro to CS II', 'desc': 'too much lol', 'professor': 'Maciel'},
-                    {'id': 'CS241', 'name': 'Computer Organization', 'desc': 'too much lol', 'professor': 'Thorpe'},
-                    {'id': 'CS242', 'name': 'Programming Concepts in Java', 'desc': 'too much lol', 'professor': 'Dey'},
-                    {'id': 'CS350', 'name': 'Software Design', 'desc': 'too much lol', 'professor': 'Banerjee'},
-                    {'id': 'CS444', 'name': 'Operating Systems', 'desc': 'too much lol', 'professor': 'Mathews'},
-                    {'id': 'CS456', 'name': 'Cryptography', 'desc': 'too much lol', 'professor': 'Tamon'}]
+    const course = [{'id': 'CS141', 'name': 'Intro to CS I', 'desc': 'too much lol', 'professor': 'Maciel', 'day': 'mwf'},
+                    {'id': 'CS142', 'name': 'Intro to CS II', 'desc': 'too much lol', 'professor': 'Maciel', 'day': 'mwf'},
+                    {'id': 'CS241', 'name': 'Computer Organization', 'desc': 'too much lol', 'professor': 'Thorpe', 'day': 'mwf'},
+                    {'id': 'CS242', 'name': 'Programming Concepts in Java', 'desc': 'too much lol', 'professor': 'Dey', 'day': 'mwf'},
+                    {'id': 'CS350', 'name': 'Software Design', 'desc': 'too much lol', 'professor': 'Banerjee', 'day': 't/th'},
+                    {'id': 'CS444', 'name': 'Operating Systems', 'desc': 'too much lol', 'professor': 'Mathews', 'day': 't/th'},
+                    {'id': 'CS456', 'name': 'Cryptography', 'desc': 'too much lol', 'professor': 'Tamon', 'day': 't/th'}]
 
     //semester will represent a semester for a student
     const semester = [{'student': 'student1', 'semester_num': 1, "courses": [course[1],course[2],course[0],course[3],course[5]] }, 
@@ -31,8 +31,8 @@ export const DataProvider = ({children}) => {
     const schedule2 = [semester[1], semester[5], semester[4], semester[3], semester[7], semester[0], semester[2], semester[6]]
 
     //Students have schedules, major/minor, name, requests(for their advisor)
-    let students = [{'name': 'student1', 'major': 'Compuer Science', 'minor': null, 'schedule': schedule1},
-                    {'name': 'student2', 'major': 'Compuer Science', 'minor': 'Math', 'schedule': schedule2}]
+    let students = [{'name': 'student1', 'major': 'Compuer Science', 'minor': null, 'schedule': [schedule1, schedule2]},
+                    {'name': 'student2', 'major': 'Compuer Science', 'minor': 'Math', 'schedule': [schedule2, schedule1]}]
     //This is the data that will be served in the context
     let contextData = {
         advisor_connections: advisor_connections,
