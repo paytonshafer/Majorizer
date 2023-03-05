@@ -1,5 +1,5 @@
 import AuthContext from '../context/AuthContext';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import './styles/ViewSchedulePage.css'
 import StaticData from '../context/StaticData';
 import Table from '@mui/material/Table';
@@ -110,11 +110,12 @@ class ScheduleForm extends React.Component
 const MySchedule = ({ student }) => {
     let { user } = useContext(AuthContext)
     let { advisor_connections, students } = useContext(StaticData)
+    let [test, setTest] = useState('1')
 
     const stud = students.find((stud) => stud.name === student.username)
     let schedule = stud.schedule[0]
-    let semNum = 0
-    let curSem = schedule[semNum]
+    let [semNum, setSemNum] = useState(0)
+    let [curSem, setCurSem] = useState(schedule[semNum])
 
     const RenderSchedule = () => {
         return (
@@ -135,7 +136,7 @@ const MySchedule = ({ student }) => {
                     <TableBody>
                     {curSem.courses.map((row) => (
                         <TableRow
-                        key={row.id}
+                            key={row.id}
                         >
                         <TableCell component="th" scope="row">
                             {row.id}
@@ -155,15 +156,17 @@ const MySchedule = ({ student }) => {
 
     const lastSem = () => {
         if(semNum > 0){
-            semNum--
-            curSem = schedule[semNum]           
+            setSemNum(semNum--)
+            setCurSem(schedule[semNum]) 
+            setTest('2')          
         }
     }
 
     const nextSem = () => {
         if(semNum < schedule.length){
-            semNum++
-            curSem = schedule[semNum]
+            setSemNum(semNum++)
+            setCurSem(schedule[semNum])
+            setTest('0')
         }
     }
 
@@ -171,9 +174,9 @@ const MySchedule = ({ student }) => {
         <div>
             <div className='sem-select'>
                 <button onClick={lastSem}>Left</button>
-                <h4>Semester {semNum}</h4>
                 <button onClick={nextSem}>Right</button>
             </div>
+            <h4>Semester {semNum}</h4>
             <RenderSchedule></RenderSchedule>
         </div>
     )

@@ -19,11 +19,11 @@ export const DataProvider = ({children}) => {
 
     //semester will represent a semester for a student
     const semester = [{'student': 'student1', 'semester_num': 1, "courses": [course[1],course[2],course[0],course[3],course[5]] }, 
-                      {'student': 'student1', 'semester_num': 2, "courses": [course[2],course[5],course[2],course[4],course[5]] }, 
+                      {'student': 'student1', 'semester_num': 2, "courses": [course[2],course[3],course[0],course[4],course[5]] }, 
                       {'student': 'student1', 'semester_num': 3, "courses": [course[3],course[6],course[1],course[2],course[5]] },
-                      {'student': 'student1', 'semester_num': 4, "courses": [course[4],course[3],course[1],course[1],course[5]] },
+                      {'student': 'student1', 'semester_num': 4, "courses": [course[4],course[3],course[2],course[1],course[5]] },
                       {'student': 'student1', 'semester_num': 5, "courses": [course[6],course[2],course[4],course[3],course[5]] },
-                      {'student': 'student1', 'semester_num': 6, "courses": [course[0],course[6],course[3],course[5],course[5]] },
+                      {'student': 'student1', 'semester_num': 6, "courses": [course[0],course[6],course[3],course[4],course[5]] },
                       {'student': 'student1', 'semester_num': 7, "courses": [course[1],course[2],course[0],course[6],course[5]] },
                       {'student': 'student1', 'semester_num': 8, "courses": [course[3],course[1],course[6],course[2],course[5]] }]
 
