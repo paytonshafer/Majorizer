@@ -6,7 +6,10 @@ export default StaticData;
 
 export const DataProvider = ({children}) => {
     //Have students, each student will represent a studet so the advisor has their data (foreign key)
-    const advisor_connections = [{'adv': 'advisor1', 'stud': 'student1'},{'adv': 'advisor2', 'stud': 'student2'}]
+    const advisor_connections = [{'adv': 'advisor1', 'stud': 'student1', 'label':'student1'}, 
+                                 {'adv': 'advisor1', 'stud': 'student2', 'label':'student2'}, 
+                                 {'adv': 'advisor2', 'stud': 'student2', 'label':'student2'}, 
+                                 {'adv': 'advisor2', 'stud': 'student1', 'label':'student1'}]
 
     //course will have course id, name, credits, professor, location, days(MWF or TT)
     const course = [{'id': 'CS141', 'name': 'Intro to CS I', 'desc': 'too much lol', 'professor': 'Maciel', 'day': 'mwf'},
@@ -33,6 +36,7 @@ export const DataProvider = ({children}) => {
     //Students have schedules, major/minor, name, requests(for their advisor)
     let students = [{'name': 'student1', 'major': 'Compuer Science', 'minor': null, 'schedule': [schedule1, schedule2]},
                     {'name': 'student2', 'major': 'Compuer Science', 'minor': 'Math', 'schedule': [schedule2, schedule1]}]
+
     //This is the data that will be served in the context
     let contextData = {
         advisor_connections: advisor_connections,
