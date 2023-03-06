@@ -1,5 +1,6 @@
 import AuthContext from '../context/AuthContext';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import Select from 'react-select';
 import './styles/ViewSchedulePage.css'
 import StaticData from '../context/StaticData';
 import Table from '@mui/material/Table';
@@ -179,6 +180,9 @@ const MySchedule = ({ student }) => {
 
     return (
         <div>
+            <div className='sched-select'>
+                <Select classNamePrefix="select" defaultValue={schedule} options={stud.schedule}/>
+            </div>
             <div className='sem-select'>
                 <button onMouseDown={lastSem}>Left</button>
                 <button onMouseDown={nextSem}>Right</button>
