@@ -19,12 +19,17 @@ class PairingForm extends React.Component{
         var newAdv = e.target.value;
         this.setState({student:e.target.value});
     }
+    updatePairings(e){
+        /*right now this function does nothing but tell user pair has been updated. In future, will update pair in backend*/
+        alert(JSON.stringify({advisor: e, student: e}));
+    }
     render() {
         var student=this.state.student;
         var advisor=this.state.advisor;
         return (
         <div>
-            <label htmlFor='advselect'>Advisor</label>
+            <h3> Change Student/Advisor Pairings:</h3>
+            <label htmlFor='advselect'>Advisor:</label>
          <select 
          defaultValue={this.state.advisor} 
          onChange={this.handleChangeAdv} id = 'advselect'
@@ -40,8 +45,8 @@ class PairingForm extends React.Component{
             <option value="Student1">Student1</option>
             <option value="Student2">Student2</option>
           </select>
-          <p>Make pair {student}, {advisor}? </p>
-    
+          <h4>Make pair {student}, {advisor}? </h4>
+          <button onClick={() => (window.alert("Created connection between " + JSON.stringify(advisor) + " and " + JSON.stringify(student)))}>Confirm</button>
           </div>        
         );
     }
@@ -63,7 +68,6 @@ const ConnectionPage = () => {
         <div>
             <div className='borderbox-2'>
             <h1>Welcome, {user.username}.</h1>
-            <h3> Change Student/Advisor Pairings:</h3>
             <PairingForm></PairingForm>
             <h3> Approve Connections Below:</h3>
             <div id = "connection-1" className='connection'>
