@@ -113,15 +113,15 @@ const MySchedule = ({ student }) => {
     let { advisor_connections, students } = useContext(StaticData)
 
     const stud = students.find((stud) => stud.name === student.username)
-    let schedule = stud.schedule[0]
+    let schedules = stud.schedule
+    let [curSchedule, setCurSchedule] = useState(stud.schedule[0])
     let [semNum, setSemNum] = useState(0)
-    let [curSem, setCurSem] = useState(schedule[semNum])
+    let [curSem, setCurSem] = useState(curSchedule.schedule[semNum])
 
     const RenderSchedule = () => {
         return (
 
         <div>
-            <h4>Semester {semNum+1}</h4>
             <TableContainer component={Paper}>
                 {/*<Table sx={{ minWidth: 650 }} aria-label="simple table">*/}
                 <Table>
@@ -164,27 +164,35 @@ const MySchedule = ({ student }) => {
     const lastSem = useCallback(async () => {
         if(semNum > 0){
             setSemNum(semNum - 1)
-            setCurSem(schedule[semNum-1])  
+            setCurSem(curSchedule.schedule[semNum-1])  
         }       
-    },[semNum, schedule])
+    },[semNum, curSchedule])
 
     const nextSem = useCallback(async () => {
-        if(semNum < schedule.length-1){
+        if(semNum < curSchedule.schedule.length-1){
             setSemNum(semNum + 1)
-            setCurSem(schedule[semNum+1])
+            setCurSem(curSchedule.schedule[semNum+1])
         }
-    },[semNum, schedule])
+    },[semNum, curSchedule])
 
-    useEffect( () => {componentDidUpdate()}, [lastSem, nextSem, setSemNum, setCurSem, semNum, curSem])
+    
 
+    const scheduleChange = useCallback(async (selected) => {
+        setCurSchedule(selected)
+        console.log(curSchedule)
+    }, [curSchedule, setCurSchedule])
+
+    useEffect( () => {componentDidUpdate()}, [lastSem, nextSem, setSemNum, setCurSem, setCurSchedule, scheduleChange, curSchedule, curSem, semNum])
 
     return (
         <div>
             <div className='sched-select'>
-                <Select classNamePrefix="select" defaultValue={schedule} options={stud.schedule}/>
+                <Select id ='schedule-select' className="basic-single" classNamePrefix="select" options={schedules} onChange={scheduleChange} autoFocus={true}/>
             </div>
+            
             <div className='sem-select'>
                 <button onMouseDown={lastSem}>Left</button>
+                <h4>Semester {semNum+1}</h4>
                 <button onMouseDown={nextSem}>Right</button>
             </div>
             <RenderSchedule></RenderSchedule>

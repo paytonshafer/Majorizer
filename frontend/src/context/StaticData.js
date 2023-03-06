@@ -18,17 +18,17 @@ export const DataProvider = ({children}) => {
                     {'id': 'CS456', 'name': 'Cryptography', 'desc': 'too much lol', 'professor': 'Tamon', 'day': 't/th'}]
 
     //semester will represent a semester for a student
-    const semester = [{'student': 'student1', 'semester_num': 1, "courses": [course[1],course[2],course[0],course[3],course[5]] }, 
-                      {'student': 'student1', 'semester_num': 2, "courses": [course[2],course[3],course[0],course[4],course[5]] }, 
-                      {'student': 'student1', 'semester_num': 3, "courses": [course[3],course[6],course[1],course[2],course[5]] },
-                      {'student': 'student1', 'semester_num': 4, "courses": [course[4],course[3],course[2],course[1],course[5]] },
-                      {'student': 'student1', 'semester_num': 5, "courses": [course[6],course[2],course[4],course[3],course[5]] },
-                      {'student': 'student1', 'semester_num': 6, "courses": [course[0],course[6],course[3],course[4],course[5]] },
-                      {'student': 'student1', 'semester_num': 7, "courses": [course[1],course[2],course[0],course[6],course[5]] },
-                      {'student': 'student1', 'semester_num': 8, "courses": [course[3],course[1],course[6],course[2],course[5]] }]
+    const semester = [{'semester_num': 1, "courses": [course[1],course[2],course[0],course[3],course[5]] }, 
+                      {'semester_num': 2, "courses": [course[2],course[3],course[0],course[4],course[5]] }, 
+                      {'semester_num': 3, "courses": [course[3],course[6],course[1],course[2],course[5]] },
+                      {'semester_num': 4, "courses": [course[4],course[3],course[2],course[1],course[5]] },
+                      {'semester_num': 5, "courses": [course[6],course[2],course[4],course[3],course[5]] },
+                      {'semester_num': 6, "courses": [course[0],course[6],course[3],course[4],course[5]] },
+                      {'semester_num': 7, "courses": [course[1],course[2],course[0],course[6],course[5]] },
+                      {'semester_num': 8, "courses": [course[3],course[1],course[6],course[2],course[5]] }]
 
-    const schedule1 = [semester[0], semester[1], semester[2], semester[3], semester[4], semester[5], semester[6], semester[7]]
-    const schedule2 = [semester[1], semester[5], semester[4], semester[3], semester[7], semester[0], semester[2], semester[6]]
+    const schedule1 = {'name':'schedule1', 'label':'schedule1','schedule':[semester[0], semester[1], semester[2], semester[3], semester[4], semester[5], semester[6], semester[7]]}
+    const schedule2 = {'name':'schedule2', 'label':'schedule2','schedule':[semester[1], semester[5], semester[4], semester[3], semester[7], semester[0], semester[2], semester[6]]}
 
     //Students have schedules, major/minor, name, requests(for their advisor)
     let students = [{'name': 'student1', 'major': 'Compuer Science', 'minor': null, 'schedule': [schedule1, schedule2]},
