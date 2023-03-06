@@ -1,5 +1,5 @@
 import AuthContext from '../context/AuthContext';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './styles/ViewSchedulePage.css'
 import StaticData from '../context/StaticData';
 import Table from '@mui/material/Table';
@@ -110,7 +110,6 @@ class ScheduleForm extends React.Component
 const MySchedule = ({ student }) => {
     let { user } = useContext(AuthContext)
     let { advisor_connections, students } = useContext(StaticData)
-    let [test, setTest] = useState('1')
 
     const stud = students.find((stud) => stud.name === student.username)
     let schedule = stud.schedule[0]
@@ -120,7 +119,8 @@ const MySchedule = ({ student }) => {
     const RenderSchedule = () => {
         return (
 
-            <div>
+        <div>
+            <h4>Semester {semNum+1}</h4>
             <TableContainer component={Paper}>
                 {/*<Table sx={{ minWidth: 650 }} aria-label="simple table">*/}
                 <Table>
@@ -154,29 +154,35 @@ const MySchedule = ({ student }) => {
         )
     }
 
-    const lastSem = () => {
-        if(semNum > 0){
-            setSemNum(semNum--)
-            setCurSem(schedule[semNum]) 
-            setTest('2')          
-        }
+    const componentDidUpdate = async () => {
+        try{
+            window.componentHandler.upgradeDom();
+        } catch (err) {}
     }
 
-    const nextSem = () => {
-        if(semNum < schedule.length){
-            setSemNum(semNum++)
-            setCurSem(schedule[semNum])
-            setTest('0')
+    const lastSem = useCallback(async () => {
+        if(semNum > 0){
+            setSemNum(semNum - 1)
+            setCurSem(schedule[semNum-1])  
+        }       
+    },[semNum, schedule])
+
+    const nextSem = useCallback(async () => {
+        if(semNum < schedule.length-1){
+            setSemNum(semNum + 1)
+            setCurSem(schedule[semNum+1])
         }
-    }
+    },[semNum, schedule])
+
+    useEffect( () => {componentDidUpdate()}, [lastSem, nextSem, setSemNum, setCurSem, semNum, curSem])
+
 
     return (
         <div>
             <div className='sem-select'>
-                <button onClick={lastSem}>Left</button>
-                <button onClick={nextSem}>Right</button>
+                <button onMouseDown={lastSem}>Left</button>
+                <button onMouseDown={nextSem}>Right</button>
             </div>
-            <h4>Semester {semNum}</h4>
             <RenderSchedule></RenderSchedule>
         </div>
     )
