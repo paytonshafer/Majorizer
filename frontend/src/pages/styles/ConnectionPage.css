@@ -1,0 +1,69 @@
+.borderbox-2 {
+    width: 50%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-color: #3e7643;
+    border: 1px solid #fac922;
+    background-color: #fad763;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 3%;
+    display: flexbox;
+    ;
+}
+.connection {
+    width: 45%;
+    display:inline-flexbox;
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    margin: 5px 5px;
+    
+}
+.confirm{
+    width: 30%;
+    padding: 8px 20px;
+    border-radius: 5px;
+    margin: 5px 5px; 
+    background-color: #7a9a01;
+    color: white;
+    font-size: large;
+    text-align: center;
+}
+.confirm:hover{
+    background-color: #5b7402;
+}
+.cancel{
+    width: 30%;
+    padding: 8px 20px;
+    border-radius: 5px;
+    margin: 5px 5px; 
+    background-color: #cf4520;
+    color: white;
+    font-size: large;
+    text-align: center;
+}
+.cancel:hover{
+    background-color: #b33f20;
+}
+.connection-header{
+    box-sizing: content-box;
+    width: 100%;
+    background-color: #004e42;
+    border: none;
+    color: white;
+    
+    
+}
+.text{
+    margin: 5px 8px;
+}
+.studentadvisortable{
+    border: 1px solid black;
+    width: 100%;
+}
+button{
+    background-color: #004e42;
+    color: white;
+    width: 25%;
+    font-size: large;
+}
