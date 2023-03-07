@@ -11,7 +11,7 @@ const SendRequestPage = () => {
         <div>
             <div className='borderbox'>
             <h1 className='username'>What would you like to request, {user.username}?</h1>
-            <h2 className='subheader'> Current Advisor: {advisor_connections.map((connection) => connection.stud === user.username ? connection.adv : null)} </h2> {/*This gets the advisor for our current student */}
+            <h2 className='subheader'> Current Advisor(s): {advisor_connections.map((connection) => connection.stud === user.username ? (connection.adv + ' ') : null)} </h2> {/*This gets the advisor for our current student */}
             {/*on submit they will be asked if they are sure then we get an alert of the data that would be sent to the backend */}
             <form onSubmit={async (e) => (window.confirm('Are you okay with this message?').then(alert(JSON.stringify({'subject': e.target.subject.value, 'text': e.target.data.value }))))}> 
                 <input type='text' name='subject' className='subject' placeholder='Subject'></input>

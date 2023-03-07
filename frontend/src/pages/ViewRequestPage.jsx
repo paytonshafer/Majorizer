@@ -33,7 +33,7 @@ const ViewRequestPage = () => {
             <span className='badge' id='badge1'></span>
             </div>
             <div className='fields' id='requestform'>
-                <p id='stud' className='header'>{advisor_connections.map((connection) => connection.adv === user.username ? connection.stud : null)}</p>
+                <p id='stud' className='header'>student1</p>
                 <table className='courses'>
                     <tbody>
                         <tr>
@@ -55,6 +55,7 @@ const ViewRequestPage = () => {
                     </tbody>
                     
                 </table>
+                <p className='header'>Subject: Drop Class</p>
                 <p className='header'>Request:</p>
                 <p>I would like to drop PY 255.
                     I want to wait to take it until I've finished PY 253, 
