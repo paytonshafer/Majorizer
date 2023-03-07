@@ -20,7 +20,8 @@ class ConstructSchedulePt1 extends React.Component
             major1: 'CS',
             major2: 'NA',
             minor1: 'NA',
-            minor2: 'NA'
+            minor2: 'NA',
+            previousCourses: 'List Courses Here'
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -94,6 +95,7 @@ class ConstructSchedulePt1 extends React.Component
 render(){return(
         <form onSubmit={this.handleSubmit}>
             <label>
+            <h2>Major and Minor Selection(s):</h2>
             <p>Please select a Major: Required</p>
             <select name = 'major1' value={this.state.major1} onChange={this.handleChange}>
                     <option value="CS">Computer Science</option>
@@ -124,6 +126,13 @@ render(){return(
                     <option value="NA">None</option>
             </select>
             </label>
+            <h2>Previous Course Input:</h2>
+            <p>Please list all courses you have taken and passed previously:</p>
+            <p>Course Input should match the following form: CS141, MA131</p>
+            <p>If you have not taken any courses at Clarkson please leave the box empty</p>
+            <label>
+            <input type="text" name='previousCourses' value={this.state.previousCourses} onChange={this.handleChange}/>
+            </label>
             <input id='selectbutton' type="submit" value="Submit" />
             </form>
             );
@@ -131,19 +140,17 @@ render(){return(
 }
 
 const DisplayScheduleCS = () => {
-    return (
-        <div>
-            <h1>This is the Computer Science schedule</h1>
-        </div>
-    )
+    <div>
+        <p>This is the temp output for after the button press</p>
+    </div>
 }
+
 
 //build schedule page for students
 const StudBuild = () => {
     return (
         <div>
             <h1>This is the student schedule builder</h1>
-            <DisplayScheduleCS></DisplayScheduleCS>
             <ConstructSchedulePt1 id = 'stuschedule'></ConstructSchedulePt1>
         </div>
     )
