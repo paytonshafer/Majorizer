@@ -12,23 +12,33 @@ var literature = 3;
 var math = 4;
 var none = 5;
 
-class ConstructSchedule extends React.Component
+class ConstructSchedulePt1 extends React.Component
 {
     constructor(props){
         super(props);
         this.state = {
-            major1: 'Major 1 Selection',
-            major2: 'Major 2 Selection',
-            minor1: 'Minor 1 Selection',
-            minor2: 'Minor 2 Selection'
+            major1: 'CS',
+            major2: 'NA',
+            minor1: 'NA',
+            minor2: 'NA'
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         }
         handleChange(event){
-            this.setState({major1: event.target.value, major2: event.target.value, minor1: event.target.value, minor2: event.target.value});
+            const target = event.target;
+            const value = target.value;
+            const name = target.name;
+            this.setState({[name]: value});
         }
         handleSubmit(event){
+            <div>
+            {
+                this.state.major1 === 'CS' ? <DisplayScheduleCS /> :
+                this.state.major2 === 'PY' ? <DisplayScheduleCS /> :
+                <p>Something has gone wrong!</p>
+            }
+            </div>
             if (this.state.major1 === 'CS') {
                 <p>You chose Computer Science</p>
                 firstMajor = computerScience;
@@ -75,46 +85,46 @@ class ConstructSchedule extends React.Component
             }
             this.setState({major1: event.target.value});
 
-            if (firstMajor === computerScience) {
-                <DisplayScheduleCS />
-            }
-            
+            <div>
+            <DisplayScheduleCS></DisplayScheduleCS>
+            </div>
+
             event.preventDefault();
         }
 render(){return(
         <form onSubmit={this.handleSubmit}>
             <label>
             <p>Please select a Major: Required</p>
-            <select id = 'major1Selection' value={this.state.major1} onChange={this.handleChange}>
-                    <option major1="CS">Computer Science</option>
-                    <option major1="PY">Psychology</option>
+            <select name = 'major1' value={this.state.major1} onChange={this.handleChange}>
+                    <option value="CS">Computer Science</option>
+                    <option value="PY">Psychology</option>
             </select>
             </label>
             <label>
             <p>Please select a Second Major: Optional</p>
-            <select id = 'major2Selection' value={this.state.major2} onChange={this.handleChange}>
-                    <option major2="CS">Computer Science</option>
-                    <option major2="PY">Psychology</option>
-                    <option major2="NA">None</option>
+            <select name = 'major2' value={this.state.major2} onChange={this.handleChange}>
+                    <option value="CS">Computer Science</option>
+                    <option value="PY">Psychology</option>
+                    <option value="NA">None</option>
             </select>
             </label>
             <label>
             <p>Please select a Minor: Optional</p>
-            <select id = 'minor1Selection' value={this.state.minor1} onChange={this.handleChange}>
-                    <option minor1="MA">Mathematics</option>
-                    <option minor1="LIT">Literature and the Arts</option>
-                    <option minor1="NA">None</option>
+            <select name = 'minor1' value={this.state.minor1} onChange={this.handleChange}>
+                    <option value="MA">Mathematics</option>
+                    <option value="LIT">Literature and the Arts</option>
+                    <option value="NA">None</option>
             </select>
             </label>
             <label>
             <p>Please select a Second Minor: Optional</p>
-            <select id = 'minor2Selection' value={this.state.minor2} onChange={this.handleChange}>
-                    <option minor2="MA">Mathematics</option>
-                    <option minor2="LIT">Literature and the Arts</option>
-                    <option minor2="NA">None</option>
+            <select name = 'minor2' value={this.state.minor2} onChange={this.handleChange}>
+                    <option value="MA">Mathematics</option>
+                    <option value="LIT">Literature and the Arts</option>
+                    <option value="NA">None</option>
             </select>
             </label>
-            <input id='selectbutton' type="submit" value="Select" />
+            <input id='selectbutton' type="submit" value="Submit" />
             </form>
             );
         }
@@ -133,7 +143,8 @@ const StudBuild = () => {
     return (
         <div>
             <h1>This is the student schedule builder</h1>
-            <ConstructSchedule id = 'stuschedule'></ConstructSchedule>
+            <DisplayScheduleCS></DisplayScheduleCS>
+            <ConstructSchedulePt1 id = 'stuschedule'></ConstructSchedulePt1>
         </div>
     )
 }
@@ -143,7 +154,7 @@ const AdvBuild = () => {
     return (
     <div>
         <h1>This is the advisor schedule builder</h1>
-        <ConstructSchedule id = 'stuschedule'></ConstructSchedule>
+        <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
     </div>
     )
 }
