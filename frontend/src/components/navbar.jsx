@@ -61,14 +61,14 @@ const Navbar = () => {
                 user.group === 'advisor' ? (<AdvNavBar />) :
                 user.group === 'admin' ? (<AdmNavBar />) : 
                 null}
-                <button className="nav-btn nav-close-btn" /*onClick={showNavBar}*/>
+                {/*<button className="nav-btn nav-close-btn" /*onClick={showNavBar}>
                     <FaTimes>
                     </FaTimes>
-                </button>
+                </button>*/}
             </nav>
-            <button className="nav-btn" /*onClick={showNavBar}*/> 
+            {/*<button className="nav-btn" /*onClick={showNavBar}> 
                 <FaBars></FaBars>
-            </button>
+            </button>/*}
             {/*<a href="https://webspace.clarkson.edu/classes/softwaresurge/public_html/">SOFTWARE SURGE</a> add in eventually to link to team website*/}
         </header>
     )
