@@ -124,7 +124,7 @@ render(){return(
             <input id='textInputBox' type="text" name='previousCourses' value={this.state.previousCourses} onChange={this.handleChange}/>
             </label>
             <p></p>
-            <input id='selectbutton' type="submit" value="Submit" />
+            <a href="/view">Submit & Build Schedule</a>
             </form>
             );
         }
@@ -132,7 +132,7 @@ render(){return(
 
 const DisplayScheduleCS = () => {
     <div>
-        <p>This is the temp output for after the button press</p>
+        <p>This is a placeholder for stuff for when we move into to integration</p>
     </div>
 }
 
