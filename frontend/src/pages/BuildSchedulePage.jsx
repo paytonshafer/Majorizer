@@ -2,15 +2,15 @@
 import AuthContext from '../context/AuthContext';
 import React, { useContext } from 'react';
 import './styles/BuildSchedulePage.css'
-var firstMajor;
-var secondMajor;
-var firstMinor;
-var secondMinor;
-var computerScience = 1;
-var psychology = 2;
-var literature = 3;
-var math = 4;
-var none = 5;
+let firstMajor;
+let secondMajor;
+let firstMinor;
+let secondMinor;
+const computerScience = 'computer science';
+const psychology = 'psychology';
+const literature = 'literature';
+const math = 'math';
+const none = 'none';
 
 class ConstructSchedulePt1 extends React.Component
 {
@@ -33,6 +33,8 @@ class ConstructSchedulePt1 extends React.Component
             this.setState({[name]: value});
         }
         handleSubmit(event){
+            event.preventDefault();
+
             <div>
             {
                 this.state.major1 === 'CS' ? <DisplayScheduleCS /> :
@@ -65,23 +67,21 @@ class ConstructSchedulePt1 extends React.Component
                 firstMinor = none;
             }
             if (this.state.minor1 === 'MA') {
-                firstMinor = math;
+                secondMinor = math;
             }
             if (this.state.minor1 === 'LIT') {
-                firstMinor = literature;
+                secondMinor = literature;
             }
             if (this.state.minor1 === 'NA') {
-                firstMinor = none;
+                secondMinor = none;
             }
-            this.setState({major1: event.target.value});
 
-            <div>
-            <DisplayScheduleCS></DisplayScheduleCS>
-            </div>
+            alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value}))
 
-            event.preventDefault();
+            event.target.textInputBox.value = ''
+            
         }
-render(){return(
+    render(){return(
         <form onSubmit={this.handleSubmit}>
             <label>
             <h2 className='buildFormHeader'>Major and Minor Selection(s):</h2>
@@ -124,8 +124,8 @@ render(){return(
             <input id='textInputBox' type="text" name='previousCourses' value={this.state.previousCourses} onChange={this.handleChange}/>
             </label>
             <p></p>
-            <a href="/view">Submit & Build Schedule</a>
-            </form>
+            <input id='submit' type='submit' value='Submit'/>
+        </form>
             );
         }
 }

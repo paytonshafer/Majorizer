@@ -41,9 +41,9 @@ const AdmNavBar = () => {
 const Navbar = () => {
     const navRef = useRef(); //idk
     let {user} = useContext(AuthContext) //get user from AuthContext
-    const showNavBar = () =>  {
+    /*const showNavBar = () =>  {
         navRef.current.classList.toggle("responsive_nav");
-    }
+    }*/
     return (
         <header>
             <h3>Majorizer</h3>

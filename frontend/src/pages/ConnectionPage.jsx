@@ -16,7 +16,7 @@ class PairingForm extends React.Component{
         this.setState({advisor:e.target.value});
     }
     handleChangeStu(e){
-        var newAdv = e.target.value;
+        /*var newAdv = e.target.value;*/
         this.setState({student:e.target.value});
     }
     updatePairings(e){

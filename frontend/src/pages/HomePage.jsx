@@ -1,6 +1,5 @@
 //This is the code for our home page
 import React, {useContext} from 'react'
-import {useNavigate} from 'react-router-dom'
 import AuthContext from '../context/AuthContext.js'
 import './styles/HomePage.css'
 window.$mwf1='CS141';
@@ -46,6 +45,8 @@ window.$mwf1='CS141';
 const StudHome = () =>{
     return(
     <div>
+        <h1>Major(s): Computer Science </h1>
+        <h1>Minor(s): N/a</h1>
         <h1>Your Most Recent Schedule: </h1>
         <p className='scheduleSemester'>Fall 2023:</p>
         <table className='schedule'>

@@ -1,12 +1,8 @@
 //This is the page where a advisor can see student request and aprove/deny them and leave a comment
-import React, {useContext} from 'react'
-import AuthContext from '../context/AuthContext.js'
-import StaticData from '../context/StaticData.js'
+import React from 'react'
 import './styles/ViewRequestPage.css'
 
 const ViewRequestPage = () => {
-    let {user } = useContext(AuthContext)
-    let {advisor_connections } = useContext(StaticData)
 
     function removeRequest(){
         document.getElementById("requestform").style.display = "none";
