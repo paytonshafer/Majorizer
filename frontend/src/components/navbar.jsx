@@ -1,9 +1,8 @@
 //This file will contain the navbar for our webpage
-import { useRef, useContext } from "react";
-import {FaBars, FaTimes} from "react-icons/fa";
+import { useRef, useContext } from 'react';
+import {FaBars, FaTimes} from 'react-icons/fa';
 import AuthContext from '../context/AuthContext.js';
-import "./styles/navbar.css"
-
+import './styles/navbar.css'
 //The below functions renders the elements in the nav bar for a student
 const StudNavBar = () => {
     let {logoutUser} = useContext(AuthContext) //get logout user function from AuthContext
@@ -15,9 +14,7 @@ const StudNavBar = () => {
                 <a href="/help">Help</a>
                 <a href="/" onClick={logoutUser} >Logout</a>
             </div>)
-
 }
-
 //The below function renders the elemenst of the nav bar for an advisor
 const AdvNavBar = () => {
     let {logoutUser} = useContext(AuthContext) //get logout user function from AuthContext
@@ -30,7 +27,6 @@ const AdvNavBar = () => {
                 <a href="/" onClick={logoutUser} >Logout</a>
             </div>)
 }
-
 //The below function renders the elements of the nav bar for the admin
 const AdmNavBar = () => {
     let {logoutUser} = useContext(AuthContext) //get logout user function from AuthContext
@@ -41,16 +37,13 @@ const AdmNavBar = () => {
                 <a href="/" onClick={logoutUser} >Logout</a>
             </div>)
 }
-
 //The below function renders teh nav bar
 const Navbar = () => {
     const navRef = useRef(); //idk
     let {user} = useContext(AuthContext) //get user from AuthContext
-
     const showNavBar = () =>  {
         navRef.current.classList.toggle("responsive_nav");
     }
-    
     return (
         <header>
             <h3>Majorizer</h3>
@@ -69,10 +62,8 @@ const Navbar = () => {
             <button className="nav-btn" /*onClick={showNavBar}*/> 
                 <FaBars></FaBars>
             </button>
-            {/*<a href="https://webspace.clarkson.edu/classes/softwaresurge/public_html/">SOFTWARE SURGE</a> add in eventually to link to team website*/}
+            {/*<a href=“https://webspace.clarkson.edu/classes/softwaresurge/public_html/”>SOFTWARE SURGE</a> add in eventually to link to team website*/}
         </header>
     )
-    
 }
-
 export default Navbar;
