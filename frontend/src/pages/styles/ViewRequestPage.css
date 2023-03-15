@@ -2,16 +2,24 @@
     background-color: lightgray;
 }
 .icon{
-    height: 30px;
-    width: 30px;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height:80px;
+}
+.mailicon{
+ position: relative;
+ top: 0;
+ left: 0;   
 }
 .positonbox{
     position: relative;
 }
 .badge{
     position: absolute;
-    top:15%;
-    left: 50.5%;
+    top: 10%;
+    left: 52%;
     width: 1em;
     height:1em;
     display: flex;
@@ -19,8 +27,6 @@
     align-items: center;
     border-radius: 50%;
     background-color: red;
-    color: white;
-    
 }
 .courses {
     border: 1px solid black;
