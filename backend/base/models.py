@@ -38,11 +38,17 @@ class Student(models.Model):
     minor1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='minor1', validators =[validate_minor])
     minor2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='minor2', validators =[validate_minor])
 
+    def __str__(self):
+        return self.student
+
 class Request(models.Model):
     adv_stud = models.ForeignKey(AdvStudConn, on_delete=models.CASCADE, null=True)
     subject = models.TextField()
     data = models.TextField()
     result = models.BooleanField(null=True)
+
+    def __str__(self):
+        return self.subject + ': ' + self.data[:10]
 
 class Course(models.Model):
     maj_min = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True)
@@ -52,6 +58,9 @@ class Course(models.Model):
     professor = models.TextField()
     days = models.TextField()
     num_credits = models.IntegerField()
+
+    def __str__(self):
+        return self.title
 
 class Semester(models.Model):
     num = models.IntegerField()
@@ -67,6 +76,7 @@ class Semester(models.Model):
 
 class Schedule(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='studentSched')
+    name = models.TextField(blank=True, default='unnamed_schedule')
     major1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, related_name='SchedMajor1', validators =[validate_major])
     major2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMajor2', validators =[validate_major])
     minor1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMinor1', validators =[validate_minor])
@@ -81,3 +91,6 @@ class Schedule(models.Model):
     semester8 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester8')
     semester9 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester9')
     semester10 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester10')
+
+    def __str__(self):
+        return self.name
