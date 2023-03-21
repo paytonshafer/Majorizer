@@ -38,6 +38,13 @@ class Student(models.Model):
     minor1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='minor1', validators =[validate_minor])
     minor2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='minor2', validators =[validate_minor])
 
+    def clean(self):
+        if self.major1 == self.major2:
+            raise ValidationError('Please choose two different majors')
+        
+        if self.minor1 == self.minor2:
+            raise ValidationError('Please choose two different minors')
+
     def __str__(self):
         return self.student
 
@@ -91,6 +98,13 @@ class Schedule(models.Model):
     semester8 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester8')
     semester9 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester9')
     semester10 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester10')
+
+    def clean(self):
+        if self.major1 == self.major2:
+            raise ValidationError('Please choose two different majors')
+        
+        if self.minor1 == self.minor2:
+            raise ValidationError('Please choose two different minors')
 
     def __str__(self):
         return self.name
