@@ -75,13 +75,24 @@ class ConstructSchedulePt1 extends React.Component
             if (this.state.minor1 === 'NA') {
                 secondMinor = none;
             }
-
+            if (((this.state.major1 === this.state.major2) && (this.state.major1 != 'NA')) ||
+                ((this.state.minor1 === this.state.minor2) && (this.state.minor1 != 'NA')) ||
+                ((this.state.major1 === this.state.minor1) && (this.state.major1 != 'NA')) ||
+                ((this.state.major2 === this.state.minor1) && (this.state.major2 != 'NA')) ||
+                ((this.state.major1 === this.state.minor2) && (this.state.major1 != 'NA')) ||
+                ((this.state.major2 === this.state.minor2) && (this.state.major2 != 'NA'))
+                )
+                {
+                    alert("Invalid major/minor pairings. Multiple of the same selection were made.");
+                }
+                else {
             alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value}))
 
             event.target.textInputBox.value = ''
-            
+                }
         }
     render(){return(
+        <div className='borderbox'>
         <form onSubmit={this.handleSubmit}>
             <label>
             <h2 className='buildFormHeader'>Major and Minor Selection(s):</h2>
@@ -126,6 +137,7 @@ class ConstructSchedulePt1 extends React.Component
             <p></p>
             <input id='submit' type='submit' value='Submit'/>
         </form>
+        </div>
             );
         }
 }
