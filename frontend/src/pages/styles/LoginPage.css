@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root{
     background-color: lightgray;
 }
 
 .fields {
-    font-family: 'Karla', sans-serif;
+    font-family: 'Inter', sans-serif;
     width: 50%;
     padding: 10px 15px;
     margin: 8px 0;

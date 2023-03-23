@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root{
     background-color:  lightgray;
@@ -6,7 +6,7 @@
 }
 
 .welcomeField {
-    font-family: 'Karla', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 40px;
     width: 100%;
     padding: 10px 15px;
@@ -20,7 +20,7 @@
 }
 
 .activeRequestField {
-    font-family: 'Karla', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 24px;
     width: 50%;
     padding: 10px 15px;
@@ -39,7 +39,7 @@
 }
 
 .studentListHeader {
-    font-family: 'Karla', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 24px;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .scheduleSemester {
-    font-family: 'Karla', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 24px;
 }
 
