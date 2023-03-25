@@ -30,6 +30,13 @@ class AdvStudConn(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='student')
     advisor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='advisor')
 
+    def clean(self):
+        if str(self.student.groups.all()[0]) == 'advisor' or str(self.advisor.groups.all()[0]) == 'student':
+            raise ValidationError('Please only choose students for student and advisors for advisor')
+
+    def __str__(self):
+        return self.student.username + ' - ' + self.advisor.username
+
 
 class Student(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='studentsMajors')
