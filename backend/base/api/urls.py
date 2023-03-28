@@ -11,7 +11,7 @@ from  rest_framework_simplejwt.views import (
 urlpatterns = [
     path('', views.getRoutes), #this will give you all roots in api
     path('advstudconn/', AdvStudConnListApiView.as_view(), name='advisor_student_connection'),
-    path('advstudconn/stud', AdvStudConnDetailApiView.as_view(), name='advisor_student_connection'),
+    path('advstudconn/<int:stud_id>', AdvStudConnDetailApiView.as_view(), name='advisor_student_connection'),
 
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'), #view to get a token
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), #view to refresh token

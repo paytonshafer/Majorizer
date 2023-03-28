@@ -33,7 +33,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def getRoutes(request):
     routes = [
         '/api/advstudconn',
-        'api/advstudconn/stud',
+        'api/advstudconn/<int:stud_id>',
         '/api/token',
         '/api/token/refresh',
     ]
@@ -50,7 +50,7 @@ class AdvStudConnListApiView(APIView):
 
 #this will be for a student to get their advisor, need to add check for of user not in dataset
 class AdvStudConnDetailApiView(APIView):
-    def get(self, request):
-        connection = AdvStudConn.objects.get(student = request.user.id)
+    def get(self, request, stud_id):
+        connection = AdvStudConn.objects.get(student = stud_id)
         serializer = AdvStudConnSerializer(connection)
         return Response(serializer.data, status=status.HTTP_200_OK)
