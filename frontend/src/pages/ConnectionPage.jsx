@@ -46,7 +46,7 @@ class PairingForm extends React.Component{
             <option value="Student2">Student2</option>
           </select>
           <h4>Make pair {student}, {advisor}? </h4>
-          <button onClick={() => (window.alert("Created connection between " + JSON.stringify(advisor) + " and " + JSON.stringify(student)))}>Confirm</button>
+          <button classname = 'confirm' onClick={() => (window.alert("Created connection between " + JSON.stringify(advisor) + " and " + JSON.stringify(student)))}>Confirm</button>
           </div>        
         );
     }

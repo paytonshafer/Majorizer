@@ -19,6 +19,7 @@ const Adv1Display = () =>{
         <p className='studentName'>Jane Doe</p>
             <p className='studMajorAndYear'>Computer Science Major, Math Minor, 2024</p>
         </div>
+        
     )
 }
 
@@ -44,7 +45,7 @@ window.$mwf1='CS141';
 
 const StudHome = () =>{
     return(
-    <div>
+    <div className='borderbox'>
         <h1>Major(s): Computer Science </h1>
         <h1>Minor(s): N/a</h1>
         <h1>Your Most Recent Schedule: </h1>
@@ -100,9 +101,10 @@ const AdvHome = () =>{
 
 const AdmHome = () =>{
     return(
-    <div>
-        <p className='activeRequestField'>You have 2 active requests!</p>
-    </div>)
+        <div className='activeRequestField'>
+        <p>You have 2 active requests!</p>
+        </div>
+    )
 }
 //this will be edited to link with backend stuff later on, hardcoding in 2 for rn
 
@@ -111,7 +113,7 @@ const HomePage = () => {
     let {user} = useContext(AuthContext)
 
     return (
-        <div>
+        <div className='borderbox'>
             <h1 className='welcomeField'>Welcome {user.username}: {user.group} account</h1>
             {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
             user === null ? (<h3>WELCOME!</h3>) :
