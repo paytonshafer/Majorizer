@@ -18,7 +18,11 @@
     box-sizing: border-box;
     border-radius: 3%;
 }
-
+.logo{
+    width: 300px;
+    height: auto;
+    
+}
 .activeRequestField {
     font-family: 'Karla', sans-serif;
     font-size: 24px;
@@ -44,18 +48,24 @@
 
 .studentListHeader {
     font-family: 'Karla', sans-serif;
-    font-size: 24px;
+    font-size: 65px;
 }
 
 .studentName {
-    font-size: 18px;
+    font-size: 34px;
 }
-
+.studMajorAndYear{
+    font-size: 24px;
+    font-style: italic;
+}
 .scheduleSemester {
     font-family: 'Karla', sans-serif;
     font-size: 24px;
 }
-
+.schedule{
+    width: 100%;
+    height: 300px;
+}
 
 .borderbox {
     width: 50%;

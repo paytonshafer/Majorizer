@@ -45,7 +45,7 @@ window.$mwf1='CS141';
 
 const StudHome = () =>{
     return(
-    <div className='borderbox'>
+    <div>
         <h1>Major(s): Computer Science </h1>
         <h1>Minor(s): N/a</h1>
         <h1>Your Most Recent Schedule: </h1>
@@ -114,7 +114,11 @@ const HomePage = () => {
 
     return (
         <div className='borderbox'>
-            <h1 className='welcomeField'>Welcome {user.username}: {user.group} account</h1>
+            <div  className='welcomeField'>
+            <img className='logo' src="/logo.png" alt='logo'></img>
+            <h1 style={{fontWeight: 'bold'}}>Welcome {user.username}</h1>
+            <h5>{user.group} account</h5>
+            </div>
             {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
             user === null ? (<h3>WELCOME!</h3>) :
             user.group === 'student' ? (<StudHome />) :
