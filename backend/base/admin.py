@@ -8,7 +8,10 @@ admin.site.register(MajorOrMinor)
 admin.site.register(AdvStudConn)
 admin.site.register(Student)
 admin.site.register(Request)
-admin.site.register(Course)
 admin.site.register(Semester)
 admin.site.register(Schedule)
+
+@admin.register(Course)
+class ClassesAdmin(admin.ModelAdmin):
+    list_filter = ['maj_min']
 
