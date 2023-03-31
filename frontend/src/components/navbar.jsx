@@ -46,7 +46,7 @@ const Navbar = () => {
     }*/
     return (
         <header>
-            <h3>Majorizer</h3>
+            <img className = 'majorizer' src='/majorizer.png' alt='Majorizer'></img>
             <nav ref={navRef}>
                 {/*The below block checks for a user and renders the correct nave bar based on who is logged in*/
                 user === null ? (<h3>WELCOME!</h3>) :

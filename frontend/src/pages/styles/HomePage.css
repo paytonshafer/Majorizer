@@ -19,7 +19,7 @@
     border-radius: 3%;
 }
 .logo{
-    width: 300px;
+    width: 200px;
     height: auto;
     
 }
@@ -48,14 +48,14 @@
 
 .studentListHeader {
     font-family: 'Karla', sans-serif;
-    font-size: 65px;
+    font-size: 45px;
 }
 
 .studentName {
-    font-size: 34px;
+    font-size: 24px;
 }
 .studMajorAndYear{
-    font-size: 24px;
+    font-size: 14px;
     font-style: italic;
 }
 .scheduleSemester {
@@ -64,7 +64,7 @@
 }
 .schedule{
     width: 100%;
-    height: 300px;
+    height: 100px;
 }
 
 .borderbox {
