@@ -54,3 +54,31 @@ class AdvStudConnDetailApiView(APIView):
         connection = AdvStudConn.objects.get(student = stud_id)
         serializer = AdvStudConnSerializer(connection)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class studentListApiView(APIView):
+     def get(self, request):
+        studentData = Student.objects.all()
+        serializer = StudentSerializer(studentData)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+     
+class requestListApiView(APIView):
+    def get(self, request):
+        requests = Request.objects.all()
+        serializer = RequestSerializer(requests)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put():
+        pass
+
+class scheduleListApiView(APIView):
+    def get(self, request):
+        schedules = Schedule.objects.all()
+        serializer = ScheduleSerializer(schedules)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put():
+        pass
+
+class scheduleDetailApiView(APIView):
+    def get(self, request):
+        pass
