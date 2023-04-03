@@ -54,7 +54,7 @@ class Student(models.Model):
 
     def __str__(self):
         return self.student
-
+    
 class Request(models.Model):
     adv_stud = models.ForeignKey(AdvStudConn, on_delete=models.CASCADE, null=True)
     subject = models.TextField()
@@ -77,6 +77,7 @@ class Course(models.Model):
         return self.title
 
 class Semester(models.Model):
+    name = models.TextField(default='unnamed')
     num = models.IntegerField()
     course1 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=False, related_name='course1')
     course2 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=False, related_name='course2')
@@ -87,14 +88,17 @@ class Semester(models.Model):
     course7 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, related_name='course7')
     course8 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, related_name='course8')
 
+    def __str__(self):
+        return self.name
+
 
 class Schedule(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='studentSched')
     name = models.TextField(blank=True, default='unnamed_schedule')
-    major1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, related_name='SchedMajor1', validators =[validate_major])
-    major2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMajor2', validators =[validate_major])
-    minor1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMinor1', validators =[validate_minor])
-    minor2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMinor2', validators =[validate_minor])
+    major1 = models.TextField(blank=True, default='None') 
+    major2 = models.TextField(blank=True, default='None') 
+    minor1 = models.TextField(blank=True, default='None')
+    minor2 = models.TextField(blank=True, default='None')
     semester1 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester1')
     semester2 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester2')
     semester3 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester3')
