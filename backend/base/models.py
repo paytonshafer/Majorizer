@@ -57,7 +57,7 @@ class Student(models.Model):
 
 class Request(models.Model):
     adv_stud = models.ForeignKey(AdvStudConn, on_delete=models.CASCADE, null=True)
-    subject = models.TextField()
+    req_subject = models.TextField()
     data = models.TextField()
     result = models.BooleanField(null=True)
 

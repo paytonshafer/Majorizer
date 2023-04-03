@@ -6,9 +6,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from base.models import Student, AdvStudConn, Request, Schedule
+from base.models import Student, AdvStudConn, Request, Schedule, Semester, Course
 from .serializers import *
 from rest_framework import status
+from .forecasting import forecast
 
 #the two classes below add for you to add custom parts to the token so the front end can get them
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -36,6 +37,10 @@ def getRoutes(request):
         'api/advstudconn/<int:stud_id>',
         '/api/token',
         '/api/token/refresh',
+        '/student',
+        '/request',
+        '/schedule',
+        '/schedule/<int:sched_id>'
     ]
 
     return Response(routes)
@@ -55,30 +60,76 @@ class AdvStudConnDetailApiView(APIView):
         serializer = AdvStudConnSerializer(connection)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class studentListApiView(APIView):
-     def get(self, request):
+class StudentListApiView(APIView):
+    def get(self, request):
         studentData = Student.objects.all()
         serializer = StudentSerializer(studentData)
         return Response(serializer.data, status=status.HTTP_200_OK)
      
-class requestListApiView(APIView):
+class RequestListApiView(APIView):
     def get(self, request):
-        requests = Request.objects.all()
-        serializer = RequestSerializer(requests)
+        stud_requests = Request.objects.all()
+        serializer = RequestSerializer(stud_requests)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def put():
+    def post():
         pass
 
-class scheduleListApiView(APIView):
+class ScheduleListApiView(APIView):
     def get(self, request):
         schedules = Schedule.objects.all()
         serializer = ScheduleSerializer(schedules)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def put():
-        pass
+    def post(self, request):
+        schedule = forecast(request.data.get('maj1'), request.data.get('maj2'), request.data.get('min1'), request.data.get('min2'))
 
-class scheduleDetailApiView(APIView):
+        data = {
+            'student': request.user.id,
+            'name': '',
+            'major1': request.data.get('maj1'),
+            'major2': request.data.get('maj2'),
+            'minor1': request.data.get('min1'),
+            'minor2': request.data.get('min2'),
+            'semester1': None,
+            'semester2': None,
+            'semester3': None,
+            'semester4': None,
+            'semester5': None,
+            'semester6': None,
+            'semester7': None,
+            'semester8': None,
+            'semester9': None,
+            'semester10': None,
+        }
+
+        for sem in schedule:
+            temp = []
+            for x in schedule[sem]:
+                temp.append(Course.objects.get(course_code = x))
+            sem_data = {
+                'num': sem,
+                'course1': temp[0],
+                'course2': temp[1],
+                'course3': temp[2],
+                'course4': temp[3],
+                'course5': temp[4],
+                'course6': None,
+                'course7': None,
+                'course8': None,               
+            }
+            serializer = SemesterSerializer(data=sem_data)
+            serializer.save()
+            cur_sem = 'semester' + str(x)
+            data[cur_sem] = serializer
+
+        sched_serializer = ScheduleSerializer(data=data)
+        if serializer.is_valid():
+            sched_serializer.save()
+            return Response(sched_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ScheduleDetailApiView(APIView):
     def get(self, request):
         pass
