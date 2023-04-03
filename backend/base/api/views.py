@@ -88,7 +88,7 @@ class ScheduleListApiView(APIView):
 "min1": "NONE",
 "min2": "NONE"
 }
-    '''#TODO make it so it gets correct major/minors
+    '''
     def post(self, request):
         schedule = forecast(request.data.get('maj1'), request.data.get('maj2'), request.data.get('min1'), request.data.get('min2'))
 
@@ -144,4 +144,6 @@ class ScheduleListApiView(APIView):
 
 class ScheduleDetailApiView(APIView):
     def get(self, request, sched_id):
-        pass
+        connection = Schedule.objects.get(id = sched_id)
+        serializer = ScheduleSerializer(connection)
+        return Response(serializer.data, status=status.HTTP_200_OK)
