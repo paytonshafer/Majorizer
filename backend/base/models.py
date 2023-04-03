@@ -91,7 +91,7 @@ class Semester(models.Model):
 class Schedule(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='studentSched')
     name = models.TextField(blank=True, default='unnamed_schedule')
-    major1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, related_name='SchedMajor1', validators =[validate_major])
+    major1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True,related_name='SchedMajor1', validators =[validate_major])
     major2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMajor2', validators =[validate_major])
     minor1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMinor1', validators =[validate_minor])
     minor2 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, blank=True, related_name='SchedMinor2', validators =[validate_minor])

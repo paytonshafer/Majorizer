@@ -99,7 +99,7 @@ cs_science = {
     'courses': {
         'CM131': {'prereq': []},
         'CM132': {'prereq': ['CM131']},
-        'SC101': {'prereq': ['CM132']},
+        'PH131': {'prereq': ['CM132']},
     }
 }
 
@@ -113,7 +113,7 @@ softwaredd = {
 }
 infotech = {
     'CS460': {'prereq': ['CS142'], 'sem_min': 6}, #db
-    'CA471': {'prereq': ['CS142'], 'sem_min': 6}, #sys admin
+    'CS471': {'prereq': ['CS142'], 'sem_min': 6}, #sys admin
     'CS459': {'prereq': ['CS142'], 'sem_min': 6}, #h-c interaction
     'CS455': {'prereq': ['CS142'], 'sem_min': 6}, #networks
     'CS457': {'prereq': ['CS142'], 'sem_min': 6}  #net-sec
