@@ -54,10 +54,10 @@ class Student(models.Model):
 
     def __str__(self):
         return self.student
-
+    
 class Request(models.Model):
     adv_stud = models.ForeignKey(AdvStudConn, on_delete=models.CASCADE, null=True)
-    req_subject = models.TextField()
+    subject = models.TextField()
     data = models.TextField()
     result = models.BooleanField(null=True)
 
@@ -77,6 +77,7 @@ class Course(models.Model):
         return self.title
 
 class Semester(models.Model):
+    name = models.TextField(default='unnamed')
     num = models.IntegerField()
     course1 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=False, related_name='course1')
     course2 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=False, related_name='course2')
@@ -86,6 +87,9 @@ class Semester(models.Model):
     course6 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, related_name='course6')
     course7 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, related_name='course7')
     course8 = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, related_name='course8')
+
+    def __str__(self):
+        return self.name
 
 
 class Schedule(models.Model):

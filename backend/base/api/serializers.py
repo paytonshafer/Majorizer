@@ -2,7 +2,7 @@
 #So that they can be sent through the api
 #We will create a serializer for each model
 from rest_framework.serializers import ModelSerializer #A serializer takes a python object to a json object
-from base.models import Student, AdvStudConn, Request, Schedule, Semester
+from base.models import Student, AdvStudConn, Schedule, Semester, Request
 
 class StudentSerializer(ModelSerializer):
     class Meta:
