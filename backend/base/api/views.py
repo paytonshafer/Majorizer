@@ -78,7 +78,7 @@ class RequestListApiView(APIView):
 class ScheduleListApiView(APIView):
     def get(self, request):
         schedules = Schedule.objects.all()
-        serializer = ScheduleSerializer(schedules)
+        serializer = ScheduleSerializer(schedules, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     '''
@@ -95,10 +95,10 @@ class ScheduleListApiView(APIView):
         data = {
             'student': request.user.id,
             'name': 'none',
-            'major1': None,#request.data.get('maj1'),
-            'major2': None,#request.data.get('maj2'),
-            'minor1': None,#request.data.get('min1'),
-            'minor2': None,#request.data.get('min2'),
+            'major1': request.data.get('maj1'),
+            'major2': request.data.get('maj2'),
+            'minor1': request.data.get('min1'),
+            'minor2': request.data.get('min2'),
             'semester1': None,
             'semester2': None,
             'semester3': None,
