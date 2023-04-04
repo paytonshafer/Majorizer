@@ -174,9 +174,9 @@ py_science = {
     'name': 'py_science',
     'cap': 2,
     'courses': {
-        'NS131': {'prereq': []}, #natual science 1
-        'NS132': {'prereq': ['NS131']}, #natual science 2
-        'NS101': {'prereq': ['NS131']}, #natual science lab
+        'CM131': {'prereq': []}, #natual science 1
+        'CM132': {'prereq': ['CM131']}, #natual science 2
+        'CM101': {'prereq': ['CM131']}, #natual science lab
     }
 }
 
