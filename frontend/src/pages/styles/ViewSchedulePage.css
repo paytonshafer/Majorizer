@@ -10,22 +10,30 @@
     box-sizing: border-box;
     border-radius: 3%;
 }
+.scheduletable{
+    color: white;
+    font-family: 'Karla', sans-serif;
+}
 #selectbutton{
-    width: 20%;
+    width: 15%;
     margin: 3px 3px;
     padding:.1em;
 }
+
 select{
     width:20%;
     margin:3px 3px;
     font-family: 'Karla', sans-serif;
     font-size: large;
+    color: white;
+    background-color: #004e42;
 }
-table, td, th{
-    border: 1px solid;
+
+Table, td, th{
+    border: 1px solid black;
     font-size: x-large;
 }
-table{
+Table{
     width: 100%;
     
 }
@@ -33,15 +41,18 @@ tr:nth-child(even){
     color:white;
     background-color: #a2a569;
 }
-tr:nth-child(odd){
+TableRow:nth-child(odd){
     color: white;
     background-color: #c6893f;
 }
 th{
     background-color: #004e42;
 }
-
+*/
 .sem-select{
     display: flex;
     justify-content: space-around;
+}
+.leftright{
+    color:white;
 }
