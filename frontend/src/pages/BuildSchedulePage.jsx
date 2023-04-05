@@ -21,7 +21,8 @@ class ConstructSchedulePt1 extends React.Component
             major2: 'NA',
             minor1: 'NA',
             minor2: 'NA',
-            previousCourses: ''
+            previousCourses: '',
+            scheduleName: 'Schedule 1',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -86,9 +87,7 @@ class ConstructSchedulePt1 extends React.Component
                     alert("Invalid major/minor pairings. Multiple of the same selection were made.");
                 }
                 else {
-            alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value}))
-
-            event.target.textInputBox.value = ''
+            alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value, 'scheduleName': event.target.textInputBox2.value}))
                 }
         }
     render(){return(
@@ -133,6 +132,10 @@ class ConstructSchedulePt1 extends React.Component
             <p className='subInstruction'>If you have not taken any courses at Clarkson please leave the box empty</p>
             <label>
             <input id='textInputBox' type="text" name='previousCourses' value={this.state.previousCourses} onChange={this.handleChange}/>
+            </label><br/>
+            <h2 className='buildFormHeader'>Name Schedule:</h2><br/>
+            <label>
+            <input id='textInputBox2' type="text" name='scheduleName' value={this.state.scheduleName} onChange={this.handleChange}/><br/>
             </label>
             <p></p>
             <input id='submit' type='submit' value='Submit'/>
