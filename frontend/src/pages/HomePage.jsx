@@ -102,7 +102,6 @@ const AdvHome = () =>{
 const AdmHome = () =>{
     return(
         <div className='activeRequestField'>
-        <p>You have 2 active requests!</p>
         </div>
     )
 }
