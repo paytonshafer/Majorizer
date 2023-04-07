@@ -27,9 +27,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 class MyTokenObtainPairView(TokenObtainPairView):
-        serializer_class = MyTokenObtainPairSerializer #we use the class above to seialize the token
+        serializer_class = MyTokenObtainPairSerializer #we use the class above to serialize the token
 
-#THis veiw get's all the routes in the api
+#This view get's all the routes in the api
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
@@ -46,14 +46,14 @@ def getRoutes(request):
     return Response(routes)
 
 
-#this view will be fore the admin to manage connections and for the advisor to get all of their students
+#this view will be for the admin to manage connections and for the advisor to get all of their students
 class AdvStudConnListApiView(APIView):
     def get(self, request):
         connections = AdvStudConn.objects.all()
         serializer = AdvStudConnSerializer(connections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-#this will be for a student to get their advisor, need to add check for of user not in dataset
+#this will be for a student to get their advisor, need to add check for if user not in dataset
 class AdvStudConnDetailApiView(APIView):
     def get(self, request, stud_id):
         connection = AdvStudConn.objects.get(student = stud_id)

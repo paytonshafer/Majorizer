@@ -105,32 +105,32 @@ cs_science = {
 
 #computer science major elective paths
 softwaredd = {
-    'CS458': {'prereq': ['CS142'], 'sem_min': 6}, #formal meth
-    'CS459': {'prereq': ['CS142'], 'sem_min': 6}, #com hum interaction
+    'CS458': {'prereq': ['CS344', 'MA211'], 'sem_min': 6}, #formal meth
+    'CS459': {'prereq': ['CS242'], 'sem_min': 6}, #com hum interaction
     'CS460': {'prereq': ['CS142'], 'sem_min': 6}, #db sys
-    'CS447': {'prereq': ['CS142'], 'sem_min': 6}, #algo
+    'CS447': {'prereq': ['CS344', 'MA211'], 'sem_min': 6}, #algo
     'CS475': {'prereq': ['CS142'], 'sem_min': 6}  #ethics
 }
 infotech = {
     'CS460': {'prereq': ['CS142'], 'sem_min': 6}, #db
-    'CS471': {'prereq': ['CS142'], 'sem_min': 6}, #sys admin
-    'CS459': {'prereq': ['CS142'], 'sem_min': 6}, #h-c interaction
-    'CS455': {'prereq': ['CS142'], 'sem_min': 6}, #networks
-    'CS457': {'prereq': ['CS142'], 'sem_min': 6}  #net-sec
+    'CS471': {'prereq': ['CS241'], 'sem_min': 6}, #sys admin
+    'CS459': {'prereq': ['CS242'], 'sem_min': 6}, #h-c interaction
+    'CS455': {'prereq': ['CS241'], 'sem_min': 6}, #networks
+    'CS457': {'prereq': ['CS455'], 'sem_min': 6}  #net-sec
 }
 ai = {
-    'CS451': {'prereq': ['CS142'], 'sem_min': 6}, #ai
-    'CS473': {'prereq': ['CS142'], 'sem_min': 6}, #com vision
-    'CS470': {'prereq': ['CS142'], 'sem_min': 6}, #deep learing
-    'CS472': {'prereq': ['CS142'], 'sem_min': 6}, #image understanfing
-    'CS461': {'prereq': ['CS142'], 'sem_min': 6}  #mixed reality
+    'CS451': {'prereq': ['CS344'], 'sem_min': 6}, #ai
+    'CS473': {'prereq': ['CS142', 'MA339'], 'sem_min': 6}, #com vision
+    'CS470': {'prereq': ['CS142', 'MA339'], 'sem_min': 6}, #deep learing
+    'CS472': {'prereq': ['CS142', 'MA339'], 'sem_min': 6}, #image understanfing
+    'CS461': {'prereq': ['CS142', 'MA339'], 'sem_min': 6}  #mixed reality
 }
 theory = {
-    'CS447': {'prereq': ['CS142'], 'sem_min': 6}, #algo
-    'CS469': {'prereq': ['CS142'], 'sem_min': 6}, #quantum
-    'CS442': {'prereq': ['CS142'], 'sem_min': 6}, #com complex
-    'CS456': {'prereq': ['CS142'], 'sem_min': 6}, #crypto
-    'CS445': {'prereq': ['CS142'], 'sem_min': 6}  #compiler
+    'CS447': {'prereq': ["CS344", "MA211"], 'sem_min': 6}, #algo
+    'CS469': {'prereq': ['CS344', 'MA339'], 'sem_min': 6}, #quantum
+    'CS442': {'prereq': ['CS345'], 'sem_min': 6}, #com complex
+    'CS456': {'prereq': ['CS142', 'MA211'], 'sem_min': 6}, #crypto
+    'CS445': {'prereq': ['CS344'], 'sem_min': 6}  #compiler
 }
 cs_elec_paths = [softwaredd, infotech, ai, theory]
 cs_electives = {
@@ -233,7 +233,7 @@ groups_covered = {
     'py_science': ['cs_science']
 }
 
-#group order: science, math, core, extra if needed, com_exp, electives, free, only exception is pure cs -> electoves last
+#group order: science, math, core, extra if needed, com_exp, electives, free, only exception is pure cs -> electives last
 #NOTE it will be impossible to call this with maj1 = maj1 and min1 = min2 since there will be a check in the form and a check in the backend
 #NOTE ALSO maj1 is a required argument that will always be passed
 #[cs_science, cs_math, cs_core, py_core, com_exp, py_electives, cs_electives, free]
@@ -387,9 +387,19 @@ covered = {
     'STAT282': 'STAT383'
 }
 
+# Checks if 9th semester only has free electives
+def valid_Schedule(schedule):
+    if len(schedule[9]) == 0:
+        return True
+    else:
+        for course in schedule[9]:
+            if course not in free['courses']:
+                return False
+    return True
+
 #this function checks for equivialance of 2 classes like how MA131 would satisfy MA180/181 then returns higher level class
-def check_equivilance(course1, course2):
-    #this function checks covered to see if they are equivilant
+def check_equivalance(course1, course2):
+    #this function checks covered to see if they are equivalent
     if course1 in covered:
         if covered[course1] == course2:
             return True
@@ -398,7 +408,7 @@ def check_equivilance(course1, course2):
             return True
     return False
 
-#checks if a prereq is already counted by a cource that is seen as equivilant
+#checks if a prereq is already counted by a course that is seen as equivalent
 def already_counted(course, schedule):
     for sem in schedule:
         if covered[course] in schedule[sem]:
@@ -410,7 +420,7 @@ def taken(course, schedule, semester):
         if x == semester:
             break
         for y in schedule[x]: #loop through each course
-            if y == course or check_equivilance(y, course): #return true if course is there
+            if y == course or check_equivalance(y, course): #return true if course is there
                 return True
     return False #return false if course never found
 
@@ -445,22 +455,38 @@ def add_course_in_group(sem, group, cap, group_cap, schedule):
                     break
 
 #this function takes a schedule, groups, and the schedule code and creates a full 8 semester schedule
-def forecast(maj1, maj2, min1, min2):
-    schedule = {
-        1: ["UNIV190", "FY100"],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-    } 
+def forecast(maj1, maj2, min1, min2, currentSem, coursesTaken):
+    if currentSem == 0:
+        schedule = {
+            0: [],
+            1: ["UNIV190", "FY100"],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+            7: [],
+            8: [],
+            9: [],
+        }
+    else:
+        schedule = {
+            0: coursesTaken,    # EXAMPLE: coursesTaken = ["UNIV190", "FY100", "CM131", "MA131", "CS141"]
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+            7: [],
+            8: [],
+            9: [],
+        }
 
     groups = create_group_list(maj1, maj2, min1, min2)
     code = gen_code(maj1, maj2, min1, min2)
 
-    for x in schedule: #go through each semster
+    for x in range(currentSem+1, len(schedule)): #go through each semster
         for y in groups: #go through each group of classes
             match code:
                 case 'cs_0_0_0':
@@ -490,6 +516,9 @@ def forecast(maj1, maj2, min1, min2):
                     exit() 
 
             cap_count = 0 #intially set cap_count = 0 for each group
-            add_course_in_group(x, y['courses'], cap_count, y['cap'], schedule) #gooes through all courses in the group to see what to add
+            add_course_in_group(x, y['courses'], cap_count, y['cap'], schedule) #goes through all courses in the group to see what to add
 
-    return schedule
+    if valid_Schedule(schedule):
+        return schedule
+    else:
+        pass    # 9th semester has a required course
