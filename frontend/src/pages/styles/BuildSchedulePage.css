@@ -18,7 +18,9 @@
     box-sizing: border-box;
     border-radius: 3%;
 }
-
+.borderless{
+    border: none;
+}
 .buildFormHeader{
     font-family: 'Karla', sans-serif;
     font-size: 24px;

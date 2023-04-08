@@ -1,7 +1,12 @@
 //This is the code for our Schedule Building Page
 import AuthContext from '../context/AuthContext';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './styles/BuildSchedulePage.css'
+import './styles/BuildSchedulePage.css'
+import StaticData from '../context/StaticData';
+import Select from 'react-select';
+import { Button, createTheme, ThemeProvider, styled} from '@mui/material';
+import jwt_decode from 'jwt-decode';
 let firstMajor;
 let secondMajor;
 let firstMinor;
@@ -163,14 +168,69 @@ const StudBuild = () => {
 }
 
 //build schedule page for advisors
-const AdvBuild = () => {
-    return (
-    <div>
-        <h1 className='scheduleBuildGreeter'>This is the advisor schedule builder</h1>
-        <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
-    </div>
-    )
-}
+const AdvBuild = ({user}) => {
+        let { advisor_connections } = useContext(StaticData)
+        let [ viewing, setViewing ] = useState(false)
+        let [curStud, setCurStud] = useState('')
+        let [selectedStud, setSelectedStud] = useState('')
+    
+        //let curStud = jwt_decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NzU5MTIwLCJpYXQiOjE2NzgxMTkxMjAsImp0aSI6IjMwODJhN2UzMTY2YTQwOThhZTFhYWU0Yzk2ZDFhNTc4IiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJzdHVkZW50MSIsImdyb3VwIjoic3R1ZGVudCJ9.pwTUiT6DLribnJ8ESFzo7dvF9MlVLxiv_F-22r5ENQo')
+    
+        let students = []
+        for(let i = 0; i < advisor_connections.length; i++){
+            if(advisor_connections[i].adv === user.username){
+                students.push(advisor_connections[i])
+            }
+        }
+    
+        let getStudent = async () => {
+            let response = await fetch('http://127.0.0.1:8000/api/token/', {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({'username': selectedStud, 'password':'majorizer'})
+            })
+            let data = await response.json()
+    
+            if(response.status === 200){ //if response is all good
+                setCurStud(jwt_decode(data.access))
+                setViewing(true)
+            }else{alert('Something went wrong')}
+        }
+    
+        let studSelect = async (selected) => {
+            setSelectedStud(selected.stud)
+        }
+    
+        let goBack = () => {
+            setViewing(false)
+            setCurStud('')
+            setSelectedStud('')
+        }
+    
+        let select = () =>{
+            getStudent()
+        }
+    
+        return (
+        <div>
+        <h1>Welcome to the Advisor Schedule Builder</h1>
+        {viewing ?
+            <div>
+                <h3><i>Currently Building for Student: {curStud.username}</i></h3>
+                <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
+            </div> :
+            <div>
+                <h2> Please select a student below</h2>
+                <Select name='studselect' id ='schedule-select' className="basic-single"  classNamePrefix="select" options={students} onChange={studSelect}/>
+                <Button onClick={select}>Select</Button>
+            </div>}
+        {/*<ScheduleForm id = 'advschedule'></ScheduleForm>*/}
+        </div>
+        )
+    }
+
 
 //overall build schedule, put common components here
 const BuildSchedulePage = () => {
@@ -180,7 +240,7 @@ const BuildSchedulePage = () => {
         <div>
             {/*checks if user or advisor then renders correct one*/}
             {user.group === 'student' ?  <StudBuild /> :
-             user.group === 'advisor' ? <AdvBuild /> :
+             user.group === 'advisor' ? <AdvBuild user = {user}/> :
              <p>I am not sure who you are!</p>}
         </div>
     )
