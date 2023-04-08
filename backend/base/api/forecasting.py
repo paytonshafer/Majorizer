@@ -116,7 +116,7 @@ infotech = {
     'CS471': {'prereq': ['CS241'], 'sem_min': 6}, #sys admin
     'CS459': {'prereq': ['CS242'], 'sem_min': 6}, #h-c interaction
     'CS455': {'prereq': ['CS241'], 'sem_min': 6}, #networks
-    'CS457': {'prereq': ['CS455'], 'sem_min': 6}  #net-sec
+    'CS457': {'prereq': ['CS241'], 'sem_min': 6}  #net-sec
 }
 ai = {
     'CS451': {'prereq': ['CS344'], 'sem_min': 6}, #ai
@@ -181,7 +181,7 @@ py_science = {
 }
 
 #psycology major electives
-psych_elecs1 = ['PY311', 'PY319', 'PY286', 'PY315']
+psych_elecs1 = ['PY311', 'PY319', 'PY286', 'PY370']
 psych_elecs2 = ['PY370', 'PY363',  'PY340', 'PY372']
 psych_elecs3 = ['PY464', 'PY462', 'PY463', 'PY361']
 #grab 3 rand elects, look to see if some go w other so we can do paths like for cs elecs
@@ -455,51 +455,39 @@ def add_course_in_group(sem, group, cap, group_cap, schedule):
                     break
 
 #this function takes a schedule, groups, and the schedule code and creates a full 8 semester schedule
-def forecast(maj1, maj2, min1, min2, currentSem, coursesTaken):
-    if currentSem == 0:
-        schedule = {
-            0: [],
-            1: ["UNIV190", "FY100"],
-            2: [],
-            3: [],
-            4: [],
-            5: [],
-            6: [],
-            7: [],
-            8: [],
-            9: [],
-        }
-    else:
-        schedule = {
-            0: coursesTaken,    # EXAMPLE: coursesTaken = ["UNIV190", "FY100", "CM131", "MA131", "CS141"]
-            1: [],
-            2: [],
-            3: [],
-            4: [],
-            5: [],
-            6: [],
-            7: [],
-            8: [],
-            9: [],
-        }
+def forecast(maj1, maj2, min1, min2, coursesTaken):
+    schedule = {
+        0: coursesTaken,
+        1: ["UNIV190", "FY100"],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+    }
+
 
     groups = create_group_list(maj1, maj2, min1, min2)
     code = gen_code(maj1, maj2, min1, min2)
 
-    for x in range(currentSem+1, len(schedule)): #go through each semster
+    for x in range(1, len(schedule)): #go through each semster
         for y in groups: #go through each group of classes
             match code:
                 case 'cs_0_0_0':
-                    if x == 7: #make this visible for cs major, sets proper number of free elecs
-                        groups[5]['cap'] = 4
+                    if x == 5: #make this visible for cs major, sets proper number of free elecs
+                        groups[5]['cap'] = 5
                 case 'cs_0_ma_0':
                     if x == 7: #make this visible for cs major with math minor, sets proper number of free elecs
                         groups[5]['cap'] = 5
                 case 'cs_0_lit_0':
                     if x == 7: #make this visible for cs major with lit minor, sets proper number of free elecs
                         groups[6]['cap'] = 4
+                        groups[5]['cap'] = 2
                 case 'py_0_0_0':
-                    if x == 6: #make this visible for py major or w ma minor, sets proper number of free elecs
+                    if x == 5: #make this visible for py major or w ma minor, sets proper number of free elecs
                         groups[5]['cap'] = 5 #sets cap of 5 free elects per sem after semester 6 
                 case 'py_0_ma_0':
                     if x == 6: #make this visible for py major or w ma minor, sets proper number of free elecs
@@ -507,7 +495,27 @@ def forecast(maj1, maj2, min1, min2, currentSem, coursesTaken):
                 case 'py_0_lit_0':
                     if x == 6: #make this visible for py major with lit minor, sets proper number of free elecs
                         groups[6]['cap'] = 5
+                case 'py_0_ma_lit':
+                    if x == 6: #make this visible for py major with lit minor, sets proper number of free elecs
+                        groups[6]['cap'] = 5
                 case 'cs_py_0_0':
+                    if x == 7: #make this visible for cs py double major
+                        groups[6]['cap'] = 5
+                        groups[4]['cap'] = 5
+                        groups[5]['cap'] = 5
+                case 'py_cs_0_0':
+                    if x == 7: #make this visible for cs py double major
+                        groups[6]['cap'] = 5
+                        groups[4]['cap'] = 5
+                case 'cs_py_lit_0':
+                    if x == 7: #make this visible for cs py double major
+                        groups[6]['cap'] = 5
+                        groups[4]['cap'] = 5
+                case 'cs_py_ma_0':
+                    if x == 7: #make this visible for cs py double major
+                        groups[6]['cap'] = 5
+                        groups[4]['cap'] = 5
+                case 'py_cs_ma_0':
                     if x == 7: #make this visible for cs py double major
                         groups[6]['cap'] = 5
                         groups[4]['cap'] = 5
@@ -519,6 +527,8 @@ def forecast(maj1, maj2, min1, min2, currentSem, coursesTaken):
             add_course_in_group(x, y['courses'], cap_count, y['cap'], schedule) #goes through all courses in the group to see what to add
 
     if valid_Schedule(schedule):
+        schedule = {key:val for key, val in schedule.items() if key != 9} #remove 9th sem
         return schedule
     else:
-        pass    # 9th semester has a required course
+        print(schedule)
+        return 'FAILED'

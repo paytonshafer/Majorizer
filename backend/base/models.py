@@ -99,6 +99,7 @@ class Schedule(models.Model):
     major2 = models.TextField(blank=True, default='None') 
     minor1 = models.TextField(blank=True, default='None')
     minor2 = models.TextField(blank=True, default='None')
+    semester0 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester0')
     semester1 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester1')
     semester2 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester2')
     semester3 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester3')
@@ -107,8 +108,7 @@ class Schedule(models.Model):
     semester6 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester6')
     semester7 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester7')
     semester8 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester8')
-    semester9 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester9')
-    semester10 = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True, related_name='semester10')
+
 
     def clean(self):
         if self.major1 == self.major2:
