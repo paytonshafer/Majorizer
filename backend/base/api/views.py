@@ -34,7 +34,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def getRoutes(request):
     routes = [
         '/api/advstudconn',
-        '/api/advstudconn/<int:stud_id>',
+        '/api/studconn/<int:stud_id>',
+        '/api/advconn/<int:adv_id>',
         '/api/token',
         '/api/token/refresh',
         '/api/student',
@@ -47,22 +48,28 @@ def getRoutes(request):
 
 
 #this view will be for the admin to manage connections and for the advisor to get all of their students
-class AdvStudConnListApiView(APIView):
+class AdvStudConnAdminApiView(APIView):
     def get(self, request):
         connections = AdvStudConn.objects.all()
         serializer = AdvStudConnSerializer(connections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 #this will be for a student to get their advisor, need to add check for if user not in dataset
-class AdvStudConnDetailApiView(APIView):
+class AdvStudConnStudentApiView(APIView):
     def get(self, request, stud_id):
-        connection = AdvStudConn.objects.get(student = stud_id)
+        connection = AdvStudConn.objects.get(student = Student.objects.get(student = stud_id))
         serializer = AdvStudConnSerializer(connection)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class AdvStudConnAdvisorApiView(APIView):
+    def get(self, request, adv_id):
+        connection = AdvStudConn.objects.filter(advisor = adv_id)
+        serializer = AdvStudConnSerializer(connection, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-class StudentListApiView(APIView):
-    def get(self, request):
-        studentData = Student.objects.all()
+class StudentDetailApiView(APIView):
+    def get(self, request, stud_id):
+        studentData = Student.objects.filter(student = stud_id)
         serializer = StudentSerializer(studentData, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -91,6 +98,12 @@ class RequestListApiView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class RequestDetailApiView(APIView):
+    def get(self, request, adv_id):
+        stud_requests = Request.objects.filter(adv_stud = AdvStudConn.objects.get(advisor = adv_id))
+        serializer = RequestSerializer(stud_requests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 '''
 {
 "student": 1,
@@ -118,8 +131,6 @@ class ScheduleListApiView(APIView):
         #if the schedule failed(went over 8 semesters) or the input is not valid, return 406
         if schedule == 'FAILED' or schedule == 'You have an invalid code':
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
-        
-        print(schedule)
 
         data = {
             'student': request.data.get('student'),
@@ -198,7 +209,7 @@ class ScheduleListApiView(APIView):
         return Response(sched_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ScheduleDetailApiView(APIView):
-    def get(self, request, sched_id):
-        connection = Schedule.objects.get(id = sched_id)
-        serializer = ScheduleSerializer(connection)
+    def get(self, request, stud_id):
+        schedules = Schedule.objects.filter(student = stud_id)
+        serializer = ScheduleSerializer(schedules, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

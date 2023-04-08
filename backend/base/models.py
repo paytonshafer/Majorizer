@@ -25,19 +25,7 @@ class MajorOrMinor(models.Model):
 
     def __str__(self):
         return self.name
-
-class AdvStudConn(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='student')
-    advisor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='advisor')
-
-    def clean(self):
-        if str(self.student.groups.all()[0]) == 'advisor' or str(self.advisor.groups.all()[0]) == 'student':
-            raise ValidationError('Please only choose students for student and advisors for advisor')
-
-    def __str__(self):
-        return self.student.username + ' - ' + self.advisor.username
-
-
+    
 class Student(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='studentsMajors')
     major1 = models.ForeignKey(MajorOrMinor, on_delete=models.CASCADE, null=True, related_name='major1', validators =[validate_major])
@@ -49,11 +37,26 @@ class Student(models.Model):
         if self.major1 == self.major2:
             raise ValidationError('Please choose two different majors')
         
-        if self.minor1 == self.minor2:
-            raise ValidationError('Please choose two different minors')
+        if not(self.minor1 == None and self.minor2 == None):
+            if self.minor1 == self.minor2:
+                raise ValidationError('Please choose two different minors')
 
     def __str__(self):
-        return self.student
+        return self.student.username
+
+class AdvStudConn(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    advisor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='advisor')
+
+    def clean(self):
+        if str(self.student.student.groups.all()[0]) == 'advisor' or str(self.advisor.groups.all()[0]) == 'student':
+            raise ValidationError('Please only choose students for student and advisors for advisor')
+
+    def __str__(self):
+        return self.student.student.username + ' - ' + self.advisor.username
+
+
+
     
 class Request(models.Model):
     adv_stud = models.ForeignKey(AdvStudConn, on_delete=models.CASCADE, null=True)
