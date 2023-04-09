@@ -10,105 +10,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
+import { Button, createTheme, ThemeProvider, styled} from '@mui/material';
 import jwt_decode from 'jwt-decode';
-/*
-//student view schedule page
-window.$mwf1='CS141';
-window.$mwf2='MA131';
-window.$mwf3='';
-window.$tt1= 'PY151';
-window.$tt2= '';
-window.$tt3 = "PY153";
-class ScheduleForm extends React.Component
-{
-    constructor(props){
-        super(props);
-        this.state = {value: 'Schedule 1'}
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        }
-        handleChange(event){
-            this.setState({value: event.target.value});
-        }
-        handleSubmit(event){
-            if (this.state.value === 'S1') {
-                window.$mwf1='CS141';
-                window.$mwf2='MA131';
-                window.$mwf3='';
-                window.$tt1= 'PY151';
-                window.$tt2= '';
-                window.$tt3 = "PY153";
-            }
-            if (this.state.value === 'S2') {
-                window.$mwf1 = 'CS241';
-                window.$mwf2 = '';
-                window.$mwf3='MA132';
-                window.$tt1 = 'PY153';
-                window.$tt2 = 'PY155';
-                window.$tt3 = "CS242";
-            }
-            this.setState({value: event.target.value});
-            
-            event.preventDefault();
-        }
-
-        render(){return(
-                <div>
-                <form onSubmit={this.handleSubmit}>
-                <label>
-                  <h2>Choose a schedule:</h2>
-                  <select id = 'selection' value={this.state.value} onChange={this.handleChange}>
-                    <option value="S1">Schedule 1</option>
-                    <option value="S2">Schedule 2</option>
-                    <option value="S3">Schedule 3</option>
-                    <option value="S4">Schedule 4</option>
-                    <option value="S5">Schedule 5</option>
-                    <option value="S6">Schedule 6</option>
-                    <option value="S7">Schedule 7</option>
-                    <option value="S8">Schedule 8</option>
-                  </select>
-                </label>
-                <input id='selectbutton' type="submit" value="Select" />
-              </form>
-              <table className='schedule'>
-                    <tbody>
-                    <tr>
-                        <th>Mon</th>
-                        <th>Tues</th>
-                        <th>Wed</th>
-                        <th>Thurs</th>
-                        <th>Fri</th>
-                    </tr>
-                    <tr>
-                        <td>{window.$mwf1}</td>b
-                        <td>{window.$tt1}</td>
-                        <td>{window.$mwf1}</td>
-                        <td>{window.$tt1}</td>
-                        <td>{window.$mwf1}</td>
-                    </tr>
-                    <tr>
-                        <td>{window.$mwf2}</td>
-                        <td>{window.$tt2}</td>
-                        <td>{window.$mwf2}</td>
-                        <td>{window.$tt2}</td>
-                        <td>{window.$mwf2}</td>
-                    </tr>
-                    <tr>
-                        <td>{window.$mwf3}</td>
-                        <td>{window.$tt3}</td>
-                        <td>{window.$mwf3}</td>
-                        <td>{window.$tt3}</td>
-                        <td>{window.$mwf3}</td>
-                    </tr>
-                    </tbody>
-                </table>
-   
-              </div>
-            );
-        }
-    }
-*/
 
 const MySchedule = ({ student }) => {
     let { students } = useContext(StaticData)
@@ -119,20 +22,29 @@ const MySchedule = ({ student }) => {
     let [semNum, setSemNum] = useState(0)
     let [curSem, setCurSem] = useState(curSchedule.schedule[semNum])
 
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        
+          backgroundColor: '#004e42',
+          color: theme.palette.common.white,
+          fontSize: 14,
+        
+      }));
+      
     const RenderSchedule = () => {
         return (
-
+            
         <div>
+            <ThemeProvider theme={theme}>
             <TableContainer component={Paper}>
                 {/*<Table sx={{ minWidth: 650 }} aria-label="simple table">*/}
                 <Table>
                     <TableHead>
                     <TableRow>
-                        <TableCell>Course ID</TableCell>
-                        <TableCell align="right">Course Name</TableCell>
-                        <TableCell align="right">Course Desc</TableCell>
-                        <TableCell align="right">Professor</TableCell>
-                        <TableCell align="right">Days of Week</TableCell>
+                        <StyledTableCell>Course ID</StyledTableCell>
+                        <StyledTableCell align="right">Course Name</StyledTableCell>
+                        <StyledTableCell align="right">Course Desc</StyledTableCell>
+                        <StyledTableCell align="right">Professor</StyledTableCell>
+                        <StyledTableCell align="right">Days of Week</StyledTableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -140,9 +52,9 @@ const MySchedule = ({ student }) => {
                         <TableRow
                             key={row.id}
                         >
-                        <TableCell component="th" scope="row">
+                        <StyledTableCell component="th" scope="row">
                             {row.id}
-                        </TableCell>
+                        </StyledTableCell>
                         <TableCell align="left">{row.name}</TableCell>
                         <TableCell align="left">{row.desc}</TableCell>
                         <TableCell align="left">{row.professor}</TableCell>
@@ -152,6 +64,7 @@ const MySchedule = ({ student }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </ThemeProvider>
         </div>
         )
     }
@@ -180,25 +93,58 @@ const MySchedule = ({ student }) => {
         setSemNum(0)
         setCurSem(curSchedule.schedule[semNum])
     }
-
+    const updateTab = (num) => {
+        setSemNum(num);
+        setCurSem(curSchedule.schedule[num]);
+    }
     const scheduleChange = useCallback(async (selected) => {
         setCurSchedule(selected)
     }, [setCurSchedule])
 
     useEffect( () => {componentDidUpdate()})
 
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#004e42'
+            }
+        },
+        typography: {
+            fontFamily:  'Karla, sans-serif',
+        }
+    });
+    const LRButton = styled(Button)({
+        boxShadow: 'none',
+        fontSize: 24,
+    })
+    const StyledSelect = styled(Select)({
+        
+    })
     return (
         <div>
+            <ThemeProvider theme={theme}>
             <div className='sched-select'>
-                <Select id ='schedule-select' className="basic-single" classNamePrefix="select" defaultValue={curSchedule} options={schedules} onChange={scheduleChange} autoFocus={true}/>
+                <Select id ='schedule-select' className="basic-single" classNamePrefix="select" defaultValue={curSchedule} options={schedules} onChange={scheduleChange} />
             </div>
-            <Button onMouseDown={newSched}>GO</Button>
+            <Button onMouseDown={newSched} variant = 'contained'>GO</Button>
             <div className='sem-select'>
-                <Button onMouseDown={lastSem}>Left</Button>
+                <br/>
                 <h4>Semester {semNum+1}</h4>
-                <Button onMouseDown={nextSem}>Right</Button>
+                <br/>
+                <div className='tabs'>
+                <button onClick={() => updateTab(0)}>1</button>
+                <button onClick={() => updateTab(1)}>2</button>
+                <button onClick={() => updateTab(2)}>3</button>
+                <button onClick={() => updateTab(3)}>4</button>
+                <button onClick={() => updateTab(4)}>5</button>
+                <button onClick={() => updateTab(5)}>6</button>
+                <button onClick={() => updateTab(6)}>7</button>
+                <button onClick={() => updateTab(7)}>8</button>
+                </div>
+                <br/>
             </div>
             <RenderSchedule></RenderSchedule>
+            </ThemeProvider>
         </div>
     )
 }

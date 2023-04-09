@@ -1,7 +1,12 @@
 //This is the code for our Schedule Building Page
 import AuthContext from '../context/AuthContext';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './styles/BuildSchedulePage.css'
+import './styles/BuildSchedulePage.css'
+import StaticData from '../context/StaticData';
+import Select from 'react-select';
+import { Button, createTheme, ThemeProvider, styled} from '@mui/material';
+import jwt_decode from 'jwt-decode';
 let firstMajor;
 let secondMajor;
 let firstMinor;
@@ -21,7 +26,8 @@ class ConstructSchedulePt1 extends React.Component
             major2: 'NA',
             minor1: 'NA',
             minor2: 'NA',
-            previousCourses: ''
+            previousCourses: '',
+            scheduleName: 'Schedule 1',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -75,13 +81,22 @@ class ConstructSchedulePt1 extends React.Component
             if (this.state.minor1 === 'NA') {
                 secondMinor = none;
             }
-
-            alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value}))
-
-            event.target.textInputBox.value = ''
-            
+            if (((this.state.major1 === this.state.major2) && (this.state.major1 != 'NA')) ||
+                ((this.state.minor1 === this.state.minor2) && (this.state.minor1 != 'NA')) ||
+                ((this.state.major1 === this.state.minor1) && (this.state.major1 != 'NA')) ||
+                ((this.state.major2 === this.state.minor1) && (this.state.major2 != 'NA')) ||
+                ((this.state.major1 === this.state.minor2) && (this.state.major1 != 'NA')) ||
+                ((this.state.major2 === this.state.minor2) && (this.state.major2 != 'NA'))
+                )
+                {
+                    alert("Invalid major/minor pairings. Multiple of the same selection were made.");
+                }
+                else {
+            alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value, 'scheduleName': event.target.textInputBox2.value}))
+                }
         }
     render(){return(
+        <div className='borderbox'>
         <form onSubmit={this.handleSubmit}>
             <label>
             <h2 className='buildFormHeader'>Major and Minor Selection(s):</h2>
@@ -122,10 +137,15 @@ class ConstructSchedulePt1 extends React.Component
             <p className='subInstruction'>If you have not taken any courses at Clarkson please leave the box empty</p>
             <label>
             <input id='textInputBox' type="text" name='previousCourses' value={this.state.previousCourses} onChange={this.handleChange}/>
+            </label><br/>
+            <h2 className='buildFormHeader'>Name Schedule:</h2><br/>
+            <label>
+            <input id='textInputBox2' type="text" name='scheduleName' value={this.state.scheduleName} onChange={this.handleChange}/><br/>
             </label>
             <p></p>
             <input id='submit' type='submit' value='Submit'/>
         </form>
+        </div>
             );
         }
 }
@@ -148,14 +168,69 @@ const StudBuild = () => {
 }
 
 //build schedule page for advisors
-const AdvBuild = () => {
-    return (
-    <div>
-        <h1 className='scheduleBuildGreeter'>This is the advisor schedule builder</h1>
-        <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
-    </div>
-    )
-}
+const AdvBuild = ({user}) => {
+        let { advisor_connections } = useContext(StaticData)
+        let [ viewing, setViewing ] = useState(false)
+        let [curStud, setCurStud] = useState('')
+        let [selectedStud, setSelectedStud] = useState('')
+    
+        //let curStud = jwt_decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NzU5MTIwLCJpYXQiOjE2NzgxMTkxMjAsImp0aSI6IjMwODJhN2UzMTY2YTQwOThhZTFhYWU0Yzk2ZDFhNTc4IiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJzdHVkZW50MSIsImdyb3VwIjoic3R1ZGVudCJ9.pwTUiT6DLribnJ8ESFzo7dvF9MlVLxiv_F-22r5ENQo')
+    
+        let students = []
+        for(let i = 0; i < advisor_connections.length; i++){
+            if(advisor_connections[i].adv === user.username){
+                students.push(advisor_connections[i])
+            }
+        }
+    
+        let getStudent = async () => {
+            let response = await fetch('http://127.0.0.1:8000/api/token/', {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({'username': selectedStud, 'password':'majorizer'})
+            })
+            let data = await response.json()
+    
+            if(response.status === 200){ //if response is all good
+                setCurStud(jwt_decode(data.access))
+                setViewing(true)
+            }else{alert('Something went wrong')}
+        }
+    
+        let studSelect = async (selected) => {
+            setSelectedStud(selected.stud)
+        }
+    
+        let goBack = () => {
+            setViewing(false)
+            setCurStud('')
+            setSelectedStud('')
+        }
+    
+        let select = () =>{
+            getStudent()
+        }
+    
+        return (
+        <div>
+        <h1>Welcome to the Advisor Schedule Builder</h1>
+        {viewing ?
+            <div>
+                <h3><i>Currently Building for Student: {curStud.username}</i></h3>
+                <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
+            </div> :
+            <div>
+                <h2> Please select a student below</h2>
+                <Select name='studselect' id ='schedule-select' className="basic-single"  classNamePrefix="select" options={students} onChange={studSelect}/>
+                <Button onClick={select}>Select</Button>
+            </div>}
+        {/*<ScheduleForm id = 'advschedule'></ScheduleForm>*/}
+        </div>
+        )
+    }
+
 
 //overall build schedule, put common components here
 const BuildSchedulePage = () => {
@@ -165,7 +240,7 @@ const BuildSchedulePage = () => {
         <div>
             {/*checks if user or advisor then renders correct one*/}
             {user.group === 'student' ?  <StudBuild /> :
-             user.group === 'advisor' ? <AdvBuild /> :
+             user.group === 'advisor' ? <AdvBuild user = {user}/> :
              <p>I am not sure who you are!</p>}
         </div>
     )

@@ -6,7 +6,7 @@ const ViewRequestPage = () => {
 
     function removeRequest(){
         document.getElementById("requestform").style.display = "none";
-        document.getElementById("badge1").style.display = "none";
+        document.getElementById("icon").style.display = "none";
     }
     
     function handleSubmit(e){
@@ -25,8 +25,7 @@ const ViewRequestPage = () => {
         <div>
             <h1>Current Requests</h1>
             <div className='positionbox'>
-            <img className='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
-            <span className='badge' id='badge1'></span>
+            <img className='icon' id='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
             </div>
             <div className='fields' id='requestform'>
                 <p id='stud' className='header'>student1</p>

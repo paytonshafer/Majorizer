@@ -18,10 +18,23 @@
     box-sizing: border-box;
     border-radius: 3%;
 }
-
+.borderless{
+    border: none;
+}
 .buildFormHeader{
     font-family: 'Karla', sans-serif;
     font-size: 24px;
+    width: 50%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border: 1px solid #fac922;
+    background-color: #004e42;
+    color: white;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 3%;
+}
+.borderbox {
     width: 50%;
     padding: 10px 15px;
     margin: 8px 0;
@@ -33,9 +46,11 @@
     border-radius: 3%;
 }
 
-
 #textInputBox{
-    width: 20%
+    width: 20%;
+}
+#textInputBox2{
+     width: 20%;
 }
 
 #submit{
