@@ -93,7 +93,10 @@ const MySchedule = ({ student }) => {
         setSemNum(0)
         setCurSem(curSchedule.schedule[semNum])
     }
-
+    const updateTab = (num) => {
+        setSemNum(num);
+        setCurSem(curSchedule.schedule[num]);
+    }
     const scheduleChange = useCallback(async (selected) => {
         setCurSchedule(selected)
     }, [setCurSchedule])
@@ -125,10 +128,20 @@ const MySchedule = ({ student }) => {
             </div>
             <Button onMouseDown={newSched} variant = 'contained'>GO</Button>
             <div className='sem-select'>
-                <LRButton size= 'small' color ='primary' variant='text' onMouseDown={lastSem}>
-                ←</LRButton>
+                <br/>
                 <h4>Semester {semNum+1}</h4>
-                <LRButton size= 'small' variant='text' onMouseDown={nextSem}>→</LRButton>
+                <br/>
+                <div className='tabs'>
+                <button onClick={() => updateTab(0)}>1</button>
+                <button onClick={() => updateTab(1)}>2</button>
+                <button onClick={() => updateTab(2)}>3</button>
+                <button onClick={() => updateTab(3)}>4</button>
+                <button onClick={() => updateTab(4)}>5</button>
+                <button onClick={() => updateTab(5)}>6</button>
+                <button onClick={() => updateTab(6)}>7</button>
+                <button onClick={() => updateTab(7)}>8</button>
+                </div>
+                <br/>
             </div>
             <RenderSchedule></RenderSchedule>
             </ThemeProvider>

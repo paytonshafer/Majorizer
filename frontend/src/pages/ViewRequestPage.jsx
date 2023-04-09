@@ -2,9 +2,16 @@
 import React,{useState} from 'react'
 import './styles/ViewRequestPage.css'
 
-function Request({studentName, courses}){
+const ViewRequestPage = () => {
     const[isVisible, setIsVisible] = useState(true)
     const[classes, setClasses] = useState(["CS 241", "CS 141", "PY 253", "CS 142", "PY 151"])
+  
+  
+    function removeRequest(){
+        document.getElementById("requestform").style.display = "none";
+        document.getElementById("icon").style.display = "none";
+    }
+
     function handleSubmit(e){
         if(window.confirm("Are you sure?")){
             setIsVisible(false);
@@ -18,10 +25,9 @@ function Request({studentName, courses}){
 function BuildPage(){
     return(
         <div>
-    <div className='positionbox'>
-        <div classname = 'mailicon'>
-            <img className='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
-            <span className='badge' id='badge1'></span>
+            <h1>Current Requests</h1>
+            <div className='positionbox'>
+            <img className='icon' id='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
             </div>
             </div>
             <div className='fields' id='requestform'>

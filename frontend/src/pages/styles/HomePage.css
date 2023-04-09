@@ -12,53 +12,66 @@
     padding: 10px 15px;
     margin: 8px 0;
     border-color: #3e7643;
-    border: 1px solid #e7b100;
-    background-color: #ffc400;
+    background-color: #004e42;
+    color: white;
     display: inline-block;
     box-sizing: border-box;
     border-radius: 3%;
 }
-
+.logo{
+    width: 200px;
+    height: auto;
+    
+}
 .activeRequestField {
     font-family: 'Karla', sans-serif;
     font-size: 24px;
     width: 50%;
     padding: 10px 15px;
     margin: 8px 0;
-    border-color: #3e7643;
-    border: 1px solid #fac922;
-    background-color: #fad763;
     display: inline-block;
     box-sizing: border-box;
     border-radius: 3%;
+
+    animation: blinker 1.25s linear infinite;
+}
+
+@keyframes blinker{
+    50% {
+        opacity: 0;
+    }
 }
 
 .studentList {
-    border: 1px solid #fac922;
     background-color: #fad763;
 }
 
 .studentListHeader {
     font-family: 'Karla', sans-serif;
-    font-size: 24px;
+    font-size: 45px;
 }
 
 .studentName {
-    font-size: 18px;
+    font-size: 24px;
 }
-
+.studMajorAndYear{
+    font-size: 14px;
+    font-style: italic;
+}
 .scheduleSemester {
     font-family: 'Karla', sans-serif;
     font-size: 24px;
 }
-
+.schedule{
+    width: 100%;
+    height: 100px;
+}
 
 .borderbox {
     width: 50%;
     padding: 10px 15px;
     margin: 8px 0;
     border-color: #3e7643;
-    border: 1px solid #fac922;
     background-color: #fad763;
     display: inline-block;
     box-sizing: border-box;

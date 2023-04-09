@@ -44,6 +44,10 @@ nav{
     display: flex;
     align-items: center;
 }
+.majorizer{
+    width: 10%;
+    height: auto;
+}
 /*
 @media only screen and (max-width: 1024px){
     header .nav-btn {
