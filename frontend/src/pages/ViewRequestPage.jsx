@@ -1,17 +1,20 @@
 //This is the page where a advisor can see student request and aprove/deny them and leave a comment
-import React from 'react'
+import React,{useState} from 'react'
 import './styles/ViewRequestPage.css'
 
 const ViewRequestPage = () => {
-
+    const[isVisible, setIsVisible] = useState(true)
+    const[classes, setClasses] = useState(["CS 241", "CS 141", "PY 253", "CS 142", "PY 151"])
+  
+  
     function removeRequest(){
         document.getElementById("requestform").style.display = "none";
         document.getElementById("icon").style.display = "none";
     }
-    
+
     function handleSubmit(e){
         if(window.confirm("Are you sure?")){
-            removeRequest();
+            setIsVisible(false);
             if(e.target.name === 'approve'){
                 alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
             }else {
@@ -19,16 +22,16 @@ const ViewRequestPage = () => {
             }
         }
     }
-
-    //Currently schedule table data is hardcoded, later we should use data linked to user to fill this in
-    return (
+function BuildPage(){
+    return(
         <div>
             <h1>Current Requests</h1>
             <div className='positionbox'>
             <img className='icon' id='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
             </div>
+            </div>
             <div className='fields' id='requestform'>
-                <p id='stud' className='header'>student1</p>
+                <p id='stud' className='header'>{studentName}</p>
                 <table className='courses'>
                     <tbody>
                         <tr>
@@ -36,16 +39,16 @@ const ViewRequestPage = () => {
                             <th>Already Taken:</th>
                         </tr>
                         <tr>
-                            <td>CS 241</td>
-                            <td>CS 141</td>
+                            <td>{classes[0]}</td>
+                            <td>{classes[1]}</td>
                         </tr>
                         <tr>
-                            <td>PY 253</td>
-                            <td>CS 142</td>
+                            <td>{classes[2]}</td>
+                            <td>{classes[3]}</td>
                         </tr>
                         <tr>
-                            <td>PY 255</td>
-                            <td>PY 151</td>
+                            <td>{classes[4]}</td>
+                            <td>{classes[5]}</td>
                         </tr>
                     </tbody>
                     
@@ -59,6 +62,21 @@ const ViewRequestPage = () => {
                 <button className='approvedeny' name='approve' onClick={(e) => handleSubmit(e)}>Approve</button>
                 <button className='approvedeny' name='deny' onClick={(e) => handleSubmit(e)}>Deny</button>
             </div>
+            </div>
+    )
+}
+
+    return(
+        <div>
+            {isVisible ? <BuildPage/> : null}
+        </div>
+    );
+}
+const ViewRequestPage = () => {
+    //Currently schedule table data is hardcoded, later we should use data linked to user to fill this in
+    return (
+        <div>
+            <Request/>
         </div>
     )
 }
