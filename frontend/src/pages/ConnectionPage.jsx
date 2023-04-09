@@ -77,10 +77,10 @@ class PairingForm extends React.Component{
 
 const ConnectionPage = () => {
     let {user} = useContext(AuthContext);
-    function removeConnection(){
+    /*function removeConnection(){
         document.getElementById("connection-1").style.display = "none";
         
-    }
+    }*/
     return (
         <div>
             <div className='borderbox-2'>

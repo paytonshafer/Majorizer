@@ -75,7 +75,7 @@ const MySchedule = ({ student }) => {
         } catch (err) {}
     }
 
-    const lastSem = useCallback(async () => {
+    /*const lastSem = useCallback(async () => {
         if(semNum > 0){
             setSemNum(semNum - 1)
             setCurSem(curSchedule.schedule[semNum-1])  
@@ -87,7 +87,7 @@ const MySchedule = ({ student }) => {
             setSemNum(semNum + 1)
             setCurSem(curSchedule.schedule[semNum+1])
         }
-    },[semNum, curSchedule])
+    },[semNum, curSchedule])*/
 
     const newSched = () => {
         setSemNum(0)
@@ -113,13 +113,14 @@ const MySchedule = ({ student }) => {
             fontFamily:  'Karla, sans-serif',
         }
     });
+    /*
     const LRButton = styled(Button)({
         boxShadow: 'none',
         fontSize: 24,
     })
     const StyledSelect = styled(Select)({
         
-    })
+    })*/
     return (
         <div>
             <ThemeProvider theme={theme}>

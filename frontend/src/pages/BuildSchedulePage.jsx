@@ -1,11 +1,11 @@
 //This is the code for our Schedule Building Page
 import AuthContext from '../context/AuthContext';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {useContext, useState } from 'react';
 import './styles/BuildSchedulePage.css'
 import './styles/BuildSchedulePage.css'
 import StaticData from '../context/StaticData';
 import Select from 'react-select';
-import { Button, createTheme, ThemeProvider, styled} from '@mui/material';
+import { Button} from '@mui/material';
 import jwt_decode from 'jwt-decode';
 let firstMajor;
 let secondMajor;
@@ -81,12 +81,12 @@ class ConstructSchedulePt1 extends React.Component
             if (this.state.minor1 === 'NA') {
                 secondMinor = none;
             }
-            if (((this.state.major1 === this.state.major2) && (this.state.major1 != 'NA')) ||
-                ((this.state.minor1 === this.state.minor2) && (this.state.minor1 != 'NA')) ||
-                ((this.state.major1 === this.state.minor1) && (this.state.major1 != 'NA')) ||
-                ((this.state.major2 === this.state.minor1) && (this.state.major2 != 'NA')) ||
-                ((this.state.major1 === this.state.minor2) && (this.state.major1 != 'NA')) ||
-                ((this.state.major2 === this.state.minor2) && (this.state.major2 != 'NA'))
+            if (((this.state.major1 === this.state.major2) && (this.state.major1 !== 'NA')) ||
+                ((this.state.minor1 === this.state.minor2) && (this.state.minor1 !== 'NA')) ||
+                ((this.state.major1 === this.state.minor1) && (this.state.major1 !== 'NA')) ||
+                ((this.state.major2 === this.state.minor1) && (this.state.major2 !== 'NA')) ||
+                ((this.state.major1 === this.state.minor2) && (this.state.major1 !== 'NA')) ||
+                ((this.state.major2 === this.state.minor2) && (this.state.major2 !== 'NA'))
                 )
                 {
                     alert("Invalid major/minor pairings. Multiple of the same selection were made.");
@@ -218,7 +218,10 @@ const AdvBuild = ({user}) => {
         <h1>Welcome to the Advisor Schedule Builder</h1>
         {viewing ?
             <div>
-                <h3><i>Currently Building for Student: {curStud.username}</i></h3>
+                <div>
+                    <h3><i>Currently Building for Student: {curStud.username}</i></h3>
+                    <Button onClick={goBack}>Back</Button>
+                </div>
                 <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
             </div> :
             <div>
