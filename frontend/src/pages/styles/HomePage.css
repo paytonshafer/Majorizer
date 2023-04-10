@@ -97,3 +97,7 @@ tr:nth-child(odd){
 th{
     background-color: #004e42;
 }
+
+li{
+    list-style-type: none;
+}

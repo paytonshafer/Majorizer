@@ -42,7 +42,7 @@ export const AuthProvider = ({children}) => {
         //we set the user and tokens to null and remove the auth tokens from local storage
         setAuthTokens(null)
         setUser(null)
-        localStorage.removeItem('authTokens')
+        localStorage.clear()
         history('/') //navigate the user back to login page
     }
 
