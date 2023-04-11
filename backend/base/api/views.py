@@ -53,6 +53,13 @@ class AdvStudConnAdminApiView(APIView):
         connections = AdvStudConn.objects.all()
         serializer = AdvStudConnSerializer(connections, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    '''
+    {
+    "student": id,
+    "advisor": id
+    }
+    '''
 
 #this will be for a student to get their advisor, need to add check for if user not in dataset
 class AdvStudConnStudentApiView(APIView):
@@ -60,6 +67,22 @@ class AdvStudConnStudentApiView(APIView):
         connection = AdvStudConn.objects.get(student = Student.objects.get(student = stud_id))
         serializer = AdvStudConnSerializer(connection)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, stud_id):
+        conn_instance = AdvStudConn.objects.get(student = Student.objects.get(student = stud_id))
+        if not conn_instance:
+            return Response(
+                {"res": "Object with todo id does not exists"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        data = {
+            'advisor': request.data.get('advisor')
+        }
+        serializer = PostAdvStudConnSerializer(instance = conn_instance, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class AdvStudConnAdvisorApiView(APIView):
     def get(self, request, adv_id):
@@ -89,9 +112,9 @@ class RequestListApiView(APIView):
         data = {
             "subject": request.data.get('subject'),
             "data": request.data.get('data'),
-            'adv_stud': AdvStudConn.objects.get(student = request.user.id)
+            'adv_stud': AdvStudConn.objects.get(student = 3).id#Student.objects.get(student = request.user.id))
         }
-        serializer = RequestSerializer(data=data)
+        serializer = PostRequestSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -99,8 +122,8 @@ class RequestListApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class RequestDetailApiView(APIView):
-    def get(self, request, adv_id):
-        stud_requests = Request.objects.filter(adv_stud = AdvStudConn.objects.get(advisor = adv_id))
+    def get(self, request, stud_id):
+        stud_requests = Request.objects.filter(adv_stud = AdvStudConn.objects.get(student = Student.objects.get(student = stud_id)))
         serializer = RequestSerializer(stud_requests, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -172,7 +195,7 @@ class ScheduleListApiView(APIView):
                     course = 'course' + str(i)
                     sem_data[course] = x
 
-                serializer = SemesterSerializer(data=sem_data)
+                serializer = PostSemesterSerializer(data=sem_data)
                 if serializer.is_valid():
                     obj = serializer.save()
                     cur_sem = 'semester' + str(sem)
@@ -180,7 +203,6 @@ class ScheduleListApiView(APIView):
     
             else:
                 for x in schedule[sem]:
-                    print(x)
                     temp.append(Course.objects.get(course_code = x).id)
                 
                 sem_data = {
@@ -195,13 +217,13 @@ class ScheduleListApiView(APIView):
                     'course7': None,
                     'course8': None,               
                 }
-                serializer = SemesterSerializer(data=sem_data)
+                serializer = PostSemesterSerializer(data=sem_data)
                 if serializer.is_valid():
                     obj = serializer.save()
                     cur_sem = 'semester' + str(sem)
                     data[cur_sem] = obj.id
 
-        sched_serializer = ScheduleSerializer(data=data)
+        sched_serializer = PostScheduleSerializer(data=data)
         if sched_serializer.is_valid():
             sched_serializer.save()
             return Response(sched_serializer.data, status=status.HTTP_201_CREATED)

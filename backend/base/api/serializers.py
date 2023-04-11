@@ -73,4 +73,25 @@ class ScheduleSerializer(ModelSerializer):
         model = Schedule
         fields = '__all__'
 
+class PostSemesterSerializer(ModelSerializer):
+    class Meta:
+        model = Semester
+        fields = '__all__'
 
+class PostScheduleSerializer(ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = '__all__'
+
+class PostAdvStudConnSerializer(ModelSerializer):
+
+    class Meta:
+        model = AdvStudConn
+        fields = '__all__'
+
+
+class PostRequestSerializer(ModelSerializer):
+
+    class Meta:
+        model = Request
+        fields = '__all__'
