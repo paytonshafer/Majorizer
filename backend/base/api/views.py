@@ -112,7 +112,7 @@ class RequestListApiView(APIView):
         data = {
             "subject": request.data.get('subject'),
             "data": request.data.get('data'),
-            'adv_stud': AdvStudConn.objects.get(student = 3).id#Student.objects.get(student = request.user.id))
+            'adv_stud': AdvStudConn.objects.get(student = Student.objects.get(student = request.user.id)).id
         }
         serializer = PostRequestSerializer(data=data)
         if serializer.is_valid():
