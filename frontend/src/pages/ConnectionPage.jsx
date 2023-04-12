@@ -10,8 +10,33 @@ the connection was approved or denied */
 const PairingForm = () =>{
     let [connections, setConnections] = useState()
 
+    const refreshPage = () => {
+        setTimeout(() => {
+            window.location.reload(false);
+          }, 1000);
+    }
+
+    //PUT call goes here, then refresh the connections
+    let updateConnections = () =>{
+        if( advSelect === '' || studSelect === '' || advSelect === 'None' || studSelect === 'None'){
+            window.alert("Please Select an advisor and a student")
+        }else{
+            let stud_id = studSelect 
+            let adv_id = advSelect
+            
+            fetch('http://127.0.0.1:8000/api/studconn/' + stud_id, {
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"advisor": adv_id})
+        }).then(refreshPage)
+        console.log(JSON.stringify({"advisor": adv_id}))
+        }
+    }
+
     useEffect(()=>{
-        let getStudData = async () => {
+        let getConnections = async () => {
             //Here we fetch from our api with the username and password to return our auth tokens
             let response = await fetch('http://127.0.0.1:8000/api/advstudconn/', {
                 method: 'GET',
@@ -26,21 +51,11 @@ const PairingForm = () =>{
                 localStorage.setItem('AdminsConnections', JSON.stringify(data)) //put the connections in local storage
             }else{alert('Something went wrong')}
         }
-        getStudData()
+        getConnections()
     },[])
 
     let [advSelect, setAdvSelect] = useState('None')
     let [studSelect, setStudSelect] = useState('None')
-
-
-
-    let updateConnections = async (stud, adv) =>{
-        if( advSelect === '' || studSelect === '' || advSelect === 'None' || studSelect === 'None'){
-            window.alert("Please Select an advisor and a student")
-        }else{
-            window.alert("Created connection between " + JSON.stringify(advSelect) + " and " + JSON.stringify(studSelect))
-        }
-    }
 
     return(
         <div>
@@ -50,37 +65,39 @@ const PairingForm = () =>{
          onChange={(e) => {setAdvSelect(e.target.value)}} id = 'advselect'
          >
             <option value="None"></option>
-            <option value="Advisor1">Advisor1</option>
-            <option value="Advisor2">Advisor2</option>
+            <option value={4}>Advisor1</option>
+            <option value={5}>Advisor2</option>
           </select>
           <label htmlFor='stuselect'>Student</label>
          <select 
          onChange={(e) => {setStudSelect(e.target.value)}} id = 'stuselect'
          >
             <option value="None"></option>
-            <option value="Student1">Student1</option>
-            <option value="Student2">Student2</option>
+            {connections ? connections.map((conn) => 
+                        <option key={conn.id} value={conn.student.student.id}>{conn.student.student.username}</option>
+                    ): null}
           </select>
           <h4>Make pair student, advisor? </h4>
           <button className = 'confirm' onClick={updateConnections}>Confirm</button>
           <h3> List of Current Student/Advisor Connections:</h3>
             <table>
-                <tr>
-                    <th>Advisor Name</th>
-                    <th>Assigned Student(s)</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Advisor Name</th>
+                        <th>Assigned Student</th>
+                    </tr>
+                </thead>
+                
                 {/*here is where connection table will go */}
-                <tr>
-                    <td>Advisor1</td>
-                    <td>
-                        student1
-                    </td>
-                </tr>
-                <tr>
-                    <td>Advisor2</td>
-                    <td>student 2
-                    </td>
-                </tr>
+                <tbody>
+                    {connections ? connections.map((conn) => 
+                        <tr key={conn.id}>
+                            <td>{conn ? conn.advisor.username : null}</td>
+                            <td>{conn ?conn.student.student.username : null}</td>
+                        </tr>
+                    ): null}
+                </tbody>
+                
                 {/*to here */}
             </table>
           </div>    
