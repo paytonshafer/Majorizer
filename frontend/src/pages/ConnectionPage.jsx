@@ -1,78 +1,107 @@
 //This is the page where the admin can manage the advisor student connections
-import React, {useContext} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import AuthContext from '../context/AuthContext.js'
 import './styles/ConnectionPage.css'
 /*right now the connections are static hard coded. Later, we can make the connection component into a function and
 have multiple appear. We can also then track each individually by an id and actually let the connectees know if
 the connection was approved or denied */
-class PairingForm extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {advisor: 'Advisor1', student: 'Student1', adv1conns: ["Student1","Student3"], adv2conns: ["Student2"]}
-        this.handleChangeAdv = this.handleChangeAdv.bind(this);
-        this.handleChangeStu = this.handleChangeStu.bind(this);
+
+
+const PairingForm = () =>{
+    let [connections, setConnections] = useState()
+
+    const refreshPage = () => {
+        setTimeout(() => {
+            window.location.reload(false);
+          }, 1000);
     }
-    handleChangeAdv(e){
-        this.setState({advisor:e.target.value});
+
+    //PUT call goes here, then refresh the connections
+    let updateConnections = () =>{
+        if( advSelect === '' || studSelect === '' || advSelect === 'None' || studSelect === 'None'){
+            window.alert("Please Select an advisor and a student")
+        }else{
+            let stud_id = studSelect 
+            let adv_id = advSelect
+            
+            fetch('http://127.0.0.1:8000/api/studconn/' + stud_id, {
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"advisor": adv_id})
+        }).then(refreshPage)
+        console.log(JSON.stringify({"advisor": adv_id}))
+        }
     }
-    handleChangeStu(e){
-        /*var newAdv = e.target.value;*/
-        this.setState({student:e.target.value});
-    }
-    updatePairings(e){
-        /*right now this function does nothing but tell user pair has been updated. In future, will update pair in backend*/
-        alert(JSON.stringify({advisor: e, student: e}));
-    }
-    render() {
-        var student=this.state.student;
-        var advisor=this.state.advisor;
-        return (
+
+    useEffect(()=>{
+        let getConnections = async () => {
+            //Here we fetch from our api with the username and password to return our auth tokens
+            let response = await fetch('http://127.0.0.1:8000/api/advstudconn/', {
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            let data = await response.json() //This should get the auth tokens if successful
+    
+            if(response.status === 200){ //if response is all good
+                setConnections(data) //set connections
+                localStorage.setItem('AdminsConnections', JSON.stringify(data)) //put the connections in local storage
+            }else{alert('Something went wrong')}
+        }
+        getConnections()
+    },[])
+
+    let [advSelect, setAdvSelect] = useState('None')
+    let [studSelect, setStudSelect] = useState('None')
+
+    return(
         <div>
             <h3> Change Student/Advisor Pairings:</h3>
             <label htmlFor='advselect'>Advisor:</label>
          <select 
-         defaultValue={this.state.advisor} 
-         onChange={this.handleChangeAdv} id = 'advselect'
+         onChange={(e) => {setAdvSelect(e.target.value)}} id = 'advselect'
          >
-            <option value="Advisor1">Advisor1</option>
-            <option value="Advisor2">Advisor2</option>
+            <option value="None"></option>
+            <option value={4}>Advisor1</option>
+            <option value={5}>Advisor2</option>
           </select>
           <label htmlFor='stuselect'>Student</label>
          <select 
-         defaultValue={this.state.student} 
-         onChange={this.handleChangeStu} id = 'stuselect'
+         onChange={(e) => {setStudSelect(e.target.value)}} id = 'stuselect'
          >
-            <option value="Student1">Student1</option>
-            <option value="Student2">Student2</option>
+            <option value="None"></option>
+            {connections ? connections.map((conn) => 
+                        <option key={conn.id} value={conn.student.student.id}>{conn.student.student.username}</option>
+                    ): null}
           </select>
-          <h4>Make pair {student}, {advisor}? </h4>
-          <button classname = 'confirm' onClick={() => (window.alert("Created connection between " + JSON.stringify(advisor) + " and " + JSON.stringify(student)))}>Confirm</button>
+          <h4>Make pair student, advisor? </h4>
+          <button className = 'confirm' onClick={updateConnections}>Confirm</button>
           <h3> List of Current Student/Advisor Connections:</h3>
             <table>
-                <tr>
-                    <th>Advisor Name</th>
-                    <th>Assigned Student(s)</th>
-                </tr>
-                <tr>
-                    <td>Advisor1</td>
-                    <td>
-                        {this.state.adv1conns.map(name => (
-                            <p>{name}</p>
-                        ))}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Advisor2</td>
-                    <td>{
-                    this.state.adv2conns.map(name => (
-                            <p>{name}</p>
-                        ))}
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Advisor Name</th>
+                        <th>Assigned Student</th>
+                    </tr>
+                </thead>
+                
+                {/*here is where connection table will go */}
+                <tbody>
+                    {connections ? connections.map((conn) => 
+                        <tr key={conn.id}>
+                            <td>{conn ? conn.advisor.username : null}</td>
+                            <td>{conn ?conn.student.student.username : null}</td>
+                        </tr>
+                    ): null}
+                </tbody>
+                
+                {/*to here */}
             </table>
-          </div>        
-        );
-    }
+          </div>    
+    )
 }
 
 const ConnectionPage = () => {
