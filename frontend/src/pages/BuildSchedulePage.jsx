@@ -27,7 +27,7 @@ class ConstructSchedulePt1 extends React.Component
             minor1: 'NA',
             minor2: 'NA',
             previousCourses: '',
-            scheduleName: 'Schedule 1',
+            scheduleName: 'None',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,13 +41,6 @@ class ConstructSchedulePt1 extends React.Component
         handleSubmit(event){
             event.preventDefault();
 
-            <div>
-            {
-                this.state.major1 === 'CS' ? <DisplayScheduleCS /> :
-                this.state.major2 === 'PY' ? <DisplayScheduleCS /> :
-                <p>Something has gone wrong!</p>
-            }
-            </div>
             if (this.state.major1 === 'CS') {
                 firstMajor = computerScience;
             }
@@ -91,9 +84,10 @@ class ConstructSchedulePt1 extends React.Component
                 {
                     alert("Invalid major/minor pairings. Multiple of the same selection were made.");
                 }
-                else {
-            alert(JSON.stringify({'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value, 'scheduleName': event.target.textInputBox2.value}))
-                }
+            else {
+                //POST CALL FOR SCHEDULE GOES HERE!!!!
+                alert(JSON.stringify({'student': this.props.user.id, 'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value.replace(/\s+/g, ''), 'scheduleName': event.target.textInputBox2.value}))
+            }
         }
     render(){return(
         <div className='borderbox'>
@@ -138,9 +132,9 @@ class ConstructSchedulePt1 extends React.Component
             <label>
             <input id='textInputBox' type="text" name='previousCourses' value={this.state.previousCourses} onChange={this.handleChange}/>
             </label><br/>
-            <h2 className='buildFormHeader'>Name Schedule:</h2><br/>
+            <h2 className='buildFormHeader'>Schedule Name:</h2><br/>
             <label>
-            <input id='textInputBox2' type="text" name='scheduleName' value={this.state.scheduleName} onChange={this.handleChange}/><br/>
+            <input id='textInputBox2' type="text" name='scheduleName'  placeholder={this.state.scheduleName} onChange={this.handleChange}/><br/>
             </label>
             <p></p>
             <input id='submit' type='submit' value='Submit'/>
@@ -150,19 +144,12 @@ class ConstructSchedulePt1 extends React.Component
         }
 }
 
-const DisplayScheduleCS = () => {
-    <div>
-        <p>This is a placeholder for stuff for when we move into to integration</p>
-    </div>
-}
-
-
 //build schedule page for students
-const StudBuild = () => {
+const StudBuild = ({user}) => {
     return (
         <div>
             <h1 className='scheduleBuildGreeter'>This is the student schedule builder</h1>
-            <ConstructSchedulePt1 id = 'stuschedule'></ConstructSchedulePt1>
+            <ConstructSchedulePt1 user={user} id = 'stuschedule'></ConstructSchedulePt1>
         </div>
     )
 }
@@ -222,14 +209,13 @@ const AdvBuild = ({user}) => {
                     <h3><i>Currently Building for Student: {curStud.username}</i></h3>
                     <Button onClick={goBack}>Back</Button>
                 </div>
-                <ConstructSchedulePt1 id = 'advschedule'></ConstructSchedulePt1>
+                <ConstructSchedulePt1 user={curStud} id = 'advschedule'></ConstructSchedulePt1>
             </div> :
             <div>
                 <h2> Please select a student below</h2>
                 <Select name='studselect' id ='schedule-select' className="basic-single"  classNamePrefix="select" options={students} onChange={studSelect}/>
                 <Button onClick={select}>Select</Button>
             </div>}
-        {/*<ScheduleForm id = 'advschedule'></ScheduleForm>*/}
         </div>
         )
     }
@@ -242,7 +228,7 @@ const BuildSchedulePage = () => {
     return (
         <div>
             {/*checks if user or advisor then renders correct one*/}
-            {user.group === 'student' ?  <StudBuild /> :
+            {user.group === 'student' ?  <StudBuild user = {user}/> :
              user.group === 'advisor' ? <AdvBuild user = {user}/> :
              <p>I am not sure who you are!</p>}
         </div>
