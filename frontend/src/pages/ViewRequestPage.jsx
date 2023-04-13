@@ -2,12 +2,29 @@
 import React,{useState} from 'react'
 import './styles/ViewRequestPage.css'
 
-const ViewRequestPage = () => {
+const ViewRequestPage = async () => {
     const[isVisible, setIsVisible] = useState(true)
     const[classes, /*setClasses*/] = useState(["CS 241", "CS 141", "PY 253", "CS 142", "PY 151"])
     const[studentName, /*setStudentName*/] = useState('student1')
   
-  
+        //*************************************************
+    //GET
+    let response = await fetch('http://127.0.0.1:8000/api/studconn/<stud_id>/', { 
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'stud_id':e.target.stud_id.value})
+    })
+    let data = await response.json()
+
+    if(response.status === 200){ //if response is all good
+        for (let i = 0; i < stud_id.length; i++){
+            let requests = stud_id.requests;
+        }
+    }else{alert('Something went wrong')}
+    //*************************************************
+
     /*function removeRequest(){
         document.getElementById("requestform").style.display = "none";
         document.getElementById("icon").style.display = "none";
