@@ -3,7 +3,6 @@ import AuthContext from '../context/AuthContext';
 import React, {useContext, useState } from 'react';
 import './styles/BuildSchedulePage.css'
 import './styles/BuildSchedulePage.css'
-import StaticData from '../context/StaticData';
 import Select from 'react-select';
 import { Button} from '@mui/material';
 import jwt_decode from 'jwt-decode';
@@ -14,7 +13,7 @@ let secondMinor;
 const computerScience = 'computer science';
 const psychology = 'psychology';
 const literature = 'literature';
-const math = 'math';
+const math = 'mathematics';
 const none = 'none';
 
 class ConstructSchedulePt1 extends React.Component
@@ -156,18 +155,16 @@ const StudBuild = ({user}) => {
 
 //build schedule page for advisors
 const AdvBuild = ({user}) => {
-        let { advisor_connections } = useContext(StaticData)
-        let [ viewing, setViewing ] = useState(false)
+        let [connections, setConnections] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
+        let [viewing, setViewing] = useState(false)
         let [curStud, setCurStud] = useState('')
-        let [selectedStud, setSelectedStud] = useState('')
+        let [selectedStud, setSelectedStud] = useState('none')
     
         //let curStud = jwt_decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NzU5MTIwLCJpYXQiOjE2NzgxMTkxMjAsImp0aSI6IjMwODJhN2UzMTY2YTQwOThhZTFhYWU0Yzk2ZDFhNTc4IiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJzdHVkZW50MSIsImdyb3VwIjoic3R1ZGVudCJ9.pwTUiT6DLribnJ8ESFzo7dvF9MlVLxiv_F-22r5ENQo')
     
         let students = []
-        for(let i = 0; i < advisor_connections.length; i++){
-            if(advisor_connections[i].adv === user.username){
-                students.push(advisor_connections[i])
-            }
+        if(connections){
+            connections.map((conn) => (students.push({stud: conn.student.student.username,label: conn.student.student.username})))
         }
     
         let getStudent = async () => {
