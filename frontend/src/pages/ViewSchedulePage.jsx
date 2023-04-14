@@ -15,7 +15,6 @@ import jwt_decode from 'jwt-decode';
 
 const MySchedule = ({ student }) => {
     let { students } = useContext(StaticData)
-
     const stud = students.find((stud) => stud.name === student.username)
     let schedules = stud.schedule
     let [curSchedule, setCurSchedule] = useState(stud.schedule[0])
@@ -31,8 +30,23 @@ const MySchedule = ({ student }) => {
       }));
       
     const RenderSchedule = () => {
+        let getSched = async () => {
+            let response = await fetch('http://127.0.0.1:8000/api/schedule/' + stud.id, {
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            let data = await response.json()
+    
+            if(response.status === 200){ //if response is all good
+                setCurSchedule(data)
+                localStorage.setItem(stud.id + '_stored_sched', JSON.stringify(data))
+            }else{alert('Something went wrong')}
+        }
+        getSched()
+
         return (
-            
         <div>
             <ThemeProvider theme={theme}>
             <TableContainer component={Paper}>
@@ -162,7 +176,7 @@ const StudView = ({user}) => {
 
 //advisor view schedule page
 const AdvView = ({user}) => {
-    let { advisor_connections } = useContext(StaticData)
+    let { advisor_connections,setAdvisor_connections } = useState([],[])
     let [ viewing, setViewing ] = useState(false)
     let [curStud, setCurStud] = useState('')
     let [selectedStud, setSelectedStud] = useState('')
@@ -191,7 +205,21 @@ const AdvView = ({user}) => {
             setViewing(true)
         }else{alert('Something went wrong')}
     }
+    let getAdvisorConns = async () => {
+        let response = await fetch('http://127.0.0.1:8000/api/advconn' + user, {
+            method: 'GET',
+            headers:{
+                'Content-Type' : 'application/json/'
+            },
+        })
+        let data = await response.json()
 
+        if (response.status === 200){
+            setAdvisor_connections(data)
+            localStorage.setItem(user + '_adv_conns',JSON.stringify(data))
+        }else{alert("Something went wrong")}
+    }
+    getAdvisorConns()
     let studSelect = async (selected) => {
         setSelectedStud(selected.stud)
     }
