@@ -78,14 +78,49 @@ class ConstructSchedulePt1 extends React.Component
                 ((this.state.major1 === this.state.minor1) && (this.state.major1 !== 'NA')) ||
                 ((this.state.major2 === this.state.minor1) && (this.state.major2 !== 'NA')) ||
                 ((this.state.major1 === this.state.minor2) && (this.state.major1 !== 'NA')) ||
-                ((this.state.major2 === this.state.minor2) && (this.state.major2 !== 'NA'))
-                )
-                {
+                ((this.state.major2 === this.state.minor2) && (this.state.major2 !== 'NA'))){
                     alert("Invalid major/minor pairings. Multiple of the same selection were made.");
                 }
             else {
                 //POST CALL FOR SCHEDULE GOES HERE!!!!
-                alert(JSON.stringify({'student': this.props.user.id, 'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value.replace(/\s+/g, ''), 'scheduleName': event.target.textInputBox2.value}))
+                /*
+                "student": 1,
+                "name": "name for schedule",
+                "maj1": "computer science",
+                "maj2": "NONE",
+                "min1": "NONE",
+                "min2": "NONE",
+                "prev": ""
+                */
+                let student = this.props.user.id
+                let prev =  event.target.textInputBox.value.replace(/\s+/g, '')
+                let name = event.target.textInputBox2.value
+
+                let postdata = JSON.stringify({
+                    'student': student ,
+                    'maj1': firstMajor, 
+                    'maj2': secondMajor, 
+                    'min1': firstMinor, 
+                    'min2': secondMinor, 
+                    'prev': prev,
+                    'name': name
+                })
+
+                //Here we fetch from our api with the username and password to return our auth tokens
+                fetch('http://127.0.0.1:8000/api/schedule', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: postdata
+                })
+
+                if(response.status === 200){ //if response is all good
+                    setAuthTokens(data) //set auth tokens
+                    setUser(jwt_decode(data.access)) //set the user
+                    localStorage.setItem('authTokens', JSON.stringify(data)) //put the auth tokens in local storage
+                    history('/home') //navigate the user to home page
+                }else{alert('Something went wrong')}
             }
         }
     render(){return(
@@ -155,7 +190,7 @@ const StudBuild = ({user}) => {
 
 //build schedule page for advisors
 const AdvBuild = ({user}) => {
-        let [connections, setConnections] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
+        let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
         let [viewing, setViewing] = useState(false)
         let [curStud, setCurStud] = useState('')
         let [selectedStud, setSelectedStud] = useState('none')
