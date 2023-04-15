@@ -3,7 +3,6 @@ import AuthContext from '../context/AuthContext';
 import React, {useContext, useState } from 'react';
 import './styles/BuildSchedulePage.css'
 import './styles/BuildSchedulePage.css'
-import StaticData from '../context/StaticData';
 import Select from 'react-select';
 import { Button} from '@mui/material';
 import jwt_decode from 'jwt-decode';
@@ -14,7 +13,7 @@ let secondMinor;
 const computerScience = 'computer science';
 const psychology = 'psychology';
 const literature = 'literature';
-const math = 'math';
+const math = 'mathematics';
 const none = 'none';
 
 class ConstructSchedulePt1 extends React.Component
@@ -38,7 +37,7 @@ class ConstructSchedulePt1 extends React.Component
             const name = target.name;
             this.setState({[name]: value});
         }
-        handleSubmit(event){
+        handleSubmit = async (event) =>{
             event.preventDefault();
 
             if (this.state.major1 === 'CS') {
@@ -65,13 +64,13 @@ class ConstructSchedulePt1 extends React.Component
             if (this.state.minor1 === 'NA') {
                 firstMinor = none;
             }
-            if (this.state.minor1 === 'MA') {
+            if (this.state.minor2 === 'MA') {
                 secondMinor = math;
             }
-            if (this.state.minor1 === 'LIT') {
+            if (this.state.minor2 === 'LIT') {
                 secondMinor = literature;
             }
-            if (this.state.minor1 === 'NA') {
+            if (this.state.minor2 === 'NA') {
                 secondMinor = none;
             }
             if (((this.state.major1 === this.state.major2) && (this.state.major1 !== 'NA')) ||
@@ -79,14 +78,49 @@ class ConstructSchedulePt1 extends React.Component
                 ((this.state.major1 === this.state.minor1) && (this.state.major1 !== 'NA')) ||
                 ((this.state.major2 === this.state.minor1) && (this.state.major2 !== 'NA')) ||
                 ((this.state.major1 === this.state.minor2) && (this.state.major1 !== 'NA')) ||
-                ((this.state.major2 === this.state.minor2) && (this.state.major2 !== 'NA'))
-                )
-                {
+                ((this.state.major2 === this.state.minor2) && (this.state.major2 !== 'NA'))){
                     alert("Invalid major/minor pairings. Multiple of the same selection were made.");
-                }
-            else {
+            }else if(event.target.textInputBox2.value === ''){
+                    alert("Please input a name for the schedule")
+            }else {
                 //POST CALL FOR SCHEDULE GOES HERE!!!!
-                alert(JSON.stringify({'student': this.props.user.id, 'major1': firstMajor, 'major2': secondMajor, 'minor1': firstMinor, 'minor2': secondMinor, 'previousCourses': event.target.textInputBox.value.replace(/\s+/g, ''), 'scheduleName': event.target.textInputBox2.value}))
+                /*
+                "student": 1,
+                "name": "name for schedule",
+                "maj1": "computer science",
+                "maj2": "NONE",
+                "min1": "NONE",
+                "min2": "NONE",
+                "prev": ""
+                */
+                let student = this.props.user.id
+                let prev =  event.target.textInputBox.value.replace(/\s+/g, '')
+                let name = event.target.textInputBox2.value
+                event.target.textInputBox2.value = ""
+
+                let postdata = JSON.stringify({
+                    'student': student ,
+                    'maj1': firstMajor, 
+                    'maj2': secondMajor, 
+                    'min1': firstMinor, 
+                    'min2': secondMinor, 
+                    'prev': prev,
+                    'name': name
+                })
+
+                let response = await fetch('http://127.0.0.1:8000/api/schedule/', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: postdata
+                })
+
+                if(response.status === 201){ //if response is all good
+                    alert('Schedule made succesfully, you can view it under the view schedule tab')
+                }else if(response.status === 406){
+                    alert('The schedule you requested is not possible in 8 semesters please try different major and minor pairings')
+                }else{alert('Something went wrong')}
             }
         }
     render(){return(
@@ -156,18 +190,16 @@ const StudBuild = ({user}) => {
 
 //build schedule page for advisors
 const AdvBuild = ({user}) => {
-        let { advisor_connections } = useContext(StaticData)
-        let [ viewing, setViewing ] = useState(false)
+        let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
+        let [viewing, setViewing] = useState(false)
         let [curStud, setCurStud] = useState('')
-        let [selectedStud, setSelectedStud] = useState('')
+        let [selectedStud, setSelectedStud] = useState('none')
     
         //let curStud = jwt_decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NzU5MTIwLCJpYXQiOjE2NzgxMTkxMjAsImp0aSI6IjMwODJhN2UzMTY2YTQwOThhZTFhYWU0Yzk2ZDFhNTc4IiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJzdHVkZW50MSIsImdyb3VwIjoic3R1ZGVudCJ9.pwTUiT6DLribnJ8ESFzo7dvF9MlVLxiv_F-22r5ENQo')
     
         let students = []
-        for(let i = 0; i < advisor_connections.length; i++){
-            if(advisor_connections[i].adv === user.username){
-                students.push(advisor_connections[i])
-            }
+        if(connections){
+            connections.map((conn) => (students.push({stud: conn.student.student.username,label: conn.student.student.username})))
         }
     
         let getStudent = async () => {
