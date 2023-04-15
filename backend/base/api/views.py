@@ -157,7 +157,7 @@ class ScheduleListApiView(APIView):
 
         data = {
             'student': request.data.get('student'),
-            'name': request.data.get('name'),
+            'label': request.data.get('name'),
             'major1': request.data.get('maj1'),
             'major2': request.data.get('maj2'),
             'minor1': request.data.get('min1'),
