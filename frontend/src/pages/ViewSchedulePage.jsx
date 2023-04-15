@@ -30,6 +30,7 @@ const MySchedule = ({ student }) => {
       }));
       
     const RenderSchedule = () => {
+        /*
         let getSched = async () => {
             let response = await fetch('http://127.0.0.1:8000/api/schedule/' + stud.id, {
                 method: 'GET',
@@ -44,7 +45,7 @@ const MySchedule = ({ student }) => {
                 localStorage.setItem(stud.id + '_stored_sched', JSON.stringify(data))
             }else{alert('Something went wrong')}
         }
-        getSched()
+        getSched()*/
 
         return (
         <div>
@@ -105,7 +106,7 @@ const MySchedule = ({ student }) => {
 
     const newSched = () => {
         setSemNum(0)
-        setCurSem(curSchedule.schedule[semNum])
+        setCurSem(curSchedule.schedule[0])
     }
     const updateTab = (num) => {
         setSemNum(num);
@@ -176,18 +177,16 @@ const StudView = ({user}) => {
 
 //advisor view schedule page
 const AdvView = ({user}) => {
-    let { advisor_connections,setAdvisor_connections } = useState([],[])
-    let [ viewing, setViewing ] = useState(false)
+    let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
+    let [viewing, setViewing] = useState(false)
     let [curStud, setCurStud] = useState('')
-    let [selectedStud, setSelectedStud] = useState('')
+    let [selectedStud, setSelectedStud] = useState('none')
 
     //let curStud = jwt_decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NzU5MTIwLCJpYXQiOjE2NzgxMTkxMjAsImp0aSI6IjMwODJhN2UzMTY2YTQwOThhZTFhYWU0Yzk2ZDFhNTc4IiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJzdHVkZW50MSIsImdyb3VwIjoic3R1ZGVudCJ9.pwTUiT6DLribnJ8ESFzo7dvF9MlVLxiv_F-22r5ENQo')
 
     let students = []
-    for(let i = 0; i < advisor_connections.length; i++){
-        if(advisor_connections[i].adv === user.username){
-            students.push(advisor_connections[i])
-        }
+    if(connections){
+        connections.map((conn) => (students.push({stud: conn.student.student.username,label: conn.student.student.username})))
     }
 
     let getStudent = async () => {
@@ -205,21 +204,7 @@ const AdvView = ({user}) => {
             setViewing(true)
         }else{alert('Something went wrong')}
     }
-    let getAdvisorConns = async () => {
-        let response = await fetch('http://127.0.0.1:8000/api/advconn' + user, {
-            method: 'GET',
-            headers:{
-                'Content-Type' : 'application/json/'
-            },
-        })
-        let data = await response.json()
 
-        if (response.status === 200){
-            setAdvisor_connections(data)
-            localStorage.setItem(user + '_adv_conns',JSON.stringify(data))
-        }else{alert("Something went wrong")}
-    }
-    getAdvisorConns()
     let studSelect = async (selected) => {
         setSelectedStud(selected.stud)
     }
