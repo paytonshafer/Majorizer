@@ -75,7 +75,7 @@ const MySchedule = ({ student }) => {
                     <TableRow>
                         <StyledTableCell>Course ID</StyledTableCell>
                         <StyledTableCell align="left">Course Name</StyledTableCell>
-                        <StyledTableCell align="left">Course Desc</StyledTableCell>
+                        <StyledTableCell align="left">Course Description</StyledTableCell>
                         <StyledTableCell align="left">Professor</StyledTableCell>
                         <StyledTableCell align="left">Days of Week</StyledTableCell>
                     </TableRow>
