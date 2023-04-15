@@ -182,7 +182,7 @@ py_science = {
 
 #psycology major electives
 psych_elecs1 = ['PY311', 'PY319', 'PY286', 'PY370']
-psych_elecs2 = ['PY370', 'PY363',  'PY340', 'PY372']
+psych_elecs2 = ['PY370', 'PY463',  'PY340', 'PY372']
 psych_elecs3 = ['PY464', 'PY462', 'PY463', 'PY361']
 #grab 3 rand elects, look to see if some go w other so we can do paths like for cs elecs
 py_electives = {
@@ -486,6 +486,7 @@ def forecast(maj1, maj2, min1, min2, coursesTaken):
                     if x == 7: #make this visible for cs major with lit minor, sets proper number of free elecs
                         groups[6]['cap'] = 4
                         groups[5]['cap'] = 2
+                #TODO: add case for cs_0_ma_lit and cs_0_lit_ma
                 case 'py_0_0_0':
                     if x == 5: #make this visible for py major or w ma minor, sets proper number of free elecs
                         groups[5]['cap'] = 5 #sets cap of 5 free elects per sem after semester 6 
@@ -498,6 +499,9 @@ def forecast(maj1, maj2, min1, min2, coursesTaken):
                 case 'py_0_ma_lit':
                     if x == 6: #make this visible for py major with lit minor, sets proper number of free elecs
                         groups[6]['cap'] = 5
+                case 'py_0_lit_ma':
+                    if x == 6: #make this visible for py major with lit minor, sets proper number of free elecs
+                        groups[6]['cap'] = 5
                 case 'cs_py_0_0':
                     if x == 7: #make this visible for cs py double major
                         groups[6]['cap'] = 5
@@ -507,6 +511,7 @@ def forecast(maj1, maj2, min1, min2, coursesTaken):
                     if x == 7: #make this visible for cs py double major
                         groups[6]['cap'] = 5
                         groups[4]['cap'] = 5
+                        groups[5]['cap'] = 5
                 case 'cs_py_lit_0':
                     if x == 7: #make this visible for cs py double major
                         groups[6]['cap'] = 5
@@ -519,9 +524,13 @@ def forecast(maj1, maj2, min1, min2, coursesTaken):
                     if x == 7: #make this visible for cs py double major
                         groups[6]['cap'] = 5
                         groups[4]['cap'] = 5
+                case 'py_cs_lit_0':
+                    if x == 7: #make this visible for cs py double major
+                        groups[6]['cap'] = 5
+                        groups[4]['cap'] = 5
                 case _:
-                    print("You have an invalid code")
-                    exit() 
+                    return 'FAILED'
+                    
 
             cap_count = 0 #intially set cap_count = 0 for each group
             add_course_in_group(x, y['courses'], cap_count, y['cap'], schedule) #goes through all courses in the group to see what to add

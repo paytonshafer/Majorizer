@@ -5,7 +5,7 @@ import './styles/HomePage.css'
 
 const StudHome = () =>{
     let {user} = useContext(AuthContext)
-    let [studData, setStudData] = useState([])
+    let [studData, setStudData] = useState(()=> localStorage.getItem('loggedin_stud_data') ? JSON.parse(localStorage.getItem('loggedin_stud_data')) : null)
 
     useEffect(()=>{
         let getStudData = async () => {
@@ -28,15 +28,15 @@ const StudHome = () =>{
 
     return(
         <div>
-            {studData.map((studData) => 
-                <div>
+            {studData ? studData.map((studData) => 
+                <div key={studData.id}>
                     <h2>Current Major(s) and Minor(s)</h2>
                     <h3>Major1: {studData.major1 ? studData.major1.name : 'NONE'}</h3>
                     <h3>Major2: {studData.major2 ? studData.major2.name : 'NONE'}</h3>
                     <h3>Minor1: {studData.minor1 ? studData.minor1.name : 'NONE'}</h3>
                     <h3>Minor2: {studData.minor2 ? studData.minor2.name : 'NONE'}</h3>
                 </div>
-            )}
+            ): null}
         </div>
     )
 }

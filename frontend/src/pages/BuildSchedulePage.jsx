@@ -37,7 +37,7 @@ class ConstructSchedulePt1 extends React.Component
             const name = target.name;
             this.setState({[name]: value});
         }
-        handleSubmit(event){
+        handleSubmit = async (event) =>{
             event.preventDefault();
 
             if (this.state.major1 === 'CS') {
@@ -64,13 +64,13 @@ class ConstructSchedulePt1 extends React.Component
             if (this.state.minor1 === 'NA') {
                 firstMinor = none;
             }
-            if (this.state.minor1 === 'MA') {
+            if (this.state.minor2 === 'MA') {
                 secondMinor = math;
             }
-            if (this.state.minor1 === 'LIT') {
+            if (this.state.minor2 === 'LIT') {
                 secondMinor = literature;
             }
-            if (this.state.minor1 === 'NA') {
+            if (this.state.minor2 === 'NA') {
                 secondMinor = none;
             }
             if (((this.state.major1 === this.state.major2) && (this.state.major1 !== 'NA')) ||
@@ -80,8 +80,9 @@ class ConstructSchedulePt1 extends React.Component
                 ((this.state.major1 === this.state.minor2) && (this.state.major1 !== 'NA')) ||
                 ((this.state.major2 === this.state.minor2) && (this.state.major2 !== 'NA'))){
                     alert("Invalid major/minor pairings. Multiple of the same selection were made.");
-                }
-            else {
+            }else if(event.target.textInputBox2.value === ''){
+                    alert("Please input a name for the schedule")
+            }else {
                 //POST CALL FOR SCHEDULE GOES HERE!!!!
                 /*
                 "student": 1,
@@ -95,6 +96,7 @@ class ConstructSchedulePt1 extends React.Component
                 let student = this.props.user.id
                 let prev =  event.target.textInputBox.value.replace(/\s+/g, '')
                 let name = event.target.textInputBox2.value
+                event.target.textInputBox2.value = ""
 
                 let postdata = JSON.stringify({
                     'student': student ,
@@ -106,8 +108,7 @@ class ConstructSchedulePt1 extends React.Component
                     'name': name
                 })
 
-                //Here we fetch from our api with the username and password to return our auth tokens
-                fetch('http://127.0.0.1:8000/api/schedule', {
+                let response = await fetch('http://127.0.0.1:8000/api/schedule/', {
                     method: 'POST',
                     headers:{
                         'Content-Type': 'application/json'
@@ -115,11 +116,10 @@ class ConstructSchedulePt1 extends React.Component
                     body: postdata
                 })
 
-                if(response.status === 200){ //if response is all good
-                    setAuthTokens(data) //set auth tokens
-                    setUser(jwt_decode(data.access)) //set the user
-                    localStorage.setItem('authTokens', JSON.stringify(data)) //put the auth tokens in local storage
-                    history('/home') //navigate the user to home page
+                if(response.status === 201){ //if response is all good
+                    alert('Schedule made succesfully, you can view it under the view schedule tab')
+                }else if(response.status === 406){
+                    alert('The schedule you requested is not possible in 8 semesters please try different major and minor pairings')
                 }else{alert('Something went wrong')}
             }
         }
