@@ -97,7 +97,7 @@ class Semester(models.Model):
 
 class Schedule(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='studentSched')
-    name = models.TextField(blank=True, default='unnamed_schedule')
+    label = models.TextField(blank=True, default='unnamed_schedule')
     major1 = models.TextField(blank=True, default='None') 
     major2 = models.TextField(blank=True, default='None') 
     minor1 = models.TextField(blank=True, default='None')
