@@ -2,7 +2,6 @@ import AuthContext from '../context/AuthContext';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Select from 'react-select';
 import './styles/ViewSchedulePage.css'
-import StaticData from '../context/StaticData';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,12 +13,32 @@ import { Button, createTheme, ThemeProvider, styled} from '@mui/material';
 import jwt_decode from 'jwt-decode';
 
 const MySchedule = ({ student }) => {
-    let { students } = useContext(StaticData)
-    const stud = students.find((stud) => stud.name === student.username)
-    let schedules = stud.schedule
-    let [curSchedule, setCurSchedule] = useState(stud.schedule[0])
+    let stud_id = student.id
+    let [schedules, setSchedules] = useState()
+    let [curSchedule, setCurSchedule] = useState()
     let [semNum, setSemNum] = useState(0)
-    let [curSem, setCurSem] = useState(curSchedule.schedule[semNum])
+    let [curSem, setCurSem] = useState()
+
+
+    useEffect(()=>{
+        let getStudSchedules = async () => {
+            //Here we fetch from our api with the username and password to return our auth tokens
+            let response = await fetch('http://127.0.0.1:8000/api/schedule/' + stud_id, {
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            let data = await response.json() //This should get the auth tokens if successful
+    
+            if(response.status === 200){ //if response is all good
+                setSchedules(data)
+                localStorage.setItem(stud_id + '_schedules', JSON.stringify(data)) //put the auth tokens in local storage
+            }else{alert('Something went wrong')}
+        }
+        getStudSchedules()
+    },[stud_id])
+    //TODO: take scchedules and use them
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         
@@ -30,23 +49,22 @@ const MySchedule = ({ student }) => {
       }));
       
     const RenderSchedule = () => {
-        /*
-        let getSched = async () => {
-            let response = await fetch('http://127.0.0.1:8000/api/schedule/' + stud.id, {
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-            let data = await response.json()
-    
-            if(response.status === 200){ //if response is all good
-                setCurSchedule(data)
-                localStorage.setItem(stud.id + '_stored_sched', JSON.stringify(data))
-            }else{alert('Something went wrong')}
+        let courses = [];
+        if(curSem){
+            for (var i = 1; i < 6; i++) {
+                let class_id = 'course' + i
+                courses.push(
+                    curSem[class_id] ?
+                    <TableRow key={curSem[class_id].id}>
+                        <StyledTableCell component="th" scope="row">{curSem[class_id].course_code}</StyledTableCell>
+                        <TableCell align="left">{curSem[class_id].title}</TableCell>
+                        <TableCell align="left"><Button color="success" onClick={()=>(alert(curSem[class_id].description))}>click to expand</Button>{/*curSem[class_id].desc*/}</TableCell>
+                        <TableCell align="left">{curSem[class_id].professor}</TableCell>
+                        <TableCell align="left">{curSem[class_id].days}</TableCell>
+                    </TableRow> : null
+                )
+            }
         }
-        getSched()*/
-
         return (
         <div>
             <ThemeProvider theme={theme}>
@@ -56,26 +74,14 @@ const MySchedule = ({ student }) => {
                     <TableHead>
                     <TableRow>
                         <StyledTableCell>Course ID</StyledTableCell>
-                        <StyledTableCell align="right">Course Name</StyledTableCell>
-                        <StyledTableCell align="right">Course Desc</StyledTableCell>
-                        <StyledTableCell align="right">Professor</StyledTableCell>
-                        <StyledTableCell align="right">Days of Week</StyledTableCell>
+                        <StyledTableCell align="left">Course Name</StyledTableCell>
+                        <StyledTableCell align="left">Course Desc</StyledTableCell>
+                        <StyledTableCell align="left">Professor</StyledTableCell>
+                        <StyledTableCell align="left">Days of Week</StyledTableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {curSem.courses.map((row) => (
-                        <TableRow
-                            key={row.id}
-                        >
-                        <StyledTableCell component="th" scope="row">
-                            {row.id}
-                        </StyledTableCell>
-                        <TableCell align="left">{row.name}</TableCell>
-                        <TableCell align="left">{row.desc}</TableCell>
-                        <TableCell align="left">{row.professor}</TableCell>
-                        <TableCell align="left">{row.day}</TableCell>
-                        </TableRow>
-                    ))}
+                    {curSem ? courses : null}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -105,12 +111,14 @@ const MySchedule = ({ student }) => {
     },[semNum, curSchedule])*/
 
     const newSched = () => {
+        setCurSem(curSchedule.semester1)
         setSemNum(0)
-        setCurSem(curSchedule.schedule[0])
     }
     const updateTab = (num) => {
+        console.log(curSchedule)
         setSemNum(num);
-        setCurSem(curSchedule.schedule[num]);
+        let sem = 'semester' + (num+1)
+        setCurSem(curSchedule[sem]);
     }
     const scheduleChange = useCallback(async (selected) => {
         setCurSchedule(selected)
@@ -140,13 +148,14 @@ const MySchedule = ({ student }) => {
         <div>
             <ThemeProvider theme={theme}>
             <div className='sched-select'>
-                <Select id ='schedule-select' className="basic-single" classNamePrefix="select" defaultValue={curSchedule} options={schedules} onChange={scheduleChange} />
+                <Select id ='schedule-select' className="basic-single" classNamePrefix="select" options={schedules} onChange={scheduleChange}/>
             </div>
             <Button onMouseDown={newSched} variant = 'contained'>GO</Button>
             <div className='sem-select'>
                 <br/>
                 <h4>Semester {semNum+1}</h4>
                 <br/>
+                <button onClick={() => updateTab(-1)}>previously taken courses</button>
                 <div className='tabs'>
                 <button onClick={() => updateTab(0)}>1</button>
                 <button onClick={() => updateTab(1)}>2</button>
