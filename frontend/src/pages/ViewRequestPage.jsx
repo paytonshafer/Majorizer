@@ -2,28 +2,43 @@
 import React,{useState, useEffect} from 'react'
 import './styles/ViewRequestPage.css'
 
-const ViewRequestPage = async () => {
+const ViewRequestPage = () => {
     const[isVisible, setIsVisible] = useState(true)
     const[classes, /*setClasses*/] = useState(["CS 241", "CS 141", "PY 253", "CS 142", "PY 151"])
     const[studentName, /*setStudentName*/] = useState('student1')
-    let requestList=[]
     let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
-    let students = []
     let visibleRequests = []
+    let [requestList, setRequestList] = useState([])
+    
+    let students = []
     if(connections){
-        connections.map((conn) => (students.push({stud: conn.student.student.username,label: conn.student.student.username})))
+        connections.map((conn) => (students.push({id: conn.student.student.id, stud: conn.student.student.username, label: conn.student.student.username})))
     }
+
     useEffect(()=>{
-        let requests = async () => {
-            let i=0;
-            for(i; i< students.length; i++){
-                const response = await fetch('http://127.0.0.1:8000/api/request/' + students[i].id)
-                const json = await response.json()
-                requestList.push(json.items[0])
-                console.log({requestList})
-            }
+        let studs = []
+        if(connections){
+            connections.map((conn) => (studs.push({id: conn.student.student.id, stud: conn.student.student.username, label: conn.student.student.username})))
         }
-        requests()},[students,requestList]) 
+        let requests = async () => {
+            let temp = []
+            let i=0;
+            for(i; i< studs.length; i++){
+                console.log(i)
+                let response = await fetch('http://127.0.0.1:8000/api/request/' + studs[i].id, {
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    }
+                })
+                let data = await response.json()
+                temp.push(data)
+                //console.log(requestList)
+            }
+            setRequestList(temp)
+        }
+        requests()
+    },[connections])
     //*************************************************
 
     /*function removeRequest(){
@@ -36,6 +51,7 @@ const ViewRequestPage = async () => {
     function handleSubmit(e){
         if(window.confirm("Are you sure?")){
             setIsVisible(false);
+            console.log(requestList)
             if(e.target.name === 'approve'){
                 alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
             }else {
