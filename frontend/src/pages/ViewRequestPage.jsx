@@ -7,7 +7,6 @@ const ViewRequestPage = () => {
     const[classes, /*setClasses*/] = useState(["CS 241", "CS 141", "PY 253", "CS 142", "PY 151"])
     const[studentName, /*setStudentName*/] = useState('student1')
     let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
-    let visibleRequests = []
     let [requestList, setRequestList] = useState([])
     
     let students = []
@@ -63,13 +62,14 @@ const ViewRequestPage = () => {
     function BuildPage(){
         return(
             <div>
+                {console.log(requestList)}
                 <h1>Current Requests</h1>
                 <div className='positionbox'>
                 <img className='icon' id='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
                 </div>
-                
+                {requestList.map(request => (
                 <div className='fields' id='requestform'>
-                    <p id='stud' className='header'>{studentName}</p>
+                    <p id='stud' className='header'>{request.username}</p>
                     <table className='courses'>
                         <tbody>
                             <tr>
@@ -91,15 +91,13 @@ const ViewRequestPage = () => {
                         </tbody>
                         
                     </table>
-                    <p className='header'>Subject: Drop Class</p>
+                    <p className='header'>Subject: {request.subject}</p>
                     <p className='header'>Request:</p>
-                    <p>I would like to drop PY 255.
-                        I want to wait to take it until I've finished PY 253, 
-                        since doubling up is an enormous workload for me.
-                    </p>
+                    <p>{request.data}</p>
                     <button className='approvedeny' name='approve' onClick={(e) => handleSubmit(e)}>Approve</button>
                     <button className='approvedeny' name='deny' onClick={(e) => handleSubmit(e)}>Deny</button>
                 </div>
+                ))}
             </div>
         )
     }
