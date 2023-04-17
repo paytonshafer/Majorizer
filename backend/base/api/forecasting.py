@@ -14,10 +14,6 @@ The order in which the algorithm goes through each group also matters, you may n
 
 Below are examples for this to run, a CS major, PY major, both with a combo of LIT and MA minors and a double major respectivly. The com_exp and free elecs are shared between all majors
 '''
-
-#TODO: Add random class choosing for maybe py and cs science classes
-#TODO: Deal with previously taken classes
-#TODO: Deal with overload: what happens when a requested schedule needs more than 8 sem to be completed
 from pprint import pprint 
 from random import randint, shuffle
 
@@ -486,7 +482,10 @@ def forecast(maj1, maj2, min1, min2, coursesTaken):
                     if x == 7: #make this visible for cs major with lit minor, sets proper number of free elecs
                         groups[6]['cap'] = 4
                         groups[5]['cap'] = 2
-                #TODO: add case for cs_0_ma_lit and cs_0_lit_ma
+                case 'cs_0_ma_lit':
+                    groups[6]['cap'] = 5
+                case 'cs_0_lit_ma':
+                    groups[6]['cap'] = 5
                 case 'py_0_0_0':
                     if x == 5: #make this visible for py major or w ma minor, sets proper number of free elecs
                         groups[5]['cap'] = 5 #sets cap of 5 free elects per sem after semester 6 
