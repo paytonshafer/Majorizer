@@ -3,9 +3,9 @@ import React,{useState, useEffect} from 'react'
 import './styles/ViewRequestPage.css'
 
 const ViewRequestPage = () => {
-    const[isVisible, setIsVisible] = useState(true)
     let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
     let [requestList, setRequestList] = useState([])
+    const [visible, setVisible] = useState(true);
     
     let students = []
     if(connections){
@@ -45,16 +45,21 @@ const ViewRequestPage = () => {
     
        
             
-    function handleSubmit(e){
+    function handleSubmit(e, id){
         if(window.confirm("Are you sure?")){
-            setIsVisible(false);
             if(e.target.name === 'approve'){
-                alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
-            }else {
+                setVisible(!visible)
+                let buttons = document.getElementsByClassName('approvedeny' + id);
+                for(let i = 0; i < buttons.length; i++){
+                    console.log(buttons[i])
+                    buttons[i].setAttribute("style", "display: none")
+                    console.log(buttons[i])
+                }
+            }else{
                 alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
             }
+            }
         }
-    }
 
     function BuildPage(){
         return(
@@ -71,8 +76,8 @@ const ViewRequestPage = () => {
                             <p className='header'>Subject: {request.subject}</p>
                             <p className='header'>Request:</p>
                             <p>{request.data}</p>
-                            <button className='approvedeny' name='approve' onClick={(e) => handleSubmit(e)}>Approve</button>
-                            <button className='approvedeny' name='deny' onClick={(e) => handleSubmit(e)}>Deny</button>
+                            <button className={'approvedeny' + request.id} name='approve' onClick={(e) => handleSubmit(e, request.id)}>Approve</button>
+                            <button className={'approvedeny' + request.id} name='deny' onClick={(e) => handleSubmit(e, request.id)}>Deny</button>
                         </div>
                 ))))}
             </div>
@@ -81,7 +86,7 @@ const ViewRequestPage = () => {
 
     return(
         <div>
-            {isVisible ? <BuildPage/> : null}
+            <BuildPage/>
         </div>
     );
 }
