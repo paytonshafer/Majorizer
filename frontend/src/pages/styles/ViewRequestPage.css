@@ -53,3 +53,18 @@
     background-color: #003b33;  
     color: white;
 }
+.columns{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left:30%;
+    margin-right: -10%;
+}
+
+button {
+    width: 80px;
+}
+
+button:hover{
+    color: #e4e721;
+}

@@ -42,6 +42,11 @@ class RequestSerializer(ModelSerializer):
         model = Request
         fields = '__all__'
 
+class PutRequestSerializer(ModelSerializer):
+    class Meta:
+        model = Request
+        fields = '__all__'
+
 class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course
