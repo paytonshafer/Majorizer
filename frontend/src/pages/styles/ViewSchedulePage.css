@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
 .borderbox {
-    width: 50%;
+    width: 60%;
     padding: 10px 15px;
     margin: 8px 0;
     border-color: #3e7643;
@@ -55,4 +55,8 @@ th{
 }
 .leftright{
     color:white;
+}
+
+#prev{
+    width: 200px;
 }

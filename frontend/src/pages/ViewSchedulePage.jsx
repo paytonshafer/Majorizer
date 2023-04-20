@@ -155,7 +155,7 @@ const MySchedule = ({ student }) => {
                 <br/>
                 <h4>Semester {semNum+1}</h4>
                 <br/>
-                <button onClick={() => updateTab(-1)}>previously taken courses</button>
+                <button id='prev' onClick={() => updateTab(-1)}>previously taken courses</button>
                 <div className='tabs'>
                 <button onClick={() => updateTab(0)}>1</button>
                 <button onClick={() => updateTab(1)}>2</button>
