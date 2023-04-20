@@ -5,8 +5,6 @@ import './styles/ViewRequestPage.css'
 const ViewRequestPage = () => {
     let [connections, ] = useState(()=> localStorage.getItem('advconnections') ? JSON.parse(localStorage.getItem('advconnections')) : null)
     let [requestList, setRequestList] = useState([])
-    const [visible, setVisible] = useState(true);
-    
     let students = []
     if(connections){
         connections.map((conn) => (students.push({id: conn.student.student.id, stud: conn.student.student.username, label: conn.student.student.username})))
@@ -44,23 +42,31 @@ const ViewRequestPage = () => {
     }*/
     
        
-            
-    function handleSubmit(e, id){
-        if(window.confirm("Are you sure?")){
-            if(e.target.name === 'approve'){
-                setVisible(!visible)
-                let buttons = document.getElementsByClassName('approvedeny' + id);
-                for(let i = 0; i < buttons.length; i++){
-                    console.log(buttons[i])
-                    buttons[i].setAttribute("style", "display: none")
-                    console.log(buttons[i])
+    const ApproveDenyButtons = () => {
+        let [isVisible, setVisible] = useState(true)
+        let [submitted, setSubmitted] = useState(null)
+        function handleSubmit(e){
+            if(window.confirm("Are you sure?")){
+                if(e.target.name === 'approve'){
+                    alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
+                    setSubmitted("approve")
+                }else{
+                    alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
+                    setSubmitted("deny")
                 }
-            }else{
-                alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
-            }
+                setVisible(false)
             }
         }
-
+        return(
+            <div>
+                <button name='approve' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Approve</button>
+                <button name='deny' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Deny</button>
+                {submitted !== null ? 
+                (submitted === 'approve' ? <p style={{color: "green"}}><b>Approved</b></p> : (submitted === 'deny' ? <p style={{color: "red"}}><b>Denied</b></p> : null)) : null
+                }
+            </div>
+        )
+    }
     function BuildPage(){
         return(
             <div>
@@ -72,12 +78,11 @@ const ViewRequestPage = () => {
                 {requestList.map(requestlist => (
                     requestlist.map(request => (
                         <div className='fields' id='requestform'>
-                            <p id='stud' className='header'>{request.adv_stud.student.student.username}</p>
-                            <p className='header'>Subject: {request.subject}</p>
-                            <p className='header'>Request:</p>
+                            <h1 id='stud' className='header'>{request.adv_stud.student.student.username}</h1>
+                            <h2 className='header'>Subject: {request.subject}</h2>
+                            <h2 className='header'>Request:</h2>
                             <p>{request.data}</p>
-                            <button className={'approvedeny' + request.id} name='approve' onClick={(e) => handleSubmit(e, request.id)}>Approve</button>
-                            <button className={'approvedeny' + request.id} name='deny' onClick={(e) => handleSubmit(e, request.id)}>Deny</button>
+                            <ApproveDenyButtons/>
                         </div>
                 ))))}
             </div>
@@ -89,6 +94,6 @@ const ViewRequestPage = () => {
             <BuildPage/>
         </div>
     );
-}
+    }
 
 export default ViewRequestPage;
