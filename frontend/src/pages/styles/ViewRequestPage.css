@@ -53,3 +53,10 @@
     background-color: #003b33;  
     color: white;
 }
+.columns{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left:40%;
+    margin-right:20%;
+}

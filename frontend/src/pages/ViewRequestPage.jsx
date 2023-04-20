@@ -75,6 +75,7 @@ const ViewRequestPage = () => {
                 <div className='positionbox'>
                 <img className='icon' id='icon' src='https://cdn-icons-png.flaticon.com/512/3781/3781605.png' alt='requests'></img>
                 </div>
+                <div className='columns'>
                 {requestList.map(requestlist => (
                     requestlist.map(request => (
                         <div className='fields' id='requestform'>
@@ -85,6 +86,7 @@ const ViewRequestPage = () => {
                             <ApproveDenyButtons/>
                         </div>
                 ))))}
+                </div>
             </div>
         )
     }
