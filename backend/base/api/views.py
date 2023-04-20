@@ -40,6 +40,8 @@ def getRoutes(request):
         '/api/token/refresh',
         '/api/student',
         '/api/request',
+        '/api/request/<int:stud_id>',
+        '/api/updatereq/<int:req_id>',
         '/api/schedule',
         '/api/schedule/<int:sched_id>'
     ]
@@ -121,11 +123,33 @@ class RequestListApiView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class RequestDetailApiView(APIView):
+class RequestStudentApiView(APIView):
     def get(self, request, stud_id):
         stud_requests = Request.objects.filter(adv_stud = AdvStudConn.objects.get(student = Student.objects.get(student = stud_id)))
         serializer = RequestSerializer(stud_requests, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class RequestDetailApiView(APIView):
+    def get(self, request, req_id):
+        requests = Request.objects.get(id = req_id)
+        serializer = RequestSerializer(requests)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, req_id):
+        instance = Request.objects.get(id = req_id)
+        if not instance:
+            return Response(
+                {"res": "Object with request id does not exists"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        data = {
+            'result': request.data.get('result')
+        }
+        serializer = PutRequestSerializer(instance = instance, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 '''
 {

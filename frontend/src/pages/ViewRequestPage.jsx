@@ -42,17 +42,37 @@ const ViewRequestPage = () => {
     }*/
     
        
-    const ApproveDenyButtons = () => {
-        let [isVisible, setVisible] = useState(true)
-        let [submitted, setSubmitted] = useState(null)
+    const ApproveDenyButtons = ({ req }) => {
+        let [reqResult, ] = useState(req.result)
+        let [isVisible, setVisible] = useState(reqResult === null ? true : false)
+        let [submitted, setSubmitted] = useState(
+            reqResult === null ? null :
+            reqResult === true ? 'approve' : 'deny'
+        )
         function handleSubmit(e){
             if(window.confirm("Are you sure?")){
                 if(e.target.name === 'approve'){
-                    alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
                     setSubmitted("approve")
+
+                    fetch('http://127.0.0.1:8000/api/updatereq/' + req.id, {
+                        method: 'PUT',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({"result": true})
+                    })
+
                 }else{
-                    alert(JSON.stringify({'student': document.getElementById('stud').innerHTML, 'result': e.target.name}))
                     setSubmitted("deny")
+
+                    fetch('http://127.0.0.1:8000/api/updatereq/' + req.id, {
+                        method: 'PUT',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({"result": false})
+                    })
+
                 }
                 setVisible(false)
             }
@@ -60,6 +80,7 @@ const ViewRequestPage = () => {
         return(
             <div>
                 <button name='approve' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Approve</button>
+                <span></span>
                 <button name='deny' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Deny</button>
                 {submitted !== null ? 
                 (submitted === 'approve' ? <p style={{color: "green"}}><b>Approved</b></p> : (submitted === 'deny' ? <p style={{color: "red"}}><b>Denied</b></p> : null)) : null
@@ -78,12 +99,12 @@ const ViewRequestPage = () => {
                 <div className='columns'>
                 {requestList.map(requestlist => (
                     requestlist.map(request => (
-                        <div className='fields' id='requestform'>
+                        <div key={request.id} className='fields' id='requestform'>
                             <h1 id='stud' className='header'>{request.adv_stud.student.student.username}</h1>
                             <h2 className='header'>Subject: {request.subject}</h2>
                             <h2 className='header'>Request:</h2>
                             <p>{request.data}</p>
-                            <ApproveDenyButtons/>
+                            <ApproveDenyButtons req={request}/>
                         </div>
                 ))))}
                 </div>

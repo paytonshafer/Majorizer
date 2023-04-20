@@ -15,7 +15,8 @@ urlpatterns = [
     path('advconn/<int:adv_id>', AdvStudConnAdvisorApiView.as_view(), name='advisors_advisor_student_connection'),
     path('student/<int:stud_id>', StudentDetailApiView.as_view(), name='student'),
     path('request/', RequestListApiView.as_view(), name='requests'),
-    path('request/<int:stud_id>', RequestDetailApiView.as_view(), name='detail_requests'),
+    path('request/<int:stud_id>', RequestStudentApiView.as_view(), name='detail_requests'),
+    path('updatereq/<int:req_id>', RequestDetailApiView.as_view(), name='update_requests'),
     path('schedule/', ScheduleListApiView.as_view(), name='schedule'),
     path('schedule/<int:stud_id>', ScheduleDetailApiView.as_view(), name='specific_schedule'),
 
