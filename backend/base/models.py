@@ -121,4 +121,4 @@ class Schedule(models.Model):
             raise ValidationError('Please choose two different minors')
 
     def __str__(self):
-        return self.name
+        return self.label
