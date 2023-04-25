@@ -34,3 +34,11 @@ textarea{
      resize: none;
      
 }
+.responsebox{
+    border-radius: 2%;
+    padding: 12px 12px;
+}
+.subjectbox{
+    width: 25%;
+    border-bottom: 2px solid black;
+}

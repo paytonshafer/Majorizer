@@ -99,7 +99,7 @@ const HomePage = () => {
     return (
         <div className='borderbox'>
             <div  className='welcomeField'>
-            <img className='logo' src="/logo.png" alt='logo'></img>
+            <a href='https://webspace.clarkson.edu/classes/softwaresurge/public_html/'><img className='logo' src="/logo.png" alt='logo'></img></a>
             <h1 style={{fontWeight: 'bold'}}>Welcome {user.username}</h1>
             <h5>{user.group} account</h5>
             </div>

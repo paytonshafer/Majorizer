@@ -68,7 +68,7 @@ const PairingForm = () =>{
             <option value={4}>Advisor1</option>
             <option value={5}>Advisor2</option>
           </select>
-          <label htmlFor='stuselect'>Student</label>
+          <label htmlFor='stuselect'>Student:</label>
          <select 
          onChange={(e) => {setStudSelect(e.target.value)}} id = 'stuselect'
          >

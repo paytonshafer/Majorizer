@@ -79,9 +79,9 @@ const ViewRequestPage = () => {
         }
         return(
             <div>
-                <button name='approve' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Approve</button>
+                <button name='approve' className='approvedeny' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Approve</button>
                 <span></span>
-                <button name='deny' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Deny</button>
+                <button name='deny'className='approvedeny' onClick={(e) => handleSubmit(e)} style={isVisible ? {display: 'inline'} : {display: 'none'}}>Deny</button>
                 {submitted !== null ? 
                 (submitted === 'approve' ? <p style={{color: "green"}}><b>Approved</b></p> : (submitted === 'deny' ? <p style={{color: "red"}}><b>Denied</b></p> : null)) : null
                 }

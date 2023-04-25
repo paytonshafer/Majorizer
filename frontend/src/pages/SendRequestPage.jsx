@@ -49,8 +49,8 @@ const SendRequestPage = () => {
             <h2 className='subheader'> Current Advisor: {adv ? adv.advisor.username : null}</h2> 
             {/*on submit they will be asked if they are sure then we get an alert of the data that would be sent to the backend */}
             <form onSubmit={(e) => window.confirm("Are you sure you want to send this message?").then(send_req(e))}> 
-                <input type='text' name='subject' className='subject' placeholder='Subject'></input>
-                <textarea name='data' placeholder="enter your message here..."></textarea>
+                <input type='text' name='subject' className='subjectbox' placeholder='Subject'></input>
+                <textarea name='data' className='responsebox' placeholder="enter your message here..."></textarea>
                 <input type='submit' value='Submit'></input>
             </form>
             </div>
