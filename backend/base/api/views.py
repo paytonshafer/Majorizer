@@ -216,7 +216,7 @@ class ScheduleListApiView(APIView):
                     'course8': None,               
                 }
                 for i, x in enumerate(temp):
-                    course = 'course' + str(i)
+                    course = 'course' + str(i+1)
                     sem_data[course] = x
 
                 serializer = PostSemesterSerializer(data=sem_data)
