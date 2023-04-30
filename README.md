@@ -36,6 +36,10 @@ Run the following command to start the frontend server, the frontend can be view
 ```sh
 npm start
 ```
+To run the production build, you will need to be on the test-run-build branch and run:
+```sh
+serve -s build
+```
 
 ## Authors
 **Payton Shafer, Ethan Matzek, Ceilidh Kiegle, Andrew Caruso, and Cole Caruso**
